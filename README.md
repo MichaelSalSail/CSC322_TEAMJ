@@ -5,5 +5,7 @@
 ## This is our team project, it is 25% of the final grade!  
 
 
-# Michael Dan Daniel Milan
+# Michael Dan Daniel Milan  
+
+**THIS IS OUR REPOSITORY**
 
