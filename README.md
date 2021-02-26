@@ -12,7 +12,9 @@
 *This is not a complete repository*  
 
 I am the only person in this group who isn't taking 335 this semester!  
-How lucky am I that I completed the course?
+How lucky am I that I completed the course?  
+
+Lets bring up all merge conflicts in Github Issues
 
 
 
