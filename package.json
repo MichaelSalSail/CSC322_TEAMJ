@@ -1,0 +1,19 @@
+{
+  "name": "csc322_teamj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://MichaelSalSail@github.com/MichaelSalSail/CSC322_TEAMJ.git"
+  },
+  "author": "Michael, Dan, Milan, Daniel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichaelSalSail/CSC322_TEAMJ/issues"
+  },
+  "homepage": "https://github.com/MichaelSalSail/CSC322_TEAMJ#readme"
+}
