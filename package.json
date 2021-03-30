@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MichaelSalSail/CSC322_TEAMJ#readme",
   "dependencies": {
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "bootstrap": "^3.3.7"
   }
 }
