@@ -9,7 +9,7 @@ $('#add-to-list').on('click', () => {
 
    fs.appendFile('contacts', email + ',' + password + '\n')
 
-   addEntry(email, email)
+   addEntry(email, email) 
 })
 
 function addEntry(email, password) {
