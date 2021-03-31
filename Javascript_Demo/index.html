@@ -7,21 +7,29 @@
         text-align: center;
     }
 
+    body{
+        background: rgba(63, 77, 44, 0.993);
+        margin: 0;
+    } 
 </style>
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
-
+    
     <title>Login</title>
 </head>
+
 <body>
     <div id = 'form-container'>
+        <img src="Main_Logo.png" width="354" height="69">
         <form id = 'registration-form'>
-            <label> Username: </label> <input id = 'username'>  </br>
-            <label> Password: </label> <input id = 'password' type = 'password'>
+            <label> ***Email: </label> <input id = 'Email'>  </br>
+            <label> Password: </label> <input id = 'Password' type = 'password'>
         </form>
-        </br> <button onclick = "printDetails()"> View my submitted info</button>  
-        </br> <button onclick = "parseForm()"> Check validity of form</button>  
+        <!-- </br> <button onclick = "printDetails()"> View my submitted info</button> --> 
+        </br> <button onclick = "parseForm()"> Submit</button>  
+        <h3>Welcome to PC Emp0rium! Members gain access to our marketplace and
+            community forum. Signup is free.</h3>
     </div>
 
     <div id = 'display-form'>

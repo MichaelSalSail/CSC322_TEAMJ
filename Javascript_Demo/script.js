@@ -5,10 +5,10 @@
     // in this example, the two <div> tags are blank (e.g. empty string), so
     // we are assigning our input as the value of these <div> tags 
 function printDetails(){ 
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    document.getElementById('submitted-username').innerHTML = username;
-    document.getElementById('submitted-pass').innerHTML = password;
+    var Email = document.getElementById('Email').value;
+    var Password = document.getElementById('Password').value;
+    document.getElementById('submitted-username').innerHTML = Email;
+    document.getElementById('submitted-pass').innerHTML = Password;
 }
 
 // based on the following conditions
@@ -19,25 +19,30 @@ function printDetails(){
 // check if index is not -1, if it is, check the characters before and after it
 // we might also want to check if the username has the '.' character such as in 
 // test@example.com, but this is easily adjustable later
-function isValidUsername(username) {
-    var index = username.indexOf('@');
+function isValidUsername(Email) {
+    var index = Email.indexOf('@');
     return index != -1 && 
-    (username.charAt(index+1) != '' && username.charAt(index-1) != '');
+    (Email.charAt(index+1) != '' && Email.charAt(index-1) != '');
 }
 
 // our conditions are:
 // 1. passwords have a minimum of 6 characters
-function isValidPassword(password) {
-    return password.length >= 6;
+function isValidPassword(Password) {
+    return Password.length >= 6;
 }
 
 // will give user an error if the username/password they 
 // entered is incorrectly syntaxed
 function parseForm() {
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
+    var Email = document.getElementById('Email').value;
+    var Password = document.getElementById('Password').value;
     var validityCheck = document.getElementById('validity-check');
-    if (isValidUsername(username) && isValidPassword(password)) 
-        validityCheck.innerHTML = "valid details";
-    else validityCheck.innerHTML = "invalid details";
+    var color1="green";
+    var color2="red";
+    if (!isValidUsername(Email)) 
+        validityCheck.innerHTML = "Incorrect email format".fontcolor(color2);
+    else if (!isValidPassword(Password)) 
+        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color2);
+    else 
+        validityCheck.innerHTML = "Proceed to check database".fontcolor(color1);
 }
