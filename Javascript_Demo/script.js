@@ -37,12 +37,11 @@ function parseForm() {
     var Email = document.getElementById('Email').value;
     var Password = document.getElementById('Password').value;
     var validityCheck = document.getElementById('validity-check');
-    var color1="green";
-    var color2="red";
+    var color="red";
     if (!isValidUsername(Email)) 
-        validityCheck.innerHTML = "Incorrect email format".fontcolor(color2);
+        validityCheck.innerHTML = "Incorrect email format".fontcolor(color);
     else if (!isValidPassword(Password)) 
-        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color2);
+        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color);
     else 
-        validityCheck.innerHTML = "Proceed to check database".fontcolor(color1);
+        validityCheck.innerHTML = "Proceed to check database";
 }
