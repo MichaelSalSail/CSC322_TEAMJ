@@ -1,14 +1,10 @@
-// access DOM through document. 
-    // getElementById searches for your html tag by id
-    // .value returns the input in your <input> tag
-    // innerHTML will give you the string associated with that tag
-    // in this example, the two <div> tags are blank (e.g. empty string), so
-    // we are assigning our input as the value of these <div> tags 
-function printDetails(){ 
-    var Email = document.getElementById('Email').value;
-    var Password = document.getElementById('Password').value;
-    document.getElementById('submitted-username').innerHTML = Email;
-    document.getElementById('submitted-pass').innerHTML = Password;
+// create constant for database object here
+
+
+// used for onload in html body
+// initalize required variables here
+function start() {
+    console.log(document.getElementById('login-tab').disabled)
 }
 
 // based on the following conditions
@@ -19,29 +15,66 @@ function printDetails(){
 // check if index is not -1, if it is, check the characters before and after it
 // we might also want to check if the username has the '.' character such as in 
 // test@example.com, but this is easily adjustable later
-function isValidUsername(Email) {
-    var index = Email.indexOf('@');
-    return index != -1 && 
-    (Email.charAt(index+1) != '' && Email.charAt(index-1) != '');
+function isValidEmail(email) {
+    let index = email.indexOf('@');
+    return index != -1 && (email.charAt(index+1) != '' && email.charAt(index-1) != '');
 }
 
 // our conditions are:
 // 1. passwords have a minimum of 6 characters
-function isValidPassword(Password) {
-    return Password.length >= 6;
+// 2. both password and the confirmed password are the same
+function isValidPassword(password, confirmPassword) {
+    return password.length >= 6 && password === confirmPassword;
 }
 
-// will give user an error if the username/password they 
-// entered is incorrectly syntaxed
+function registerUser() {
+    let email = document.getElementById('reg-email').value;
+    let password = document.getElementById('reg-password').value;
+    let confirmPassword = document.getElementById('confirm-password').value
+
+    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
+        // add to database
+    }
+    else { // throw text errors
+        document.getElementById('validity-check').innerHTML = "error".fontcolor("red");
+    }
+}
+
+function signInUser(){
+    let email = document.getElementById('log-email').value;
+    let password = document.getElementById('log-password').value;
+
+    // query database for corresponding email + password
+}
+
 function parseForm() {
-    var Email = document.getElementById('Email').value;
-    var Password = document.getElementById('Password').value;
-    var validityCheck = document.getElementById('validity-check');
-    var color="f55142";
-    if (!isValidUsername(Email)) 
-        validityCheck.innerHTML = "Incorrect email format".fontcolor(color);
-    else if (!isValidPassword(Password)) 
-        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color);
-    else 
-        validityCheck.innerHTML = "Proceed to check database";
+    isRegistering = document.getElementById('register-tab').disabled;
+    if (isRegistering) 
+        registerUser();
+    else
+        signInUser();    
+}
+
+// login button is disabled by default since it is the default tab
+// checks which is selected and then toggles the button disable state
+// changes style of each display to visible/none depending if the tab is selected
+function toggleTabs() {
+    let loginTab = document.getElementById('login-tab');
+    let loginDisplay = document.getElementById('login-display');
+    let registerTab = document.getElementById('register-tab');
+    let registerDisplay = document.getElementById('register-display');
+    
+    let isLoginSelected = loginTab.disabled;
+
+    if (isLoginSelected) {
+        loginTab.disabled = false;
+        registerTab.disabled = true;
+        loginDisplay.style.display = 'none';
+        registerDisplay.style.display = 'block';
+    } else {
+        loginTab.disabled = true;
+        registerTab.disabled = false;
+        loginDisplay.style.display = 'block';
+        registerDisplay.style.display = 'none';
+    }
 }
