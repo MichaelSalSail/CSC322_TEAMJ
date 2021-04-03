@@ -37,7 +37,7 @@ function parseForm() {
     var Email = document.getElementById('Email').value;
     var Password = document.getElementById('Password').value;
     var validityCheck = document.getElementById('validity-check');
-    var color="red";
+    var color="f55142";
     if (!isValidUsername(Email)) 
         validityCheck.innerHTML = "Incorrect email format".fontcolor(color);
     else if (!isValidPassword(Password)) 
