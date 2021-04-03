@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src = 'script.js'> </script>
+<style>
+    #form-container, #display-form {
+        text-align: center;        
+    }
+
+    #form-container {
+        height: 50vh;
+        margin-top: 5%;
+        margin-bottom: 10%;
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+
+    #tab-container {
+        padding: 5%;
+    }
+
+    #register-display {
+        display: none;
+    }
+
+    #login-tab, #register-tab {
+        height: 50px;
+        width: 200px;
+    }
+
+    body{
+        background: rgba(36, 116, 40, 0.993);
+        margin: 0;
+    } 
+
+</style>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    
+    <title>Login</title>
+</head>
+
+<body onload = 'start()'>
+    <div id = 'form-container'>
+        <img src="../../Logo_Variants/Logo_Main.png" width="354" height="69">
+        <h3>Welcome to PC Emporium! Members gain access to our marketplace and
+            community forum. Signup is free.</h3>
+        <div id = 'tab-container'>
+            <button id = 'login-tab' onclick = 'toggleTabs()' disabled = 'true'> Login </button>
+            <button id = 'register-tab' onclick = 'toggleTabs()'> Sign-up </button>
+        </div>
+        <div id = 'register-display'> 
+            <form id = 'register-form'>
+                <label> Username: </label> <input id = 'username'>  </br>
+                <label> Email: </label> <input id = 'reg-email'>  </br>
+                <label> Password: </label> <input id = 'reg-password' type = 'password'> </br>
+                <label> Confirm Password: </label> <input id = 'confirm-password' type = 'password'> </br>
+            </form>
+            
+        </div>
+        <div id = 'login-display'>
+            <form id = 'login-form'>
+                <label> Email: </label> <input id = 'log-email'>  </br>
+                <label> Password: </label> <input id = 'log-password' type = 'password'>
+            </form>
+        </div>
+    </br> <button onclick = "parseForm()"> Submit</button>  
+
+    </div>
+    </br> <div id = 'validity-check' style='text-align:center'> </div>
+</body>
+</html>
