@@ -3,6 +3,7 @@
 
 <script src = 'script.js'> </script>
 <style>
+
     #form-container, #display-form {
         text-align: center;        
     }
@@ -23,12 +24,21 @@
         display: none;
     }
 
-    #login-tab, #register-tab {
+    #login-tab, #register-tab 
+    {
         height: 50px;
         width: 200px;
     }
 
-    body{
+    label
+    {
+        display: inline-block;
+        width:100px;
+        text-align: right;
+    }
+
+    body
+    {
         background: rgba(36, 116, 40, 0.993);
         margin: 0;
     } 
@@ -52,10 +62,14 @@
         </div>
         <div id = 'register-display'> 
             <form id = 'register-form'>
-                <label> Username: </label> <input id = 'username'>  </br>
-                <label> Email: </label> <input id = 'reg-email'>  </br>
-                <label> Password: </label> <input id = 'reg-password' type = 'password'> </br>
-                <label> Confirm Password: </label> <input id = 'confirm-password' type = 'password'> </br>
+                <p>| | | | | | | | Username:<input type="text" id = 'username'> </p>
+                <p>| | | | | | | | | | Email: <input type="text" id = 'reg-email'></p>
+                <p>| | | | | | | Password: <input type="password" id = 'reg-password'></p>
+                <p>Confirm Password:<input type="password" id = 'confirm-password'></p>
+                <!--<label> Username: </label> <input id = 'username'>  
+                <label> Email: </label> <input id = 'reg-email'>  
+                <label> Password: </label> <input id = 'reg-password' type = 'password'> 
+                <label> Confirm Password: </label> <input id = 'confirm-password' type = 'password'>-->
             </form>
             
         </div>
