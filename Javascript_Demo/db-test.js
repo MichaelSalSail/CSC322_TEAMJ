@@ -47,6 +47,10 @@ req.onsuccess = () => {
     }
 }
 
+req.onerror = () => {
+    console.log("DB could not be opened. Check if the name is correct");
+}
+
 /* Additional notes for button events:
 let's say we have a button with the id: "myButton"
 get the button by doing
