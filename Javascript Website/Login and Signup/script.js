@@ -33,29 +33,11 @@ function registerUser() {
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
 
-    var validityCheck = document.getElementById('validity-check');
-    var color = "f55142";
-
-    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) 
-    {
-        // document.getElementById('validity-check').innerHTML
-        validityCheck.innerHTML =  "Check if username is unique. Email not already registered";
+    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
+        // add to database
     }
-    else if (username.length<6)
-    {   // throw text errors
-        validityCheck.innerHTML = "Username must be minimum 6 characters".fontcolor(color);
-    }
-    else if (password.length<6)
-    {   // throw text errors
-        validityCheck.innerHTML = "Password must be minimum 6 characters".fontcolor(color);
-    }
-    else if (!isValidEmail(email))
-    {
-        validityCheck.innerHTML = "Email is incorrect format".fontcolor(color);
-    }
-    else
-    {
-        document.getElementById('validity-check').innerHTML = "Passwords do not match".fontcolor(color);
+    else { // throw text errors
+        document.getElementById('validity-check').innerHTML = "error".fontcolor("red");
     }
 
 }
@@ -64,15 +46,7 @@ function signInUser(){
     // query database for corresponding email + password
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
-    var validityCheck = document.getElementById('validity-check');
-    var color = "f55142";
-
-    if (!isValidEmail(email)) 
-        validityCheck.innerHTML = "Incorrect email format".fontcolor(color);
-    else if (password.length < 6) 
-        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color);
-    else 
-        validityCheck.innerHTML = "Proceed to check database";
+    
 }
 
 function parseForm() {
