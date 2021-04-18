@@ -1,3 +1,4 @@
+
 // access DOM through document. 
     // getElementById searches for your html tag by id
     // .value returns the input in your <input> tag
