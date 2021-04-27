@@ -1,5 +1,27 @@
-// create constant for database object here
+// INITIALIZE USER ACCOUNTS DB
 
+// attributes are: email, username, password
+let DATABASE_NAME = "UserAccounts";
+let VERSION = 6; // need to increment when we upgrade schema
+
+let req = window.indexedDB.open(DATABASE_NAME, VERSION)
+
+// initialize
+req.onupgradeneeded = (e) => { 
+    let version = e.oldVersion;
+    console.log("Old version was", version)
+
+    if (version < 6) {
+        let db = req.result;
+        db.deleteObjectStore(DATABASE_NAME);
+        store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+        index = store.createIndex("email", "email", {unique: true});
+    }
+}
+
+req.onerror = function(e) { 
+    console.log("There was an error: " + e.target.errorCode);
+};
 
 // used for onload in html body
 // initalize required variables here
@@ -32,47 +54,59 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
+    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
 
-    var validityCheck = document.getElementById('validity-check');
-    var color = "f55142";
-
-    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) 
-    {
-        // document.getElementById('validity-check').innerHTML
-        validityCheck.innerHTML =  "Check if username is unique. Email not already registered";
+    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
+        console.log("Correct info");
+        req.onsuccess = () => {
+            db = req.result; // setting variables to work with
+            tx = db.transaction(DATABASE_NAME, "readwrite");
+            store = tx.objectStore(DATABASE_NAME);
+            store.put({
+                email: email,
+                username: username,
+                password: password
+            });
+            
+            tx.oncomplete = () => {
+                console.log("User successfully registered.");
+                db.close();
+            };
+        };
     }
-    else if (username.length<6)
-    {   // throw text errors
-        validityCheck.innerHTML = "Username must be minimum 6 characters".fontcolor(color);
+    else { // throw text errors
+        document.getElementById('validity-check').innerHTML = "Please recheck your information."
     }
-    else if (password.length<6)
-    {   // throw text errors
-        validityCheck.innerHTML = "Password must be minimum 6 characters".fontcolor(color);
-    }
-    else if (!isValidEmail(email))
-    {
-        validityCheck.innerHTML = "Email is incorrect format".fontcolor(color);
-    }
-    else
-    {
-        document.getElementById('validity-check').innerHTML = "Passwords do not match".fontcolor(color);
-    }
-
 }
 
+// query database for corresponding email + password
 function signInUser(){
-    // query database for corresponding email + password
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
-    var validityCheck = document.getElementById('validity-check');
-    var color = "f55142";
+    let getDB = window.indexedDB.open(DATABASE_NAME, VERSION);
+    getDB.onsuccess = () => {
+        let results = getDB.result;
+        let transaction = results.transaction(DATABASE_NAME, "readonly");
+        
+        let store = transaction.objectStore(DATABASE_NAME);
+        let req = store.get(email);
+        req.onsuccess = (e) => {
+            let table = e.target.result;
+            if (table && table.email === email && table.password === password) { // check if not undefined
+                console.log("Successful login.");
+            }
+            else 
+                console.log("Username not found or password is incorrect");
+        }
 
-    if (!isValidEmail(email)) 
-        validityCheck.innerHTML = "Incorrect email format".fontcolor(color);
-    else if (password.length < 6) 
-        validityCheck.innerHTML = "Incorrect email or password".fontcolor(color);
-    else 
-        validityCheck.innerHTML = "Proceed to check database";
+        req.onerror = (e) => {
+            console.log(req.error);
+        }
+
+        transaction.oncomplete = () => console.log("Transaction complete.");
+        transaction.onerror = () => console.log("Transaction failed.")
+    };
+    
 }
 
 function parseForm() {
