@@ -1,5 +1,27 @@
-// create constant for database object here
+// INITIALIZE USER ACCOUNTS DB
 
+// attributes are: email, username, password
+let DATABASE_NAME = "UserAccounts";
+let VERSION = 6; // need to increment when we upgrade schema
+
+let req = window.indexedDB.open(DATABASE_NAME, VERSION)
+
+// initialize
+req.onupgradeneeded = (e) => { 
+    let version = e.oldVersion;
+    console.log("Old version was", version)
+
+    if (version < 6) {
+        let db = req.result;
+        db.deleteObjectStore(DATABASE_NAME);
+        store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+        index = store.createIndex("email", "email", {unique: true});
+    }
+}
+
+req.onerror = function(e) { 
+    console.log("There was an error: " + e.target.errorCode);
+};
 
 // used for onload in html body
 // initalize required variables here
@@ -32,20 +54,58 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
+    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
 
     if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
-        // add to database
+        console.log("Correct info");
+        req.onsuccess = () => {
+            db = req.result; // setting variables to work with
+            tx = db.transaction(DATABASE_NAME, "readwrite");
+            store = tx.objectStore(DATABASE_NAME);
+            store.put({
+                email: email,
+                username: username,
+                password: password
+            });
+            
+            tx.oncomplete = () => {
+                console.log("User successfully registered.");
+                db.close();
+            };
+        };
     }
     else { // throw text errors
-        document.getElementById('validity-check').innerHTML = "error".fontcolor("red");
+        document.getElementById('validity-check').innerHTML = "Please recheck your information."
     }
-
 }
 
+// query database for corresponding email + password
 function signInUser(){
-    // query database for corresponding email + password
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
+    let getDB = window.indexedDB.open(DATABASE_NAME, VERSION);
+    getDB.onsuccess = () => {
+        let results = getDB.result;
+        let transaction = results.transaction(DATABASE_NAME, "readonly");
+        
+        let store = transaction.objectStore(DATABASE_NAME);
+        let req = store.get(email);
+        req.onsuccess = (e) => {
+            let table = e.target.result;
+            if (table && table.email === email && table.password === password) { // check if not undefined
+                console.log("Successful login.");
+            }
+            else 
+                console.log("Username not found or password is incorrect");
+        }
+
+        req.onerror = (e) => {
+            console.log(req.error);
+        }
+
+        transaction.oncomplete = () => console.log("Transaction complete.");
+        transaction.onerror = () => console.log("Transaction failed.")
+    };
     
 }
 

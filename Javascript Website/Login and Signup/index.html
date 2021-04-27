@@ -2,7 +2,6 @@
 <html lang="en">
 
 <script src = 'script.js'> </script>
-<script src = 'papaparse.min.js'> </script>
 <style>
 
     #form-container, #display-form {
@@ -80,9 +79,8 @@
                 <label> Password: </label> <input id = 'log-password' type = 'password'>
             </form>
         </div>
-    </br> <button onclick = "parseForm()"> Submit</button>  
-
+        </br> <div id = 'validity-check' style='text-align:center'> </div>
+        </br> <button onclick = "parseForm()"> Submit</button>  
     </div>
-    </br> <div id = 'validity-check' style='text-align:center'> </div>
 </body>
 </html>
