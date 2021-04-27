@@ -1,42 +1,29 @@
-// INITIALIZE USER ACCOUNTS DB
-
-// attributes are: email, username, password
 let DATABASE_NAME = "UserAccounts";
 let VERSION = 6; // need to increment when we upgrade schema
-
-let req = window.indexedDB.open(DATABASE_NAME, VERSION)
-
-// initialize
-req.onupgradeneeded = (e) => { 
-    let version = e.oldVersion;
-    console.log("Old version was", version)
-
-    if (version < 6) {
-        let db = req.result;
-        db.deleteObjectStore(DATABASE_NAME);
-        store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
-        index = store.createIndex("email", "email", {unique: true});
-    }
-}
-
-req.onerror = function(e) { 
-    console.log("There was an error: " + e.target.errorCode);
-};
 
 // used for onload in html body
 // initalize required variables here
 function start() {
-    console.log(document.getElementById('login-tab').disabled)
+    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    req.onupgradeneeded = (e) => { 
+        let version = e.oldVersion;
+        console.log("Old version was", version);
+
+        if (version < 6) {
+            let db = req.result;
+            db.deleteObjectStore(DATABASE_NAME);
+            store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+            index = store.createIndex("email", "email", {unique: true});
+        }
+    }
+    req.onerror = function(e) { 
+        console.log("There was an error: " + e.target.errorCode);
+    };
 }
 
-// based on the following conditions
-// will return true if the username is:
+// will return true if the email:
 // 1. contains the @ character
 // 2. there is something before and after the @ character
-// code below first gets the first index of the '@' character with indexOf (return -1 if none)
-// check if index is not -1, if it is, check the characters before and after it
-// we might also want to check if the username has the '.' character such as in 
-// test@example.com, but this is easily adjustable later
 function isValidEmail(email) {
     let index = email.indexOf('@');
     return index != -1 && (email.charAt(index+1) != '' && email.charAt(index-1) != '');
@@ -49,6 +36,9 @@ function isValidPassword(password, confirmPassword) {
     return password.length >= 6 && password === confirmPassword;
 }
 
+// checks that information is valid first
+// then will proceed to database and check if email exists
+// if not, add info as new table in store
 function registerUser() {
     let username = document.getElementById('username').value;
     let email = document.getElementById('reg-email').value;
@@ -75,7 +65,7 @@ function registerUser() {
         };
     }
     else { // throw text errors
-        document.getElementById('validity-check').innerHTML = "Please recheck your information."
+        document.getElementById('validity-check').innerHTML = "Please recheck your information.";
     }
 }
 
@@ -84,33 +74,30 @@ function signInUser(){
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
     let getDB = window.indexedDB.open(DATABASE_NAME, VERSION);
-    getDB.onsuccess = () => {
+    getDB.onsuccess = () => { // process login
         let results = getDB.result;
         let transaction = results.transaction(DATABASE_NAME, "readonly");
-        
         let store = transaction.objectStore(DATABASE_NAME);
         let req = store.get(email);
         req.onsuccess = (e) => {
             let table = e.target.result;
-            if (table && table.email === email && table.password === password) { // check if not undefined
+            if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
                 console.log("Successful login.");
+                // TODO: GO TO HOME PAGE
             }
             else 
                 console.log("Username not found or password is incorrect");
         }
 
-        req.onerror = (e) => {
-            console.log(req.error);
-        }
-
+        req.onerror = () => console.log(req.error);
         transaction.oncomplete = () => console.log("Transaction complete.");
         transaction.onerror = () => console.log("Transaction failed.")
     };
-    
+    getDB.onerror = () => console.log("Could not open database:", getDB.error);
 }
 
 function parseForm() {
-    isRegistering = document.getElementById('register-tab').disabled;
+    let isRegistering = document.getElementById('register-tab').disabled;
     if (isRegistering) 
         registerUser();
     else
@@ -125,7 +112,7 @@ function toggleTabs() {
     let loginDisplay = document.getElementById('login-display');
     let registerTab = document.getElementById('register-tab');
     let registerDisplay = document.getElementById('register-display');
-    
+
     let isLoginSelected = loginTab.disabled;
 
     if (isLoginSelected) {
