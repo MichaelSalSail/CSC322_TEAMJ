@@ -19,6 +19,6 @@ in GitHub Issues.
 Here is our first phase report:  
 [Phase 1 Report - final.pdf](https://github.com/MichaelSalSail/CSC322_TEAMJ/files/6330354/Phase.1.Report.-.final.pdf)  
 
-Here is our phase two report:
+Here is our phase two report:  
 [Phase II Report (4.22.2021) .pdf](https://github.com/MichaelSalSail/CSC322_TEAMJ/files/6393889/Phase.II.Report.4.22.2021.pdf)
 
