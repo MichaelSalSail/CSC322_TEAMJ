@@ -6,6 +6,8 @@ let VERSION = 1; // need to increment when we upgrade schema
 // initalize required variables here
 function start() {
     let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    req.onsuccess = () => console.log("UserAccounts opened successfully.");
+    
     req.onupgradeneeded = (e) => { 
         let db = req.result;
         let version = e.oldVersion;
