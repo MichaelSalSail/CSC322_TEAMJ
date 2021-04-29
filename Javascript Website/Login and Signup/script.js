@@ -1,16 +1,20 @@
 let DATABASE_NAME = "UserAccounts";
-let VERSION = 6; // need to increment when we upgrade schema
+let VERSION = 1; // need to increment when we upgrade schema
+
 
 // used for onload in html body
 // initalize required variables here
 function start() {
     let req = window.indexedDB.open(DATABASE_NAME, VERSION);
     req.onupgradeneeded = (e) => { 
+        let db = req.result;
         let version = e.oldVersion;
         console.log("Old version was", version);
 
-        if (version < 6) {
-            let db = req.result;
+        if (version == 0) {
+            store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+            index = store.createIndex("email", "email", {unique: true});
+        } else {
             db.deleteObjectStore(DATABASE_NAME);
             store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
             index = store.createIndex("email", "email", {unique: true});
