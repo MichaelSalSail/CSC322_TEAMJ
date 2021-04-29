@@ -1,3 +1,5 @@
+var request = window.indexedDB.open("MyTestDatabase", 1); // finish this
+
 
 // access DOM through document. 
     // getElementById searches for your html tag by id
