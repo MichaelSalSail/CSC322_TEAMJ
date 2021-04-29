@@ -14,10 +14,6 @@ function start() {
         if (version == 0) {
             store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
             index = store.createIndex("email", "email", {unique: true});
-        } else {
-            db.deleteObjectStore(DATABASE_NAME);
-            store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
-            index = store.createIndex("email", "email", {unique: true});
         }
     }
     req.onerror = function(e) { 
