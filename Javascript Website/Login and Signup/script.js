@@ -42,6 +42,7 @@ function isValidPassword(password, confirmPassword) {
 function registerUser() {
     let username = document.getElementById('username').value;
     let email = document.getElementById('reg-email').value;
+    let address = document.getElementById('reg-address').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
     let req = window.indexedDB.open(DATABASE_NAME, VERSION);
@@ -55,7 +56,8 @@ function registerUser() {
             store.put({
                 email: email,
                 username: username,
-                password: password
+                password: password,
+                address: address
             });
             
             tx.oncomplete = () => {

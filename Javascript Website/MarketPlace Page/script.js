@@ -2,6 +2,7 @@
 const DATABASE_NAME = "Components";
 const VERSION = 1; // need to increment when we upgrade schema
 
+let shoppingCart;
 
 // Store constants
 // attr: "name", "description", "price", "manufacturer", "type"
@@ -107,10 +108,10 @@ function populateRow(table, cursorValue) {
 }
 
 function addItemToCart(component) {
-    let req = window.indexedDB.open("ShoppingCart", 1);
-    req.onsuccess = () => {        
-        let db = req.result;
-        let tx = db.transaction("ShoppingCart", "readwrite");
+    //let req = window.indexedDB.open("ShoppingCart", 1);
+    //req.onsuccess = () => {        
+    //    let db = req.result;
+        let tx = shoppingCart.transaction("ShoppingCart", "readwrite");
         let store = tx.objectStore("ShoppingCart");
         store.put({
             name: component.name,
@@ -119,10 +120,10 @@ function addItemToCart(component) {
             manufacturer: component.manufacturer,
             type: component.type
         });
-        db.close();
+        //db.close();
         console.log("Successfully added to cart.");
         alert("Added to cart.")
-    }
+    //}
 }
 
 
@@ -216,6 +217,11 @@ function start() {
     };
 
     let req_sc = window.indexedDB.open("ShoppingCart", 1);
+
+    req_sc.onsuccess = () => {
+        shoppingCart = req_sc.result;
+        localStorage.setItem('shoppingCart', shoppingCart);
+    }
     req_sc.onupgradeneeded = (e) => {
         let db_sc = req_sc.result;
         let version_sc = e.oldVersion;
