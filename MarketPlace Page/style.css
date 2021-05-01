@@ -10,7 +10,7 @@ body {
 }
 
 .hg-header {
-	background-image: url('Main_Logo.png');
+	background-image: url('/Main_Logo.png');
   background-repeat: no-repeat;
   background-size: 40% 100%;
 }
