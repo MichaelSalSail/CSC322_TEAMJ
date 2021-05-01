@@ -72,19 +72,22 @@ function initializeComponents(db) {
     };
 }
 
+// creates row with td, adds image, attributes, add to cart btn
 function populateRow(table, cursorValue) {
     const NUMBER_OF_CELLS = 6;
+    let filePath = "../Images/" + cursorValue.type + "/" + cursorValue.name + ".jpg";
     let cells = [];
     let row = document.createElement('tr');
     table.appendChild(row);
-    //let row = table.insertRow(1);
     for (let i = 0; i < NUMBER_OF_CELLS; i++){
         let cell = document.createElement('td');
         cells.push(cell);
     }
 
     let img = document.createElement('img');
-    img.src = "../Images/GTX 1060.jpg";
+    img.setAttribute("style","width:200px");
+    img.setAttribute("style","height:200px");
+    img.src = filePath;
 
     cells[1].innerHTML = cursorValue.name;
     cells[2].innerHTML = cursorValue.description;
@@ -100,9 +103,10 @@ function populateRow(table, cursorValue) {
     })
 
     cells[0].appendChild(img);
-    cells[5].appendChild(btn);
+    cells[5].appendChild(btn); // add to cart
 }
 
+// each table is populated with rows from database
 function populateTables(db) {
     let transaction = db.transaction(DATABASE_NAME);
     let tables = transaction.objectStore(DATABASE_NAME);
@@ -138,6 +142,10 @@ function populateTables(db) {
                 break;
         }
         cursor.continue(); 
+    }
+
+    list.onerror = () => {
+        
     }
 }
 
