@@ -94,6 +94,8 @@ function signInUser(){
         transaction.onerror = () => console.log("Transaction failed.")
     };
     getDB.onerror = () => console.log("Could not open database:", getDB.error);
+
+    window.location.href = '/MarketPlace Page/index.html';
 }
 
 function parseForm() {
