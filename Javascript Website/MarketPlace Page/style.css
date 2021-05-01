@@ -6,13 +6,13 @@ body {
 	font-size: 1.5rem;
 	line-height: 1.6;
 	font-family: 'Open Sans';
-  background: green;
+  	background: green;
 }
 
 .hg-header {
-	background-image: url('/Main_Logo.png');
-  background-repeat: no-repeat;
-  background-size: 40% 100%;
+	background-image: url('../Logo_Variants/Logo_Main.png');
+	background-repeat: no-repeat;
+	background-size: 40% 100%;
 }
 
 .hg-footer {

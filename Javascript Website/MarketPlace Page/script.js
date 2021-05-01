@@ -4,7 +4,7 @@ const VERSION = 1; // need to increment when we upgrade schema
 
 
 // Store constants
-const ATTRIBUTES = ["name", "description", "price", "manufacturer", "type"];
+// attr: "name", "description", "price", "manufacturer", "type"
 
 const GPU = [
     ["GTX 1060", "3 GB VRAM, VR ready", 250, "Nvidia", "GPU"],
