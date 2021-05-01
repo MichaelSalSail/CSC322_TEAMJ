@@ -99,12 +99,32 @@ function populateRow(table, cursorValue) {
     let btn = document.createElement('button');
     btn.innerHTML = "Add to Cart";
     btn.addEventListener('click', () => {
-        console.log("clicked button");
-    })
+        addItemToCart(cursorValue);
+    });
 
     cells[0].appendChild(img);
     cells[5].appendChild(btn); // add to cart
 }
+
+function addItemToCart(component) {
+    let req = window.indexedDB.open("ShoppingCart", 1);
+    req.onsuccess = () => {        
+        let db = req.result;
+        let tx = db.transaction("ShoppingCart", "readwrite");
+        let store = tx.objectStore("ShoppingCart");
+        store.put({
+            name: component.name,
+            description: component.description,
+            price: component.price,
+            manufacturer: component.manufacturer,
+            type: component.type
+        });
+        db.close();
+        console.log("Successfully added to cart.");
+        alert("Added to cart.")
+    }
+}
+
 
 // each table is populated with rows from database
 function populateTables(db) {
@@ -145,7 +165,7 @@ function populateTables(db) {
     }
 
     list.onerror = () => {
-        
+        console.log("Could not load items.")
     }
 }
 
@@ -194,6 +214,19 @@ function start() {
     req.onerror = function(e) { 
         console.log("There was an error: " + e.target.errorCode);
     };
+
+    let req_sc = window.indexedDB.open("ShoppingCart", 1);
+    req_sc.onupgradeneeded = (e) => {
+        let db_sc = req_sc.result;
+        let version_sc = e.oldVersion;
+        console.log("Old version was", version_sc);
+
+        if (version_sc === 0) {
+            store_sc = db_sc.createObjectStore("ShoppingCart", {keyPath: 'name'}),
+            index_sc = store_sc.createIndex("name", "name", {unique: true});
+            console.log("Shopping Cart created.");
+        }
+    }
 
     hideTables();
 }
