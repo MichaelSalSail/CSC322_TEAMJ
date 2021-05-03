@@ -12,9 +12,8 @@ function loadCart(db) {
         let cursor = event.target.result;
         if (!cursor) return; 
         let cursorValue = cursor.value;
-        let filePath = "../Images/" + cursorValue.type + "/" + cursorValue.name + ".jpg";
 
-        const NUMBER_OF_CELLS = 5;
+        const NUMBER_OF_CELLS = 3;
         let row = document.createElement('tr');
         let cells = [];
         cart.appendChild(row);
@@ -24,18 +23,11 @@ function loadCart(db) {
             cells.push(cell);
         }
 
-        let img = document.createElement('img');
-        img.setAttribute("style","width:200px");
-        img.setAttribute("style","height:200px");
-        img.src = filePath;
-
-        cells[1].innerHTML = cursorValue.name;
-        cells[2].innerHTML = cursorValue.description;
-        cells[3].innerHTML = cursorValue.price;
-        cells[4].innerHTML = cursorValue.manufacturer;
+        cells[0].innerHTML = cursorValue.name;
+        cells[1].innerHTML = cursorValue.price;
+        cells[2].innerHTML = 1 //cursorValue.quantity;
 
         for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
-        cells[0].appendChild(img);
         cursor.continue();
     }
 }
