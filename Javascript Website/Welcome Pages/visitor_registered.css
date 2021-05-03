@@ -6,15 +6,17 @@ body {
 	font-size: 1.5rem;
 	line-height: 1.6;
 	font-family: 'Open Sans';
+  background: green;
 }
 
 .hg-header {
-	background-image: url('../Logo_Variants/Logo_Error.png');
+	background-image: url('../Logo_Variants/Logo_Main.png');
   background-repeat: no-repeat;
   background-size: 50% 100%;
 }
 
 .hg-footer {
+	background-color: green;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -32,6 +34,7 @@ body {
 }
 
 .hg-right{
+  background-color: green;
   color: white;
   margin-right: 8%;
   text-align: right;
