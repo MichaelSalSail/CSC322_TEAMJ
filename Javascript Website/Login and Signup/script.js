@@ -27,6 +27,13 @@ function start() {
     };
 }
 
+
+/* only called when the database is set up for first time
+creates an admin, a clerk, and two deliverers for use later */
+function initializeSuperusers() {
+
+}
+
 // will return true if the email:
 // 1. contains the @ character
 // 2. there is something before and after the @ character
@@ -62,7 +69,7 @@ function registerUser() {
                 email: email,
                 username: username,
                 password: password,
-                permission: 1
+                permission: 1 // all registered users are 'user' by default 
             });
             
             tx.oncomplete = () => {
@@ -92,7 +99,7 @@ function signInUser(){
             if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
                 console.log("Successful login.");
                 console.log("Current user's permission is", table.permission);
-                window.location.href="../MarketPlace Page/index.html";
+                window.location.href = "../MarketPlace Page/index.html";
                 window.localStorage.setItem("permission", (table.permission).toString());
                 window.localStorage.setItem("username", table.username);
             }

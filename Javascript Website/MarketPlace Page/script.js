@@ -113,13 +113,25 @@ function addItemToCart(component) {
     //    let db = req.result;
         let tx = shoppingCart.transaction("ShoppingCart", "readwrite");
         let store = tx.objectStore("ShoppingCart");
-        store.put({
-            name: component.name,
-            description: component.description,
-            price: component.price,
-            manufacturer: component.manufacturer,
-            type: component.type
-        });
+
+        let req = store.get(component.name);
+        req.onsuccess = () => {
+            if (req.result) {
+                store.put({
+                    name: component.name,
+                    price: component.price,
+                    quantity: req.result.quantity + 1
+                });
+                console.log("Item already exists in cart. Updating quantity.")  
+            } else {
+                console.log("Item does not exist in cart. Adding...")
+                store.put({
+                    name: component.name,
+                    price: component.price,
+                    quantity: 1
+                });
+            }
+        }
         //db.close();
         console.log("Successfully added to cart.");
         alert("Added to cart.")
