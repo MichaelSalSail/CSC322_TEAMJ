@@ -1,6 +1,12 @@
+/* PERMISSION LEVELS:
+0 = VISITOR
+1 = USER
+2 = DELIVERER
+3 = CLERK
+4 = ADMIN */
+
 let DATABASE_NAME = "UserAccounts";
 let VERSION = 1; // need to increment when we upgrade schema
-
 
 // used for onload in html body
 // initalize required variables here
@@ -56,9 +62,11 @@ function registerUser() {
                 email: email,
                 username: username,
                 password: password,
+                permission: 1
             });
             
             tx.oncomplete = () => {
+                alert("Registration complete! Please login with your information.")
                 console.log("User successfully registered.");
                 db.close();
             };
@@ -83,7 +91,9 @@ function signInUser(){
             let table = e.target.result;
             if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
                 console.log("Successful login.");
-                // TODO: GO TO HOME PAGE
+                console.log("Current user's permission is", table.permission);
+                window.location.href="../MarketPlace Page/index.html";
+                window.localStorage.setItem("permission", (table.permission).toString());
             }
             else 
                 console.log("Username not found or password is incorrect");
