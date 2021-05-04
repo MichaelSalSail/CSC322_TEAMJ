@@ -94,6 +94,7 @@ function signInUser(){
                 console.log("Current user's permission is", table.permission);
                 window.location.href="../MarketPlace Page/index.html";
                 window.localStorage.setItem("permission", (table.permission).toString());
+                window.localStorage.setItem("username", table.username);
             }
             else 
                 console.log("Username not found or password is incorrect");
@@ -114,6 +115,13 @@ function parseForm() {
         registerUser();
     else
         signInUser();    
+}
+
+function continueAsVisitor() {
+    console.log("User is a visitor.");
+    window.location.href="../MarketPlace Page/index.html";
+    window.localStorage.setItem("permission", "0");
+    window.localStorage.setItem("username", "Guest");
 }
 
 // login button is disabled by default since it is the default tab
