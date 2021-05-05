@@ -5,9 +5,6 @@
 3 = CLERK
 4 = ADMIN */
 
-let DATABASE_NAME = "UserAccounts";
-let VERSION = 1; // need to increment when we upgrade schema
-
 // used for onload in html body
 // initalize required variables here
 function start() {
@@ -18,7 +15,7 @@ function start() {
         console.log("Old version was", version);
 
         if (version == 0) {
-            store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+            store = db.createObjectStore(USERS_DB_NAME, {keyPath: "email"}),
             index = store.createIndex("email", "email", {unique: true});
         }
     }
@@ -57,14 +54,14 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
 
     if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
         console.log("Correct info");
         req.onsuccess = () => {
             db = req.result; // setting variables to work with
-            tx = db.transaction(DATABASE_NAME, "readwrite");
-            store = tx.objectStore(DATABASE_NAME);
+            tx = db.transaction(USERS_DB_NAME, "readwrite");
+            store = tx.objectStore(USERS_DB_NAME);
             store.put({
                 email: email,
                 username: username,
@@ -88,11 +85,11 @@ function registerUser() {
 function signInUser(){
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
-    let getDB = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let getDB = window.indexedDB.open(USERS_DB_NAME, VERSION);
     getDB.onsuccess = () => { // process login
         let results = getDB.result;
-        let transaction = results.transaction(DATABASE_NAME, "readonly");
-        let store = transaction.objectStore(DATABASE_NAME);
+        let transaction = results.transaction(USERS_DB_NAME, "readonly");
+        let store = transaction.objectStore(USERS_DB_NAME);
         let req = store.get(email);
         req.onsuccess = (e) => {
             let table = e.target.result;
