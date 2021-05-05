@@ -181,6 +181,7 @@ function start() {
 
     req_sc.onsuccess = () => {
         shoppingCart = req_sc.result;
+        console.log("Cart database loaded.");
     }
     req_sc.onupgradeneeded = (e) => {
         let db_sc = req_sc.result;

@@ -8,6 +8,22 @@
 	<link href="style.css" rel="stylesheet" type="text/css" />
   <script src = "../constants.js"></script>
   <script>
+    function updateCurrentUserInfo(db, balance) {
+        let transaction = db.transaction(USERS_DB_NAME, "readwrite");
+        let store = transaction.objectStore(USERS_DB_NAME);
+        let req = store.get(window.localStorage.getItem("email"));
+        req.onsuccess = (e) => {
+        let table = e.target.result;
+        store.put({
+          email: table.email,
+          username: table.username,
+          password: table.password,
+          permission: table.permission,
+          balance: balance
+        });
+      }
+    }
+
     function start() {
       let remainingBalance = 
       (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
@@ -19,6 +35,11 @@
       let req = window.indexedDB.deleteDatabase(CART_DB_NAME);
       req.onerror = () => console.log("Error deleting database.");
       req.onsuccess = () => console.log("Database deleted successfully");
+
+      req = window.indexedDB.open(USERS_DB_NAME, VERSION);
+      req.onsuccess = () => {
+        updateCurrentUserInfo(req.result, remainingBalance);
+      }
     }
 
   </script>
