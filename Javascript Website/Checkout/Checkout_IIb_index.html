@@ -31,17 +31,11 @@
       Address: <input type="text" name="Address">
     </form>      
     <p></p>
-    <form id="fifth">
-      Credit Card: <input type="text" name="Credit">
-    </form>
-    <p></p>
     <span id="error_message1">[Display State message]</span>
     <p></p>
     <span id="error_message2">[Display Zip Code message]</span>
     <p></p>
-    <span id="error_message3">[Display Credit Card message]</span>
-    <p></p>
-    <form action="Checkout_III_index.html" id="sixth">
+    <form action="Checkout_III_index.html" id="fifth">
     <button type="submit">Finish</button>
     </form>
   </main>
@@ -66,7 +60,6 @@
     let output1 = document.querySelector("#error_message1");
     let state_good=false;
     let zip_good=false;
-    let credit_good=false;
     form1.addEventListener("input", () => {
       if(form1.elements.State.value.length!==2)
       {
@@ -93,23 +86,9 @@
         zip_good=true;
       }
     });
-    form3 = document.querySelector("#fifth");//querySelector("form")
-    output3 = document.querySelector("#error_message3");
-    form3.addEventListener("input", () => {
-      if(form3.elements.Credit.value.length!==16)
-      {
-        output3.textContent = "A Credit Card # must be of length 16";
-        credit_good=false;
-      }
-      else
-      {
-        output3.textContent = "Good";
-        credit_good=true;
-      }
-    });
-    let submit_button=document.querySelector("#sixth");
+    let submit_button=document.querySelector("#fifth");
     submit_button.addEventListener("submit", event => {
-      if(state_good==false | zip_good==false | credit_good==false | form0.elements.Name.value.length==0 | form00.elements.Address.value.length==0)
+      if(state_good==false | zip_good==false | form0.elements.Name.value.length==0 | form00.elements.Address.value.length==0)
       {
         alert("Properly complete all text fields");
         event.preventDefault();

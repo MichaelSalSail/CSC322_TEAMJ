@@ -26,7 +26,9 @@
     <p></p>
     <span id="error_message">[Display relevant messages]</span>
     <p></p>
+    <form action="Checkout_II_index.html" id="Transition_pay">
     <button>Continue</button>
+    </form>
   </main>
   <aside class="hg-left">
     <button> Home Page </button>
@@ -43,11 +45,21 @@
   <footer class="hg-footer"></footer>
 
 	<script>
+    let continue_button=document.querySelector("#Transition_pay");
     let buttons = document.querySelectorAll("[name=A]");
     let output = document.querySelector("#error_message");
-  for (let button of Array.from(buttons)) {
-    button.addEventListener("change", () => {
-      output.textContent = button.value;
+    for (let button of Array.from(buttons)) {
+      button.addEventListener("change", () => {
+        if(button.value=="")
+        {
+          output.textContent = button.value;
+          continue_button.action="Checkout_II_index.html";
+        }
+        else if(button.value=="Checking for sufficient funds...")
+        {
+          output.textContent = button.value;
+          continue_button.action="Checkout_IIb_index.html";
+        }
     });
   }
 	</script>
