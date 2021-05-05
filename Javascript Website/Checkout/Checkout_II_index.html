@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>store clerk</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+	<body class="hg">
+
+  <header class="hg-header"></header>
+
+  <main class="hg-main">
+    <form id="first">
+      Name: <input type="text" name="Name">
+    </form>
+    <p></p>
+    <form id="second">
+      State: <input type="text" name="State">
+    </form>
+    <p></p>
+    <form id="third">
+      Zip Code: <input type="text" name="ZipCode">
+    </form>
+    <p></p>
+    <form id="fourth">
+      Address: <input type="text" name="Address">
+    </form>      
+    <p></p>
+    <form id="fifth">
+      Credit Card: <input type="text" name="Credit">
+    </form>
+    <p></p>
+    <span id="error_message1">[Display State message]</span>
+    <p></p>
+    <span id="error_message2">[Display Zip Code message]</span>
+    <p></p>
+    <span id="error_message3">[Display Credit Card message]</span>
+    <p></p>
+
+    <button>Finish</button>
+    </form>
+  </main>
+  <aside class="hg-left">
+    <button> Home Page </button>
+    <button> Account Info </button>
+    <button> Marketplace </button>
+    <button> Cart </button>
+    <button> Forum</button>
+  </aside>
+  <aside class="hg-right">
+    <h3> Hey, user! </h3>
+    <h3> Logout </h3>
+  </aside>
+  
+  <footer class="hg-footer"></footer>
+
+	<script>
+    let form1 = document.querySelector("#second");//querySelector("form")
+    let output1 = document.querySelector("#error_message1");
+    form1.addEventListener("input", () => {
+      if(form1.elements.State.value.length!==2)
+        output1.textContent = "A state must be of length 2";
+      else
+        output1.textContent = "Good";
+    });
+    form2 = document.querySelector("#third");//querySelector("form")
+    output2 = document.querySelector("#error_message2");
+    form2.addEventListener("input", () => {
+      if(form2.elements.ZipCode.value.length!==5)
+        output2.textContent = "A Zip Code must be of length 5";
+      else
+        output2.textContent = "Good";
+    });
+    form3 = document.querySelector("#fifth");//querySelector("form")
+    output3 = document.querySelector("#error_message3");
+    form3.addEventListener("input", () => {
+      if(form3.elements.Credit.value.length!==16)
+        output3.textContent = "A Credit Card # must be of length 16";
+      else
+        output3.textContent = "Good";
+    });
+	</script>
+</body>
+
+</html>

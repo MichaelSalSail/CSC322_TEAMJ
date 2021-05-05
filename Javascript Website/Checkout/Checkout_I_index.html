@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>store clerk</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+	<body class="hg">
+
+  <header class="hg-header"></header>
+
+  <main class="hg-main">
+    <h2>Select Payment Type.</h2>
+    <label>
+      <input type="radio" name="A" value=""> Credit Card
+    </label>
+    <p></p>
+    <label>
+      <input type="radio" name="A" value="Checking for sufficient funds..."> Balance
+    </label>
+    <p></p>
+    <span id="error_message">[Display relevant messages]</span>
+    <p></p>
+    <button>Continue</button>
+  </main>
+  <aside class="hg-left">
+    <button> Home Page </button>
+    <button> Account Info </button>
+    <button> Marketplace </button>
+    <button> Cart </button>
+    <button> Forum</button>
+  </aside>
+  <aside class="hg-right">
+    <h3> Hey, user! </h3>
+    <h3> Logout </h3>
+  </aside>
+  
+  <footer class="hg-footer"></footer>
+
+	<script>
+    let buttons = document.querySelectorAll("[name=A]");
+    let output = document.querySelector("#error_message");
+  for (let button of Array.from(buttons)) {
+    button.addEventListener("change", () => {
+      output.textContent = button.value;
+    });
+  }
+	</script>
+</body>
+
+</html>
