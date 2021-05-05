@@ -68,15 +68,17 @@
     let zip_good=false;
     let credit_good=false;
     form1.addEventListener("input", () => {
-      if(form1.elements.State.value.length!==2)
+      let zip = form2.elements.ZipCode.value;
+      let isInteger = /^\+?(0|[1-9]\d*)$/.test(zip);
+      if(zip.length == 5 && isInteger)
       {
-        output1.textContent = "A state must be of length 2";
-        state_good=false;
+        output2.textContent = "Valid Zip code.";
+        zip_good=true;
       }
       else
       {
-        output1.textContent = "Good";
-        state_good=true;
+        output2.textContent = "Please enter a valid zip code";
+        zip_good=false;   
       }
     });
     form2 = document.querySelector("#third");//querySelector("form")

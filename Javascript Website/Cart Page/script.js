@@ -7,6 +7,7 @@ function loadCart(db) {
     list.onsuccess = (event) => { 
         let cursor = event.target.result;
         if (!cursor) { // done going through all the items
+            window.localStorage.setItem("payment", ""+totalPrice);
             document.getElementById('total-price').innerHTML += totalPrice;
             return; 
         }

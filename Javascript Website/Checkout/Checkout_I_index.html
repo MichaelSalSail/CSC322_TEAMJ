@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<title>store clerk</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
+  <script src = "../constants.js"></script>
 </head>
 
 <body>
@@ -24,7 +25,7 @@
       <input type="radio" name="A" value="Checking for sufficient funds..."> Balance
     </label>
     <p></p>
-    <span id="error_message">[Display relevant messages]</span>
+    <span id="error_message"></span>
     <p></p>
     <form action="Checkout_II_index.html" id="Transition_pay">
     <button>Continue</button>
@@ -55,9 +56,9 @@
           output.textContent = button.value;
           continue_button.action="Checkout_II_index.html";
         }
-        else if(button.value=="Checking for sufficient funds...")
+        else
         {
-          output.textContent = button.value;
+          output.textContent = "You have "+ window.localStorage.getItem("balance") + " points.";
           continue_button.action="Checkout_IIb_index.html";
         }
     });

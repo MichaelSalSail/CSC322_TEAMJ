@@ -6,18 +6,31 @@
 	<meta name="viewport" content="width=device-width">
 	<title>store clerk</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
+  <script src = "../constants.js"></script>
+  <script>
+    function start() {
+      let remainingBalance = 
+      (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
+      document.getElementById("payment").innerHTML += window.localStorage.getItem("payment");
+      document.getElementById("balance").innerHTML += remainingBalance + " points.";
+      window.localStorage.setItem("balance", ""+remainingBalance) // deduct purchase from balance
+
+      window.localStorage.removeItem("payment");
+      let req = window.indexedDB.deleteDatabase(CART_DB_NAME);
+      req.onerror = () => console.log("Error deleting database.");
+      req.onsuccess = () => console.log("Database deleted successfully");
+    }
+
+  </script>
 </head>
 
-<body>
-
-	<body class="hg">
-
+<body onload = "start()" class = "hg">
   <header class="hg-header"></header>
-
   <main class="hg-main">
     <h2>Congratulations!</h2>
     <h3>Your purchase was successful.</h3>
-    <h3>You have been charged $_____. </h3>
+    <h3 id = "payment">You have been charged $</h3>
+    <h3 id = "balance">Your remaining balance is </h3>
     <p>Thank you for choosing PC Emporium</p>
   </main>
   <aside class="hg-left">
@@ -32,12 +45,7 @@
     <h3> Hey, user! </h3>
     <h3> Logout </h3>
   </aside>
-  
   <footer class="hg-footer"></footer>
-
-	<script src="script.js">
-
-	</script>
 </body>
 
 </html>

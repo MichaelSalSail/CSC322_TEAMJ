@@ -68,22 +68,24 @@
       }
       else
       {
-        output1.textContent = "Good";
+        output1.textContent = "Valid state";
         state_good=true;
       }
     });
     form2 = document.querySelector("#third");//querySelector("form")
     output2 = document.querySelector("#error_message2");
     form2.addEventListener("input", () => {
-      if(form2.elements.ZipCode.value.length!==5)
+      let zip = form2.elements.ZipCode.value;
+      let isInteger = /^\+?(0|[1-9]\d*)$/.test(zip);
+      if(zip.length == 5 && isInteger)
       {
-        output2.textContent = "A Zip Code must be of length 5";
-        zip_good=false;
+        output2.textContent = "Valid Zip code.";
+        zip_good=true;
       }
       else
       {
-        output2.textContent = "Good";
-        zip_good=true;
+        output2.textContent = "Please enter a valid zip code";
+        zip_good=false;   
       }
     });
     let submit_button=document.querySelector("#fifth");

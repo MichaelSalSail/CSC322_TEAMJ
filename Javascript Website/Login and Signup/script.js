@@ -8,7 +8,7 @@
 // used for onload in html body
 // initalize required variables here
 function start() {
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onupgradeneeded = (e) => { 
         let db = req.result;
         let version = e.oldVersion;
@@ -66,7 +66,8 @@ function registerUser() {
                 email: email,
                 username: username,
                 password: password,
-                permission: 1 // all registered users are 'user' by default 
+                permission: 1, // all registered users are 'user' by default 
+                balance: 500
             });
             
             tx.oncomplete = () => {
@@ -99,6 +100,8 @@ function signInUser(){
                 window.location.href = "../MarketPlace Page/index.html";
                 window.localStorage.setItem("permission", (table.permission).toString());
                 window.localStorage.setItem("username", table.username);
+                window.localStorage.setItem("email", table.email);
+                window.localStorage.setItem("balance", table.balance);
             }
             else 
                 console.log("Username not found or password is incorrect");
