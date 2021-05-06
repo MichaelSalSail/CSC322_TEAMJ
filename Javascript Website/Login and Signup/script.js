@@ -9,6 +9,9 @@
 // initalize required variables here
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
+
+    req.onsuccess = () => console.log("Loaded database.");
+
     req.onupgradeneeded = (e) => { 
         let db = req.result;
         let version = e.oldVersion;
@@ -97,7 +100,7 @@ function signInUser(){
             if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
                 console.log("Successful login.");
                 console.log("Current user's permission is", table.permission);
-                window.location.href = "../MarketPlace Page/index.html";
+                window.location.href = "../Welcome/welcome.html";
                 window.localStorage.setItem("permission", (table.permission).toString());
                 window.localStorage.setItem("username", table.username);
                 window.localStorage.setItem("email", table.email);
@@ -113,7 +116,7 @@ function signInUser(){
     };
     getDB.onerror = () => console.log("Could not open database:", getDB.error);
 
-    window.location.href = '/MarketPlace Page/index.html';
+    window.location.href = '/Welcome/welcome.html';
 }
 
 function parseForm() {
@@ -126,7 +129,7 @@ function parseForm() {
 
 function continueAsVisitor() {
     console.log("User is a visitor.");
-    window.location.href="../MarketPlace Page/index.html";
+    window.location.href="../Welcome/welcome.html";
     window.localStorage.setItem("permission", "0");
     window.localStorage.setItem("username", "Guest");
 }

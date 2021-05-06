@@ -21,6 +21,49 @@ function initializeSystems() {
     };
 }
 
+// skip is an array with indices that correspond to which link to skip
+// must be in least to greatest index order
+function createLinks(skip) {
+    let skipIndex = 0;
+    let container = document.getElementById("links");
+    for (let i = 0; i < LINK_NAMES.length; i++) {
+        if (i === skip[skipIndex]) {
+            console.log("Currently Skipping", LINK_NAMES[i], "where i is", i, "and skipIndex is", skipIndex);
+            skipIndex++;
+            continue;
+        }
+        let link = document.createElement('a');
+        let newLine = document.createElement('br');
+        container.appendChild(newLine);
+        link.setAttribute('href', HREFS[i]);
+        link.innerHTML = LINK_NAMES[i];
+        container.appendChild(link);
+    }
+}
+
+function initalizeNavigation() {
+    let permission = parseInt(window.localStorage.getItem("permission"));
+    console.log(permission);
+    const HOME = 0;
+    const ACCOUNT_INFO = 1;
+    const MARKETPLACE = 2;
+    const SHOPPING_CART = 3;
+    const FORUM = 4;
+    const DELIVERY = 5;
+
+    switch (permission) {
+        case 0: // visitor
+            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY]);
+            break;
+        case 1: // user
+            createLinks([DELIVERY]);
+            break;   
+        case 2: // deliverer
+            createLinks([MARKETPLACE, SHOPPING_CART, FORUM]);
+            break;
+    }
+}
+
 function start() {
     let req = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
     req.onsuccess = () => {
@@ -42,4 +85,6 @@ function start() {
             };
         }
     }
+
+    initalizeNavigation();
 }

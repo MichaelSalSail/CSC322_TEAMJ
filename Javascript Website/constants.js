@@ -92,3 +92,23 @@ const CASE = [
 ];
 
 const COMPONENTS = [GPU, CPU, MOBO, RAM, STORAGE, PSU, CASE];
+
+// LINKS TO PAGES
+
+const HREFS = [
+    "../Welcome/welcome.html",
+    "", // account info
+    "../MarketPlace Page/index.html",
+    "../Cart Page/index.html",
+    "", // forum
+    "" // delivery
+];
+
+const LINK_NAMES = [
+    "Home Page",
+    "Account Info",
+    "Marketplace",
+    "Shopping Cart",
+    "Forum",
+    "Delivery System"
+];
