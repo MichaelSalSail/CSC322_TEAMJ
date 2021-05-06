@@ -93,8 +93,15 @@ const CASE = [
 
 const COMPONENTS = [GPU, CPU, MOBO, RAM, STORAGE, PSU, CASE];
 
-// LINKS TO PAGES
+// PERMISSION LEVELS
+const VISITOR = 0;
+const USER = 1;
+const DELIVERER = 2;
+const CLERK = 3;
+const ADMIN = 4;
 
+
+// LINKS TO PAGES
 const HREFS = [
     "../Welcome/welcome.html",
     "", // account info
@@ -112,3 +119,4 @@ const LINK_NAMES = [
     "Forum",
     "Delivery System"
 ];
+

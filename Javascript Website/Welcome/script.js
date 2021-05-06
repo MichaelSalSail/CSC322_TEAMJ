@@ -1,6 +1,5 @@
 /* Each system has the following attributes:
 name, price, description, type (gaming, business, computing), operating system, sales */
-
 function initializeSystems() {
     tx = database.transaction(SYSTEMS_DB_NAME, "readwrite");
     store = tx.objectStore(SYSTEMS_DB_NAME);
@@ -44,7 +43,7 @@ function createLinks(skip) {
 function initalizeNavigation() {
     let permission = parseInt(window.localStorage.getItem("permission"));
     console.log(permission);
-    const HOME = 0;
+
     const ACCOUNT_INFO = 1;
     const MARKETPLACE = 2;
     const SHOPPING_CART = 3;
@@ -52,13 +51,13 @@ function initalizeNavigation() {
     const DELIVERY = 5;
 
     switch (permission) {
-        case 0: // visitor
+        case VISITOR:
             createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY]);
             break;
-        case 1: // user
+        case USER:
             createLinks([DELIVERY]);
             break;   
-        case 2: // deliverer
+        case DELIVERER: 
             createLinks([MARKETPLACE, SHOPPING_CART, FORUM]);
             break;
     }
