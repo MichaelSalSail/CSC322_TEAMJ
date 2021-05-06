@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Parts</title>
+	<link href="parts.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body onload = 'start()' class = 'hg'>
+  <header class="hg-header"></header>
+  <main class="hg-main">
+    <h2>What parts are you looking for?</h2>
+    <button onclick = "showTables('gpu-table')"> GPU </button>
+    <button onclick = "showTables('cpu-table')"> CPU </button>
+    <button onclick = "showTables('mobo-table')"> Motherboard </button>
+    <button onclick = "showTables('ram-table')"> RAM </button>
+    <button onclick = "showTables('storage-table')"> Storage </button>
+    <button onclick = "showTables('psu-table')"> Power Supply </button>
+    <button onclick = "showTables('case-table')"> Case </button>
+
+    <table id = 'gpu-table' class="hg-table" style="width:100%">
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Manufacturer</th>
+        </tr>
+    </table>
+
+    <table id = 'cpu-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+
+    <table id = 'mobo-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+
+    <table id = 'ram-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+
+    <table id = 'storage-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+
+    <table id = 'psu-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+
+    <table id = 'case-table' class="hg-table" style="width:100%">
+      <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Manufacturer</th>
+      </tr>
+    </table>
+  </main>
+  
+  <aside class="hg-left">
+    <h3><a href ='index.html'> Home Page </a></h3>
+    <h3><a href=#> Account Info </a></h3>
+    <h3><a href=#> Market Place </a></h3>
+    <h3><a href=#> Forum </a></h3>
+    <h3><a href=#> Cart </a></h3>
+  </aside>
+
+  <aside class="hg-right">
+    <h3> Sign-up </h3>
+    <h3> Login </h3>
+  </aside>
+  <footer class="hg-footer"></footer>
+</body>
+
+<script src="parts.js"></script>
+
+</html>
