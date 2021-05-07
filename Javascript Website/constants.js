@@ -120,3 +120,37 @@ const LINK_NAMES = [
     "Delivery System"
 ];
 
+// SUPERUSERS
+const DELIVERER1 = [
+    "ups@ups.com",
+    "ups_delivery",
+    "delivery1",
+    2,
+    500
+];
+
+const DELIVERER2 = [
+    "fedex@fedex.com",
+    "fedex_delivery",
+    "delivery2",
+    2,
+    500
+];
+
+const CLERK1 = [
+    "clerk@pc.com",
+    "clerk",
+    "clerk1",
+    3,
+    500
+];
+
+const ADMIN1 = [
+    "admin@pc.com",
+    "admin",
+    "admin1",
+    4,
+    99999999
+];
+
+const SUPERUSERS = [DELIVERER1, DELIVERER2, CLERK1, ADMIN1];

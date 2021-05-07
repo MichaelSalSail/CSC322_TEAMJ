@@ -60,6 +60,12 @@ function initalizeNavigation() {
         case DELIVERER: 
             createLinks([MARKETPLACE, SHOPPING_CART, FORUM]);
             break;
+        case CLERK:
+            createLinks([]);
+            break;
+        case ADMIN:
+            createLinks([]);
+            break;
     }
 }
 

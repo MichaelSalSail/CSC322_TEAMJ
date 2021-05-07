@@ -5,21 +5,22 @@
 3 = CLERK
 4 = ADMIN */
 
-// used for onload in html body
-// initalize required variables here
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-
     req.onsuccess = () => console.log("Loaded database.");
-
     req.onupgradeneeded = (e) => { 
         let db = req.result;
         let version = e.oldVersion;
+        let tx = req.transaction;
         console.log("Old version was", version);
 
         if (version == 0) {
             store = db.createObjectStore(USERS_DB_NAME, {keyPath: "email"}),
             index = store.createIndex("email", "email", {unique: true});
+
+            tx.oncomplete = () => {
+                initializeSuperusers(db);
+            };
         }
     }
     req.onerror = function(e) { 
@@ -27,11 +28,21 @@ function start() {
     };
 }
 
-
 /* only called when the database is set up for first time
 creates an admin, a clerk, and two deliverers for use later */
-function initializeSuperusers() {
+function initializeSuperusers(db) {
+    tx = db.transaction(USERS_DB_NAME, "readwrite");
+    store = tx.objectStore(USERS_DB_NAME);
 
+    for (let i = 0; i < SUPERUSERS.length; i++){
+        store.put({
+            email: SUPERUSERS[i][0],
+            username: SUPERUSERS[i][1],
+            password: SUPERUSERS[i][2],
+            permission: SUPERUSERS[i][3],
+            balance: SUPERUSERS[i][4]
+        });
+    }
 }
 
 // will return true if the email:
