@@ -49,6 +49,7 @@ function removeFromCart(db, key) {
 }
 
 function start() {
+    initalizeNavigation();
     let req = window.indexedDB.open(CART_DB_NAME, VERSION);
     req.onsuccess = () => {
         loadCart(req.result);

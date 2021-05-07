@@ -7,6 +7,7 @@
 	<title>store clerk</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
   <script src = "../constants.js"></script>
+  <script src = '../utility.js'></script>
 </head>
 
 <body>
@@ -31,13 +32,7 @@
     <button>Continue</button>
     </form>
   </main>
-  <aside class="hg-left">
-    <button> Home Page </button>
-    <button> Account Info </button>
-    <button> Marketplace </button>
-    <button> Cart </button>
-    <button> Forum</button>
-  </aside>
+  <aside id = 'links' class="hg-left"></aside>
   <aside class="hg-right">
     <h3> Hey, user! </h3>
     <h3> Logout </h3>
@@ -62,6 +57,8 @@
           continue_button.action="Checkout_IIb_index.html";
         }
     });
+
+    initializeNavigation();
   }
 	</script>
 </body>

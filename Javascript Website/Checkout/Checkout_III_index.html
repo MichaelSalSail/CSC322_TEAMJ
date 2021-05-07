@@ -7,6 +7,7 @@
 	<title>store clerk</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
   <script src = "../constants.js"></script>
+  <script src = '../utility.js'></script>
   <script>
     function updateCurrentUserInfo(db, balance) {
         let transaction = db.transaction(USERS_DB_NAME, "readwrite");
@@ -40,6 +41,7 @@
       req.onsuccess = () => {
         updateCurrentUserInfo(req.result, remainingBalance);
       }
+      initializeNavigation();
     }
 
   </script>
@@ -54,14 +56,7 @@
     <h3 id = "balance">Your remaining balance is </h3>
     <p>Thank you for choosing PC Emporium</p>
   </main>
-  <aside class="hg-left">
-    <button> Home Page </button>
-    <button> Account Info </button>
-    <button> Marketplace </button>
-    <button> Cart </button>
-    <button> Delivery Subsystem </button>
-    <button> Forum</button>
-  </aside>
+  <aside id = 'links' class="hg-left"></aside>
   <aside class="hg-right">
     <h3> Hey, user! </h3>
     <h3> Logout </h3>

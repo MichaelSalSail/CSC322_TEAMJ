@@ -60,9 +60,13 @@ function populateRow(table, cursorValue) {
 }
 
 function addItemToCart(component) {
+    if (localStorage.getItem("permission") === "0") {
+        alert("You must be registered in order to add products to your cart.");
+        return;
+    }
+
     let tx = shoppingCart.transaction(CART_DB_NAME, "readwrite");
     let store = tx.objectStore(CART_DB_NAME);
-
     let req = store.get(component.name);
     req.onsuccess = () => {
         if (req.result) {
@@ -148,6 +152,7 @@ function showTables(id) {
 
 // onload in body
 function start() {
+    initalizeNavigation();
     document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
 
     let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
