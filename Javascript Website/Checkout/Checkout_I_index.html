@@ -8,12 +8,10 @@
 	<link href="style.css" rel="stylesheet" type="text/css" />
   <script src = "../constants.js"></script>
   <script src = '../utility.js'></script>
+  <script src = 'script.js'></script>
 </head>
 
-<body>
-
-	<body class="hg">
-
+<body onload = 'start1()' class = 'hg'>
   <header class="hg-header"></header>
 
   <main class="hg-main">
@@ -39,28 +37,6 @@
   </aside>
   
   <footer class="hg-footer"></footer>
-
-	<script>
-    let continue_button=document.querySelector("#Transition_pay");
-    let buttons = document.querySelectorAll("[name=A]");
-    let output = document.querySelector("#error_message");
-    for (let button of Array.from(buttons)) {
-      button.addEventListener("change", () => {
-        if(button.value=="")
-        {
-          output.textContent = button.value;
-          continue_button.action="Checkout_II_index.html";
-        }
-        else
-        {
-          output.textContent = "You have "+ window.localStorage.getItem("balance") + " points.";
-          continue_button.action="Checkout_IIb_index.html";
-        }
-    });
-
-    initializeNavigation();
-  }
-	</script>
 </body>
 
 </html>

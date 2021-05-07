@@ -41,5 +41,5 @@ function start() {
             };
         }
     }
-    initalizeNavigation();
+    initializeNavigation();
 }

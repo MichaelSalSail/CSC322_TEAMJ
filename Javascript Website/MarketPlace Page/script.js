@@ -152,7 +152,7 @@ function showTables(id) {
 
 // onload in body
 function start() {
-    initalizeNavigation();
+    initializeNavigation();
     document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
 
     let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);

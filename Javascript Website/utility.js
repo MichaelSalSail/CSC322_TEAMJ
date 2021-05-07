@@ -21,7 +21,7 @@ function createLinks(skip) {
 }
 
 // call this one
-function initalizeNavigation() {
+function initializeNavigation() {
     let permission = parseInt(window.localStorage.getItem("permission"));
     console.log(permission);
 
