@@ -97,8 +97,9 @@ const COMPONENTS = [GPU, CPU, MOBO, RAM, STORAGE, PSU, CASE];
 const VISITOR = 0;
 const USER = 1;
 const DELIVERER = 2;
-const CLERK = 3;
-const ADMIN = 4;
+const MANU = 3;
+const CLERK = 4;
+const ADMIN = 5;
 
 
 // LINKS TO PAGES
@@ -108,7 +109,8 @@ const HREFS = [
     "../MarketPlace Page/index.html",
     "../Cart Page/index.html",
     "", // forum
-    "" // delivery
+    "", // delivery
+    "../Admin/index.html"
 ];
 
 const LINK_NAMES = [
@@ -117,7 +119,8 @@ const LINK_NAMES = [
     "Marketplace",
     "Shopping Cart",
     "Forum",
-    "Delivery System"
+    "Delivery System",
+    "Administrative"
 ];
 
 // SUPERUSERS
@@ -126,7 +129,9 @@ const DELIVERER1 = [
     "ups_delivery",
     "delivery1",
     2,
-    500
+    500,
+    0,
+    0
 ];
 
 const DELIVERER2 = [
@@ -134,23 +139,72 @@ const DELIVERER2 = [
     "fedex_delivery",
     "delivery2",
     2,
-    500
+    500,
+    0,
+    0
+];
+
+const MANU1 = [
+    "intel@pc.com",
+    "intel",
+    "intel",
+    3,
+    500,
+    0,
+    0
+];
+
+const MANU2 = [
+    "nvidia@pc.com",
+    "nvidia",
+    "nvidia",
+    3,
+    500,
+    0,
+    0
+];
+
+const MANU3 = [
+    "amd@pc.com",
+    "amd",
+    "amd",
+    3,
+    500,
+    0,
+    0
+];
+
+const MANU4 = [
+    "corsair@pc.com",
+    "corsair",
+    "corsair",
+    3,
+    500,
+    0,
+    0
 ];
 
 const CLERK1 = [
     "clerk@pc.com",
     "clerk",
     "clerk1",
-    3,
-    500
+    4,
+    500,
+    0,
+    0
 ];
 
 const ADMIN1 = [
     "admin@pc.com",
     "admin",
     "admin1",
-    4,
-    99999999
+    5,
+    99999999,
+    99999999,
+    0
 ];
 
-const SUPERUSERS = [DELIVERER1, DELIVERER2, CLERK1, ADMIN1];
+const SUPERUSERS = [
+    DELIVERER1, DELIVERER2, CLERK1, ADMIN1,
+    MANU1, MANU2, MANU3, MANU4
+];

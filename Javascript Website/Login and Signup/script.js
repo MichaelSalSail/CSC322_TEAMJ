@@ -2,8 +2,9 @@
 0 = VISITOR
 1 = USER
 2 = DELIVERER
-3 = CLERK
-4 = ADMIN */
+3 = MANU
+4 = CLERK
+5 = ADMIN */
 
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
@@ -40,7 +41,9 @@ function initializeSuperusers(db) {
             username: SUPERUSERS[i][1],
             password: SUPERUSERS[i][2],
             permission: SUPERUSERS[i][3],
-            balance: SUPERUSERS[i][4]
+            balance: SUPERUSERS[i][4],
+            rewards: SUPERUSERS[i][5],
+            warning: SUPERUSERS[i][6]
         });
     }
 }
@@ -81,7 +84,9 @@ function registerUser() {
                 username: username,
                 password: password,
                 permission: 1, // all registered users are 'user' by default 
-                balance: 500
+                balance: 500,
+                rewards: 0,
+                warning: 0
             });
             
             tx.oncomplete = () => {

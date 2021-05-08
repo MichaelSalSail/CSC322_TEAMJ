@@ -23,26 +23,29 @@ function createLinks(skip) {
 // call this one
 function initializeNavigation() {
     let permission = parseInt(window.localStorage.getItem("permission"));
-    console.log(permission);
 
     const ACCOUNT_INFO = 1;
     const MARKETPLACE = 2;
     const SHOPPING_CART = 3;
     const FORUM = 4;
     const DELIVERY = 5;
+    const ADMINISTRATIVE = 6;
 
     switch (permission) {
         case VISITOR:
-            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY]);
+            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY, ADMIN]);
             break;
         case USER:
-            createLinks([DELIVERY]);
+            createLinks([DELIVERY, ADMIN]);
             break;   
         case DELIVERER: 
-            createLinks([MARKETPLACE, SHOPPING_CART, FORUM]);
+            createLinks([MARKETPLACE, SHOPPING_CART, FORUM, ADMIN]);
+            break;
+        case MANU:
+            createLinks([ADMINISTRATIVE]);
             break;
         case CLERK:
-            createLinks([]);
+            createLinks([ADMINISTRATIVE]);
             break;
         case ADMIN:
             createLinks([]);
