@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Checkout</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+  <script src = '../constants.js'></script>
+  <script src = '../utility.js'></script>
+  <script src = 'script.js'></script>
+</head>
+
+<body onload = 'start2()' class="hg">
+  <header class="hg-header"></header>
+
+  <main class="hg-main">
+    <form id="first">
+      Name: <input type="text" name="Name">
+    </form>
+    <p></p>
+    <form id="second">
+      State: <input type="text" name="State">
+    </form>
+    <p></p>
+    <form id="third">
+      Zip Code: <input type="text" name="ZipCode">
+    </form>
+    <p></p>
+    <form id="fourth">
+      Address: <input type="text" name="Address">
+    </form>      
+    <p></p>
+    <form id="fifth">
+      Credit Card: <input type="text" name="Credit">
+    </form>
+    <p></p>
+    <span id="error_message1">[Display State message]</span>
+    <p></p>
+    <span id="error_message2">[Display Zip Code message]</span>
+    <p></p>
+    <span id="error_message3">[Display Credit Card message]</span>
+    <p></p>
+    <form action="Checkout_III_index.html" id="sixth">
+    <button type="submit">Finish</button>
+    </form>
+  </main>
+  <aside id = 'links' class="hg-left"></aside> 
+  <aside class="hg-right">
+    <h3> Hey, user! </h3>
+    <h3> Logout </h3>
+  </aside>
+  
+  <footer class="hg-footer"></footer>
+</body>
+
+</html>

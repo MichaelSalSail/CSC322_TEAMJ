@@ -1,17 +1,13 @@
-const DATABASE_NAME = "ShoppingCart";
-const VERSION = 1;
-
- 
-
 function loadCart(db) {
     let totalPrice = 0;
-    let tx = db.transaction(DATABASE_NAME);
-    let store = tx.objectStore(DATABASE_NAME);
+    let tx = db.transaction(CART_DB_NAME);
+    let store = tx.objectStore(CART_DB_NAME);
     let cart = document.getElementById("shopping-cart");
     let list = store.openCursor();
     list.onsuccess = (event) => { 
         let cursor = event.target.result;
         if (!cursor) { // done going through all the items
+            window.localStorage.setItem("payment", ""+totalPrice);
             document.getElementById('total-price').innerHTML += totalPrice;
             return; 
         }
@@ -44,8 +40,8 @@ function loadCart(db) {
 }
 
 function removeFromCart(db, key) {
-    let tx = db.transaction(DATABASE_NAME, 'readwrite');
-    let store = tx.objectStore(DATABASE_NAME);
+    let tx = db.transaction(CART_DB_NAME, 'readwrite');
+    let store = tx.objectStore(CART_DB_NAME);
     let req = store.delete(key);
     req.onsuccess = () => alert("Item removed from the cart.");
     window.location.reload(); 
@@ -53,8 +49,8 @@ function removeFromCart(db, key) {
 }
 
 function start() {
-    
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    initializeNavigation();
+    let req = window.indexedDB.open(CART_DB_NAME, VERSION);
     req.onsuccess = () => {
         loadCart(req.result);
         console.log("Cart loaded successfully.");

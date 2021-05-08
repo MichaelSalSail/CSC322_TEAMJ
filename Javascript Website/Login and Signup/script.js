@@ -5,21 +5,22 @@
 3 = CLERK
 4 = ADMIN */
 
-let DATABASE_NAME = "UserAccounts";
-let VERSION = 1; // need to increment when we upgrade schema
-
-// used for onload in html body
-// initalize required variables here
 function start() {
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
+    req.onsuccess = () => console.log("Loaded database.");
     req.onupgradeneeded = (e) => { 
         let db = req.result;
         let version = e.oldVersion;
+        let tx = req.transaction;
         console.log("Old version was", version);
 
         if (version == 0) {
-            store = db.createObjectStore(DATABASE_NAME, {keyPath: "email"}),
+            store = db.createObjectStore(USERS_DB_NAME, {keyPath: "email"}),
             index = store.createIndex("email", "email", {unique: true});
+
+            tx.oncomplete = () => {
+                initializeSuperusers(db);
+            };
         }
     }
     req.onerror = function(e) { 
@@ -27,11 +28,21 @@ function start() {
     };
 }
 
-
 /* only called when the database is set up for first time
 creates an admin, a clerk, and two deliverers for use later */
-function initializeSuperusers() {
+function initializeSuperusers(db) {
+    tx = db.transaction(USERS_DB_NAME, "readwrite");
+    store = tx.objectStore(USERS_DB_NAME);
 
+    for (let i = 0; i < SUPERUSERS.length; i++){
+        store.put({
+            email: SUPERUSERS[i][0],
+            username: SUPERUSERS[i][1],
+            password: SUPERUSERS[i][2],
+            permission: SUPERUSERS[i][3],
+            balance: SUPERUSERS[i][4]
+        });
+    }
 }
 
 // will return true if the email:
@@ -57,19 +68,20 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
 
     if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
         console.log("Correct info");
         req.onsuccess = () => {
             db = req.result; // setting variables to work with
-            tx = db.transaction(DATABASE_NAME, "readwrite");
-            store = tx.objectStore(DATABASE_NAME);
+            tx = db.transaction(USERS_DB_NAME, "readwrite");
+            store = tx.objectStore(USERS_DB_NAME);
             store.put({
                 email: email,
                 username: username,
                 password: password,
-                permission: 1 // all registered users are 'user' by default 
+                permission: 1, // all registered users are 'user' by default 
+                balance: 500
             });
             
             tx.oncomplete = () => {
@@ -88,20 +100,22 @@ function registerUser() {
 function signInUser(){
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
-    let getDB = window.indexedDB.open(DATABASE_NAME, VERSION);
+    let getDB = window.indexedDB.open(USERS_DB_NAME, VERSION);
     getDB.onsuccess = () => { // process login
         let results = getDB.result;
-        let transaction = results.transaction(DATABASE_NAME, "readonly");
-        let store = transaction.objectStore(DATABASE_NAME);
+        let transaction = results.transaction(USERS_DB_NAME, "readonly");
+        let store = transaction.objectStore(USERS_DB_NAME);
         let req = store.get(email);
         req.onsuccess = (e) => {
             let table = e.target.result;
             if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
                 console.log("Successful login.");
                 console.log("Current user's permission is", table.permission);
-                window.location.href = "../MarketPlace Page/index.html";
+                window.location.href = "../Welcome/welcome.html";
                 window.localStorage.setItem("permission", (table.permission).toString());
                 window.localStorage.setItem("username", table.username);
+                window.localStorage.setItem("email", table.email);
+                window.localStorage.setItem("balance", table.balance);
             }
             else 
                 console.log("Username not found or password is incorrect");
@@ -113,7 +127,7 @@ function signInUser(){
     };
     getDB.onerror = () => console.log("Could not open database:", getDB.error);
 
-    window.location.href = '/MarketPlace Page/index.html';
+    window.location.href = '/Welcome/welcome.html';
 }
 
 function parseForm() {
@@ -126,7 +140,7 @@ function parseForm() {
 
 function continueAsVisitor() {
     console.log("User is a visitor.");
-    window.location.href="../MarketPlace Page/index.html";
+    window.location.href="../Welcome/welcome.html";
     window.localStorage.setItem("permission", "0");
     window.localStorage.setItem("username", "Guest");
 }
