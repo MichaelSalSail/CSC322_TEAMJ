@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Marketplace</title>
+	<title>Forum</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
   <script src="script.js"></script>
 </head>
@@ -12,22 +12,13 @@
 <body onload = 'start()' class = 'hg'>
   <header class="hg-header"></header>
   <main class="hg-main">
-    <h2>What parts are you looking for?</h2>
-    <button onclick = "showTables('gpu-table')"> GPU </button>
-    <button onclick = "showTables('cpu-table')"> CPU </button>
-    <button onclick = "showTables('mobo-table')"> Motherboard </button>
-    <button onclick = "showTables('ram-table')"> RAM </button>
-    <button onclick = "showTables('storage-table')"> Storage </button>
-    <button onclick = "showTables('psu-table')"> Power Supply </button>
-    <button onclick = "showTables('case-table')"> Case </button>
+    <h2>Discussion Forum</h2>
+    <button onclick = "showTables('gpu-table')"> Create Thread </button>
 
     <table id = 'gpu-table' class="hg-table" style="width:100%">
         <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Manufacturer</th>
+            <th>Thread #</th>
+            <th>Title</th>
         </tr>
     </table>
 
