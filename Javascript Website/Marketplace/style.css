@@ -1,0 +1,214 @@
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.5rem;
+	line-height: 1.6;
+	font-family: 'Open Sans';
+  background: green;
+}
+
+.hg-header {
+	background-image: url('../Logo_Variants/Logo_Main.png');
+  background-repeat: no-repeat;
+  background-size: 50% 100%;
+}
+
+.hg-footer {
+	background-color: green;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.hg-left{
+	background-color: white;
+	text-align: center;
+  border: 1px solid black;
+  margin-top: 10px;
+  margin-bottom: 300%;
+}
+
+.hg-right{
+  background-color: green;
+  color: white;
+  margin-right: 8%;
+  text-align: right;
+}
+
+.hg-main{
+  background-color: white;
+  border: 1px solid black;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+  padding: 10px;
+}
+
+/* Define grid areas */
+.hg-header { grid-area: header; }
+.hg-footer { grid-area: footer; }
+.hg-main { grid-area: main; }
+.hg-left { grid-area: navigation; }
+.hg-right { grid-area: ads; }
+
+
+.hg {
+	display: grid;
+	grid-template-areas: "header header ads"
+	                     "navigation main main"
+	                     "footer footer footer";
+
+	grid-template-columns: 150px 1fr 150px;
+
+	grid-template-rows: 100px 
+						1fr 
+						1px;
+
+	min-height: 100vh;
+}
+
+
+
+@media screen and (max-width: 600px) {
+	.hg {
+		grid-template-areas: "header"
+		                     "navigation"
+		                     "main"
+		                     "ads"
+		                     "footer";
+
+		grid-template-columns: 100%;
+		grid-template-rows: 100px 
+							50px 
+							1fr
+							50px 
+							30px;
+	}
+}
+
+.button {
+  transition-duration: 0.4s;
+  border-radius: 50%;
+  font-size: 20px;
+  background-color: rgba(255, 0, 0, 0.877);
+  color: white;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: green;
+  color: white;
+}
+
+.type{
+  display: flex;
+  justify-content: center;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+}
+
+a:link, a:visited { 
+  color: black;
+  text-decoration: none;
+  cursor: auto;
+  font-size: 18.72px;
+}
+
+a:link:active, a:visited:active { 
+  color: blue;
+}
+
+a:hover, a:active {
+  background-color: green;
+  color: white;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: black;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;  
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown, .parts {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn, .parts .partsbtn{
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .parts:hover .partsbtn {
+  background-color: #333;
+}
+
+.dropdown-content, .parts-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a, .parts-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover, .parts-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content, .parts:hover .parts-content{
+  display: block;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+    width: 100%;
+    text-align: left; /* If you want the text to be left-aligned on small screens */
+  }
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+  }
+  
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}

@@ -33,13 +33,13 @@ function initializeNavigation() {
 
     switch (permission) {
         case VISITOR:
-            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY, ADMIN]);
+            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY, ADMINISTRATIVE]);
             break;
         case USER:
-            createLinks([DELIVERY, ADMIN]);
+            createLinks([DELIVERY, ADMINISTRATIVE]);
             break;   
         case DELIVERER: 
-            createLinks([MARKETPLACE, SHOPPING_CART, FORUM, ADMIN]);
+            createLinks([MARKETPLACE, SHOPPING_CART, FORUM, ADMINISTRATIVE]);
             break;
         case MANU:
             createLinks([ADMINISTRATIVE]);
