@@ -9,10 +9,11 @@ function initializeSystems(database) {
         for (let i = 0; i < SYSTEMS[0].length; i++) {
             store.put({
                 name: SYSTEMS[outer][i][0],
-                price: SYSTEMS[outer][i][2],
-                description: SYSTEMS[outer][i][1],
+                price: SYSTEMS[outer][i][1],
+                description: SYSTEMS[outer][i][2],
                 type: SYSTEMS[outer][i][3],
-                os: SYSTEMS[outer][i][4]
+                os: SYSTEMS[outer][i][4],
+                manufacturer: SYSTEMS[outer][i][5]
             });
         }
     }
@@ -31,7 +32,10 @@ function start() {
     req.onupgradeneeded = (e) => {
         tx = req.transaction;
         createStore(e, SYSTEMS_DB_NAME, "name");
-        tx.oncomplete = () => initializeSystems(e.target.result);
+        tx.oncomplete = () => {
+            initializeSystems(e.target.result);
+            console.log("Loaded systems in database.")
+        }
     }
     initializeNavigation();
 }
