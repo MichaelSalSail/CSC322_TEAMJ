@@ -22,8 +22,8 @@ function initializeSystems() {
 
 function start() {
     let req = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
-    req.onsuccess = () => {
-        database = req.result;
+    req.onsuccess = (e) => {
+        database = e.target.result;
     }
 
     req.onupgradeneeded = (e) => {

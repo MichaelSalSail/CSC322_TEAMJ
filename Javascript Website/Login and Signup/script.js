@@ -120,33 +120,6 @@ function registerUser() {
     }
 }
 
-
-function isOnAvoidList() {
-    let email = document.getElementById('log-email').value;
-    avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
-        .openCursor(email).onsuccess = (e) => {
-            let cursor = e.target.result;
-            if (cursor) { 
-                alert("You have been suspended. Check your email for details.");
-                return;
-            }
-        };
-}
-
-function foo(){ 
-    isOnAvoidList().then(()=>console.log('a')).catch(()=>console.log('b'));
-    return;
-    let isSuspended = () => {
-        isOnAvoidList().then((res) => {
-        return res;
-        }).catch(() => {
-            return false;
-        })
-    };
-
-    console.log(isSuspended);
-}
-
 function checkUserCredentials(email, password) {
     let getDB = window.indexedDB.open(USERS_DB_NAME, VERSION);
     getDB.onsuccess = () => { // process login

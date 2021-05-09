@@ -107,7 +107,7 @@ const ADMIN = 5;
 const HREFS = [
     "../Welcome/welcome.html",
     "", // account info
-    "../MarketPlace Page/index.html",
+    "../MarketPlace/index.html",
     "../Cart Page/index.html",
     "", // forum
     "", // delivery
@@ -210,8 +210,22 @@ const SUPERUSERS = [
     MANU1, MANU2, MANU3, MANU4
 ];
 
+
 // IDs for the component/system tables
 const TABLE_COMPONENT_IDs = [
     "gpu-table", "cpu-table", "mobo-table", "ram-table", "storage-table",
     "psu-table", "case-table"
+];
+
+const TABLE_COMPUTER_IDs = [
+    "windows-table", "mac-table", "business-table", "gaming-table", "streaming-table"
+]
+
+// Table Header names
+const COMPONENT_HEADER_NAMES = [
+    "Image", "Name", "Description", "Price ($)", "Manufacturer"
+];
+
+const COMPUTER_HEADER_NAMES = [
+    "Image", "Name", "Operating System", "Price"
 ];
