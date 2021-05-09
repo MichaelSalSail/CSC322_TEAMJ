@@ -36,7 +36,7 @@ function createImage(cursorValue, fileExtension) {
 
 // creates row with td, adds image, attributes, add to cart btn
 function populatePartsRow(table, cursorValue) {
-    const NUMBER_OF_CELLS = TABLE_COMPONENT_IDs.length + 1; // one more cell for button
+    const NUMBER_OF_CELLS = COMPONENT_HEADER_NAMES.length + 1; // one more cell for button
     let cells = [];
     let row = document.createElement('tr');
     table.appendChild(row);
@@ -61,8 +61,9 @@ function populatePartsRow(table, cursorValue) {
     cells[5].appendChild(btn); // add to cart
 }
 
-function viewDetails() {
+function viewDetails(cursorValue) {
     console.log("Go to details page.")
+    localStorage.setItem("currentComputer", cursorValue.name);
 }
 
 function populateComputerRow(table, cursorValue) {
@@ -85,7 +86,7 @@ function populateComputerRow(table, cursorValue) {
     let btn = document.createElement('button');
     btn.innerHTML = "View Details";
     btn.addEventListener('click', () => {
-        viewDetails()
+        viewDetails(cursorValue);
     });
 
     cells[0].appendChild(createImage(cursorValue, '.PNG'));
@@ -214,7 +215,7 @@ function createTables(ids, headerNames) {
         let row = document.createElement('tr');
         table.id = ids[i];
 
-        for (let j = 0; j < ids.length; j++) {
+        for (let j = 0; j < headerNames.length; j++) {
             let header = document.createElement('th')
             header.innerHTML = headerNames[j];
             row.appendChild(header);
