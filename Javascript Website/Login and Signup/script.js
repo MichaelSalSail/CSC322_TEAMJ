@@ -7,51 +7,27 @@
 5 = ADMIN */
 
 let avoidList;
+let users;
 
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-    req.onsuccess = () => console.log("Loaded database.");
-    req.onupgradeneeded = (e) => { 
-        let db = req.result;
-        let version = e.oldVersion;
-        let tx = req.transaction;
-        console.log("Old version was", version);
-
-        if (version == 0) {
-            store = db.createObjectStore(USERS_DB_NAME, {keyPath: "email"}),
-            index = store.createIndex("email", "email", {unique: true});
-
-            tx.oncomplete = () => {
-                initializeSuperusers(db);
-            };
-        }
+    req.onsuccess = (e) => {
+        console.log("Users database opened.")
+        users = e.target.result;
+        initializeSuperusers();
     }
-    req.onerror = function(e) { 
-        console.log("There was an error: " + e.target.errorCode);
-    };
+    req.onupgradeneeded = (e) => createStore(e, USERS_DB_NAME, "email");
+    req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
     req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
-    req.onsuccess = (e) => {
-        console.log("Avoid list database opened.")
-        avoidList = e.target.result;
-    }
-
-    req.onupgradeneeded = (e) => {
-        let db = e.target.result;
-        let version = e.oldVersion;
-        console.log("Old version was", version);
-        if (version == 0) {
-            store = db.createObjectStore(AVOID_DB_NAME, {keyPath: "email"}),
-            index = store.createIndex("email", "email", {unique: true});
-            console.log("Avoid list created.");
-        }
-    } 
+    req.onsuccess = (e) => avoidList = e.target.result;
+    req.onupgradeneeded = (e) => createStore(e, AVOID_DB_NAME, "email"); 
 }
 
 /* only called when the database is set up for first time
 creates an admin, a clerk, and two deliverers for use later */
-function initializeSuperusers(db) {
-    tx = db.transaction(USERS_DB_NAME, "readwrite");
+function initializeSuperusers() {
+    tx = users.transaction(USERS_DB_NAME, "readwrite");
     store = tx.objectStore(USERS_DB_NAME);
 
     for (let i = 0; i < SUPERUSERS.length; i++){
@@ -90,29 +66,23 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
-    let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-
     if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
         console.log("Correct info");
-        req.onsuccess = () => {
-            db = req.result; // setting variables to work with
-            tx = db.transaction(USERS_DB_NAME, "readwrite");
-            store = tx.objectStore(USERS_DB_NAME);
-            store.put({
-                email: email,
-                username: username,
-                password: password,
-                permission: 1, // all registered users are 'user' by default 
-                balance: 500,
-                rewards: 0,
-                warning: 0
-            });
-            
-            tx.oncomplete = () => {
-                alert("Registration complete! Please login with your information.")
-                console.log("User successfully registered.");
-                db.close();
-            };
+        tx = users.transaction(USERS_DB_NAME, "readwrite");
+        store = tx.objectStore(USERS_DB_NAME);
+        store.put({
+            email: email,
+            username: username,
+            password: password,
+            permission: 1, // all registered users are 'user' by default 
+            balance: 500,
+            rewards: 0,
+            warning: 0
+        });
+        
+        tx.oncomplete = () => {
+            alert("Registration complete! Please login with your information.")
+            console.log("User successfully registered.");
         };
     }
     else { // throw text errors
@@ -121,32 +91,24 @@ function registerUser() {
 }
 
 function checkUserCredentials(email, password) {
-    let getDB = window.indexedDB.open(USERS_DB_NAME, VERSION);
-    getDB.onsuccess = () => { // process login
-        let results = getDB.result;
-        let transaction = results.transaction(USERS_DB_NAME, "readonly");
-        let store = transaction.objectStore(USERS_DB_NAME);
-        let req = store.get(email);
-        req.onsuccess = (e) => {
-            let table = e.target.result;
-            if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
-                console.log("Successful login.");
-                console.log("Current user's permission is", table.permission);
-                window.location.href = "../Welcome/welcome.html";
-                window.localStorage.setItem("permission", (table.permission).toString());
-                window.localStorage.setItem("username", table.username);
-                window.localStorage.setItem("email", table.email);
-                window.localStorage.setItem("balance", table.balance);
-                window.location.href = '../Welcome/welcome.html';
-            }
-            else 
-                console.log("Username not found or password is incorrect");
+    let transaction = users.transaction(USERS_DB_NAME);
+    let store = transaction.objectStore(USERS_DB_NAME);
+    let req = store.get(email);
+    req.onsuccess = (e) => {
+        let table = e.target.result;
+        if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
+            console.log("Successful login.");
+            console.log("Current user's permission is", table.permission);
+            window.location.href = "../Welcome/welcome.html";
+            window.localStorage.setItem("permission", (table.permission).toString());
+            window.localStorage.setItem("username", table.username);
+            window.localStorage.setItem("email", table.email);
+            window.localStorage.setItem("balance", table.balance);
+            window.location.href = '../Welcome/welcome.html';
         }
-        req.onerror = () => console.log(req.error);
-        transaction.oncomplete = () => console.log("Transaction complete.");
-        transaction.onerror = () => console.log("Transaction failed.")
-    };
-    getDB.onerror = () => console.log("Could not open database:", getDB.error);
+        else 
+            console.log("Username not found or password is incorrect");
+    }
 }
 // query database for corresponding email + password
 function signInUser(){
@@ -154,15 +116,15 @@ function signInUser(){
     let password = document.getElementById('log-password').value;
 
     avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
-        .openCursor(email).onsuccess = (e) => {
-            let cursor = e.target.result;
-            if (cursor) { 
-                alert("You have been suspended. Check your email for details.");
-                return;
-            } else {
-                checkUserCredentials(email, password);
-            }
-        };
+    .openCursor(email).onsuccess = (e) => {
+        let cursor = e.target.result;
+        if (cursor) { 
+            alert("You have been suspended. Check your email for details.");
+            return;
+        } else {
+            checkUserCredentials(email, password);
+        }
+    };
 }
 
 function parseForm() {
