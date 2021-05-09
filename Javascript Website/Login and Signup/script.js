@@ -6,6 +6,8 @@
 4 = CLERK
 5 = ADMIN */
 
+let avoidList;
+
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = () => console.log("Loaded database.");
@@ -27,6 +29,23 @@ function start() {
     req.onerror = function(e) { 
         console.log("There was an error: " + e.target.errorCode);
     };
+
+    req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
+    req.onsuccess = (e) => {
+        console.log("Avoid list database opened.")
+        avoidList = e.target.result;
+    }
+
+    req.onupgradeneeded = (e) => {
+        let db = e.target.result;
+        let version = e.oldVersion;
+        console.log("Old version was", version);
+        if (version == 0) {
+            store = db.createObjectStore(AVOID_DB_NAME, {keyPath: "email"}),
+            index = store.createIndex("email", "email", {unique: true});
+            console.log("Avoid list created.");
+        }
+    } 
 }
 
 /* only called when the database is set up for first time
@@ -101,10 +120,34 @@ function registerUser() {
     }
 }
 
-// query database for corresponding email + password
-function signInUser(){
+
+function isOnAvoidList() {
     let email = document.getElementById('log-email').value;
-    let password = document.getElementById('log-password').value;
+    avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
+        .openCursor(email).onsuccess = (e) => {
+            let cursor = e.target.result;
+            if (cursor) { 
+                alert("You have been suspended. Check your email for details.");
+                return;
+            }
+        };
+}
+
+function foo(){ 
+    isOnAvoidList().then(()=>console.log('a')).catch(()=>console.log('b'));
+    return;
+    let isSuspended = () => {
+        isOnAvoidList().then((res) => {
+        return res;
+        }).catch(() => {
+            return false;
+        })
+    };
+
+    console.log(isSuspended);
+}
+
+function checkUserCredentials(email, password) {
     let getDB = window.indexedDB.open(USERS_DB_NAME, VERSION);
     getDB.onsuccess = () => { // process login
         let results = getDB.result;
@@ -121,18 +164,32 @@ function signInUser(){
                 window.localStorage.setItem("username", table.username);
                 window.localStorage.setItem("email", table.email);
                 window.localStorage.setItem("balance", table.balance);
+                window.location.href = '../Welcome/welcome.html';
             }
             else 
                 console.log("Username not found or password is incorrect");
         }
-
         req.onerror = () => console.log(req.error);
         transaction.oncomplete = () => console.log("Transaction complete.");
         transaction.onerror = () => console.log("Transaction failed.")
     };
     getDB.onerror = () => console.log("Could not open database:", getDB.error);
+}
+// query database for corresponding email + password
+function signInUser(){
+    let email = document.getElementById('log-email').value;
+    let password = document.getElementById('log-password').value;
 
-    window.location.href = '/Welcome/welcome.html';
+    avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
+        .openCursor(email).onsuccess = (e) => {
+            let cursor = e.target.result;
+            if (cursor) { 
+                alert("You have been suspended. Check your email for details.");
+                return;
+            } else {
+                checkUserCredentials(email, password);
+            }
+        };
 }
 
 function parseForm() {

@@ -5,6 +5,7 @@ const USERS_DB_NAME = "UserAccounts";
 const SYSTEMS_DB_NAME = "Systems";
 const COMPONENTS_DB_NAME = "Components";
 const CART_DB_NAME = "ShoppingCart";
+const AVOID_DB_NAME = "AvoidList";
 const VERSION = 1;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //DESCRIPTION FOR SYSTEMS
