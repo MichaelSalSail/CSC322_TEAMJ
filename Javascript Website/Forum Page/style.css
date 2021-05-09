@@ -10,9 +10,9 @@ body {
 }
 
 .hg-header {
-	background-image: url('../Logo_Variants/Logo_Main.png');
+	background-image: url('../Logo_Variants/Logo_Forum.png');
 	background-repeat: no-repeat;
-	background-size: 40% 100%;
+	background-size: 50% 100%;
 }
 
 .hg-footer {
