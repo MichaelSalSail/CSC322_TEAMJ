@@ -1,4 +1,5 @@
-let shoppingCart;
+let shoppingCart_db;
+let systems_db;
 
 // attr: "name", "description", "price", "manufacturer", "type"
 // traverses 3D array to add component attributes to database
@@ -23,27 +24,7 @@ function initializeComponents(db) {
     };
 }
 
-/* Each system has the following attributes:
-name, price, description, type (gaming, business, computing), operating system, sales */
-function initializeSystems(database) {
-    tx = database.transaction(SYSTEMS_DB_NAME, "readwrite");
-    store = tx.objectStore(SYSTEMS_DB_NAME);
-    for (let outer = 0; outer < SYSTEMS.length; outer++) {
-        for (let i = 0; i < SYSTEMS[0].length; i++) {
-            store.put({
-                name: SYSTEMS[outer][i][0],
-                price: SYSTEMS[outer][i][2],
-                description: SYSTEMS[outer][i][1],
-                type: SYSTEMS[outer][i][3],
-                os: SYSTEMS[outer][i][4]
-            });
-        }
-    }
-    
-    tx.oncomplete = () => {
-        console.log("Systems loaded");
-    };
-}
+
 
 function createImage(cursorValue) {
     let filePath = "../Images/" + cursorValue.type + "/" + cursorValue.name + ".jpg";
@@ -248,12 +229,11 @@ function start() {
 
     // initialize computers database
     let systems = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
-    systems.onsuccess = (e) => initializeSystems(e.target.result);
-    systems.onupgradeneeded = (e) => createStore(e, SYSTEMS_DB_NAME, "name");
+    systems.onsuccess = (e) => systems_db = e.target.result;
     
     // initialize shopping cart database
     let cart = window.indexedDB.open(CART_DB_NAME, VERSION);
-    cart.onsuccess = (e) => shoppingCart = e.target.result;
+    cart.onsuccess = (e) => shoppingCart_db = e.target.result;
     cart.onupgradeneeded = (e) => createStore(e, CART_DB_NAME, "name");
     
     createTables(TABLE_COMPONENT_IDs);
