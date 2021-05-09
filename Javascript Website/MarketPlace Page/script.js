@@ -182,7 +182,7 @@ function start() {
         console.log("There was an error: " + e.target.errorCode);
     };
 
-    let req_sc = window.indexedDB.open(CART_DB_NAME, 1);
+    let req_sc = window.indexedDB.open(CART_DB_NAME, VERSION);
 
     req_sc.onsuccess = () => {
         shoppingCart = req_sc.result;
