@@ -92,3 +92,11 @@ body {
 							30px;
 	}
 }
+
+#most-sold-pcs {
+	position: relative;
+}
+
+#suggested-pcs {
+	width: auto;
+}

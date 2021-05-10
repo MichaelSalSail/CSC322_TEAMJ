@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>registered customer</title>
+	<title>Community Guidelines</title>
+  <script src = '../constants.js'></script>
+  <script src = '../utility.js'></script>
 	<link href="communityguidelines.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -15,26 +17,28 @@
   <header class="hg-header"></header>
 
   <main class="hg-main">
-    <h2>Community Guidelines</h2>
+    <h1 style="text-align: center">Community Guidelines</h1>
     <h3>In order to interact in the forum, you must adhere to the following guidelines:</h3>
-    <h3>1. No irrelevant discussion. The topic is around technology, marketplace products, and PC Emporium services. Any post or comment that is not English is considered incoherent to our community and, therefore, irrelevant.</h3>
-    <h3>2. No excessive swearing.</h3>
-    <h3>3. No discrimination against sex, race, or religion.</h3>
-    <h3>4. Don't threaten or intimidate other users.</h3>
+    <p>1. No irrelevant discussion. The topic is around technology, marketplace products, and PC Emporium 
+          services. Any post or comment that is not English is considered incoherent to our community and, 
+          therefore, irrelevant.</p>
+    <p>2. No excessive swearing.</p>
+    <p>3. No discrimination against sex, race, or religion.</p>
+    <p>4. Don't threaten or intimidate other users.</p>
   </main>
-  <aside class="hg-left">
-    <button> Home Page </button>
-    <button> Marketplace </button>
-    <button> Forum </button>
-  </aside>
+  <aside id = 'links' class="hg-left"></aside>
   <aside class="hg-right">
-    <h3> ... </h3>
+    <h3 id = 'welcome'> Welcome, </h3>
+    <form action="../Login and Signup/index.html" id="user_option_1">
+        <button id="status_1">Signup/Login</button>
+    </form>
   </aside>
   
   <footer class="hg-footer"></footer>
 
-	<script src="script.js">
-
+	<script>
+    setupLoginButton();
+    initializeNavigation();
 	</script>
 </body>
 

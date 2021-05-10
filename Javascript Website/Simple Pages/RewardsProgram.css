@@ -10,7 +10,7 @@ body {
 }
 
 .hg-header {
-	background-image: url('../Logo_Variants/Logo_Rewards.png');
+  background-image: url('../Logo_Variants/Logo_Rewards.png');
   background-repeat: no-repeat;
   background-size: 50% 100%;
 }

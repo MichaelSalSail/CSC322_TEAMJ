@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>registered customer</title>
+	<title>Rewards Program</title>
+      <script src = '../constants.js'></script>
+      <script src = '../utility.js'></script>
 	<link href="RewardsProgram.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -15,33 +17,48 @@
   <header class="hg-header"></header>
 
   <main class="hg-main">
-    <h2>Rewards Program</h2>
-    <h3>Valued customers will be given greater privileges toward the marketplace/checkout sections of PC Emporium.</h3>
+    <h1 style="text-align: center">Rewards Program</h1>
+    <h3>Valued customers will be given greater privileges toward the marketplace/checkout sections of 
+        PC Emporium.</h3>
     <h3>Ways a customer can gain access to the Rewards Program:</h3>
-    <h3>1. Spending $2000 on marketplace items.</h3>
-    <h3>2. Spending $1500 on marketplace items. Leaving a thorough review of each purchased item in the community forum. A thorough review is a review of a verified purchase from the customer and a post length of 2000+ characters.</h3>
-    <h3>3. Spending $1000 on marketplace items. Leaving a thorough review of each purchased item in the community forum. Sending a formal complaint that was successfully confirmed by the store manager.</h3>
-    <h3>4. Paying a one-time fee of $250.</h3>
+    <p>1. Spending <strong>$2000</strong> on marketplace items.</p>
+    <p>2. Spending <strong>$1500</strong> on marketplace items. Leaving a <strong>thorough review</strong> 
+          of each verified purchase in the Forum. A thorough review has a post length of 2000+ characters.</p>
+    <p>3. Spending <strong>$1000</strong> on marketplace items. Leaving a <strong>thorough review</strong> 
+          of each verified purchase in the Forum. Sending a <strong>formal complaint</strong> that was 
+          successfully confirmed by the Store Manager.</h3>
+    <p>4. Paying a <strong>one-time fee of $250</strong>.</p>
     <h3>Actual details of the Rewards Program:</h3>
-    <h3>1. One time only, the customer can submit a price match for a specific item. This submission would just be 2 text boxes for the item ID and a link to an alternate seller. If the store clerk can confirm that the link shows a different website selling the same item but at a lower price, the price of the item in the marketplace will be updated to match that website. Otherwise, the price match will be denied and the store clerk can send one of two messages back to the customer: ‘Invalid Website’ or ‘The item from the alternate seller is not the same as the specified marketplace item’. Even if denied, the one-time price match privilege is used up.</h3>
-    <h3>2. Get 10% off 5 items each month on checkout.</h3>
-    <h3>3. Refund privileges. If the customer is not satisfied with a purchase, send the item back to the marketplace. Once received, the customer would see a balance increase by the price of that item. Proof of this refund would be through a receipt to the customer.</h3>
-    <h3>4. At spontaneous times, the customer will receive a multiple choice question about future items the website should add to the marketplace. The customer can show preference toward specific items or manufacturers. The store manager/clerk would take this input into account for future decisions.</h3>
-    <h3>5. Access to customer service.</h3>
+    <p>1. One time only, the user can submit a <strong>price match</strong> for a specific product. 
+          This form would just 2 text boxes, one for productID and one for a link to an alternate seller. 
+          If the Store Clerk can confirm that the link shows a different website selling the same item 
+          but at a lower price, the price of the item in the Marketplace will be updated to match that 
+          website. Otherwise, the price match will be denied and the Store Clerk can send one of two 
+          messages back to the user: <i>‘Invalid Website’</i> or <i>‘The item from the alternate seller is 
+          not the same as the specified Marketplace item’</i>. Even if denied, the one-time price match 
+          privilege is used up.</p>
+    <p>2. Get 10% off 5 products each month on checkout.</p>
+    <p>3. <strong>Refund privileges</strong>. If the user is not satisfied with a purchase, send the item back to the 
+          Marketplace. Once received, the user would see a balance increase by the price of that item. 
+          Proof of this refund would be through a receipt to the user.</p>
+    <p>4. At spontaneous times, the user will receive a <strong>multiple choice question</strong> about 
+          future items the website should add to the Marketplace. The user can show preference toward specific 
+          items or manufacturers. The Store Clerk/Manager would take this input into account for future decisions.</p>
+    <p>5. Access to <strong>customer service</strong>.</h3>
   </main>
-  <aside class="hg-left">
-    <button> Home Page </button>
-    <button> Marketplace </button>
-    <button> Forum </button>
-  </aside>
+  <aside id = 'links' class="hg-left"></aside>
   <aside class="hg-right">
-    <h3> ... </h3>
+    <h3 id = 'welcome'> Welcome, </h3>
+    <form action="../Login and Signup/index.html" id="user_option_1">
+        <button id="status_1">Signup/Login</button>
+    </form>
   </aside>
   
   <footer class="hg-footer"></footer>
 
-	<script src="script.js">
-
+	<script>
+      setupLoginButton();
+      initializeNavigation();
 	</script>
 </body>
 

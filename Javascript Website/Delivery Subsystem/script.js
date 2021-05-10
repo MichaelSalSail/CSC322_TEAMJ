@@ -110,10 +110,8 @@ function start() {
         }
     }
 
-    setupLoginButton()
-    initializeWelcomeMessages();
+    setupLoginButton();
     initializeNavigation();
-    displayStaffSystems()
 }
 
 function test(){
@@ -152,36 +150,5 @@ function test(){
             store = e.target.result.createObjectStore("test", {keyPath: "name"}),
             store.createIndex("name", "name", {unique: true});
         }
-    }
-}
-
-function initializeWelcomeMessages() {
-    // Visitor
-    if(window.localStorage.getItem("permission")==0)
-    {
-        document.getElementById("line_1").innerHTML = line_1_a;
-        document.getElementById("line_2").innerHTML = line_2_a;
-        document.getElementById("line_3").innerHTML = line_3_a;
-    }
-    // Everyone else
-    else
-    {
-        document.getElementById("line_1").innerHTML = line_1_b;
-        document.getElementById("line_2").innerHTML = line_2_b;
-        // Registered Customer
-        if(window.localStorage.getItem("permission")==1)
-            document.getElementById("line_3").innerHTML = line_3_b;
-        // Deliverer
-        else if(window.localStorage.getItem("permission")==2)
-            document.getElementById("line_3").innerHTML = line_3_c;
-        // Manufacturer
-        else if(window.localStorage.getItem("permission")==3)
-            document.getElementById("line_3").innerHTML = line_3_d;
-        // Store Clerk
-        else if(window.localStorage.getItem("permission")==4)
-            document.getElementById("line_3").innerHTML = line_3_e;
-        // Store Manager
-        else if(window.localStorage.getItem("permission")==5)
-            document.getElementById("line_3").innerHTML = line_3_f;  
     }
 }

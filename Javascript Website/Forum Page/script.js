@@ -92,8 +92,8 @@ function createThread() {
 
 // each table is populated with rows from database
 function populateTables(db) {
-    let transaction = db.transaction(DATABASE_NAME);
-    let tables = transaction.objectStore(DATABASE_NAME);
+    let transaction = db.transaction(COMPONENTS_DB_NAME);
+    let tables = transaction.objectStore(COMPONENTS_DB_NAME);
     let list = tables.openCursor();
     list.onsuccess = (event) => { 
         let cursor = event.target.result;
@@ -118,7 +118,10 @@ function showTables(id) {
 
 // onload in body
 function start() {
-    let req = window.indexedDB.open(DATABASE_NAME, VERSION);
+    initializeNavigation();
+    setupLoginButton();
+
+    let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
     req.onsuccess = () => {
         console.log("Database opened successfully.");
         let db = req.result;
@@ -141,4 +144,26 @@ function start() {
             };
         }
     }
+    req.onerror = function(e) { 
+        console.log("There was an error: " + e.target.errorCode);
+    };
+
+    let req_sc = window.indexedDB.open(CART_DB_NAME, VERSION);
+
+    req_sc.onsuccess = () => {
+        shoppingCart = req_sc.result;
+        console.log("Cart database loaded.");
+    }
+    req_sc.onupgradeneeded = (e) => {
+        let db_sc = req_sc.result;
+        let version_sc = e.oldVersion;
+        console.log("Old version was", version_sc);
+
+        if (version_sc === 0) {
+            store_sc = db_sc.createObjectStore(CART_DB_NAME, {keyPath: 'name'}),
+            index_sc = store_sc.createIndex("name", "name", {unique: true});
+            console.log("Shopping Cart created.");
+        }
+    }
+    hideTables();
 }

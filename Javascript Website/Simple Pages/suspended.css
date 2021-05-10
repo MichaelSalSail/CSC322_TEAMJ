@@ -6,29 +6,20 @@ body {
 	font-size: 1.5rem;
 	line-height: 1.6;
 	font-family: 'Open Sans';
+	background: gray;
 }
 
 .hg-header {
 	background-image: url('../Logo_Variants/Logo_Error.png');
-  background-repeat: no-repeat;
-  background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
 }
 
 .hg-footer {
+	background-color: gray;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-
-.hg-left{
-	display: inline-block;
-	column-count: 1;
-	column-gap: 200px;
-	background-color: white;
-	text-align: center;
-  border: 1px solid black;
-  margin-top: 10px;
-  margin-bottom: 300%;
 }
 
 .hg-right{

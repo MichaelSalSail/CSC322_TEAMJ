@@ -64,6 +64,15 @@ function createStore(event, name, index) {
         }
 }
 
+function createImage(cursorValue, fileExtension) {
+    let filePath = "../Images/" + cursorValue.type.toUpperCase() + "/" + cursorValue.name + fileExtension;
+    let img = document.createElement('img');
+    img.setAttribute("style","width:200px");
+    img.setAttribute("style","height:200px");
+    img.src = filePath;
+    return img;
+}
+
 function updateCurrentUserBalance(db, balance, email) {
     let transaction = db.transaction(USERS_DB_NAME, "readwrite");
     let store = transaction.objectStore(USERS_DB_NAME);
@@ -79,4 +88,10 @@ function updateCurrentUserBalance(db, balance, email) {
     });
     console.log("Updated balance of", email)
   }
+}
+
+function setupLoginButton() {
+    document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
+    if(window.localStorage.getItem("username")!=="Guest")
+        document.getElementById("user_option_1").status_1.innerHTML = "Logout";
 }
