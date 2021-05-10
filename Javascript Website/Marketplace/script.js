@@ -34,6 +34,17 @@ function createImage(cursorValue, fileExtension) {
     return img;
 }
 
+// creates a button with an onclick function. args is an array to be used as a parameter
+// for the clickFunction
+function createButton(text, clickFunction, args){
+    let btn = document.createElement('button');
+    btn.innerHTML = text;
+    btn.addEventListener('click', () => {
+        clickFunction.apply(this, args);
+    });
+    return btn;
+}
+
 // creates row with td, adds image, attributes, add to cart btn
 function populatePartsRow(table, cursorValue) {
     const NUMBER_OF_CELLS = COMPONENT_HEADER_NAMES.length + 1; // one more cell for button
@@ -51,23 +62,31 @@ function populatePartsRow(table, cursorValue) {
 
     for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
 
-    let btn = document.createElement('button');
-    btn.innerHTML = "Add to Cart";
-    btn.addEventListener('click', () => {
-        addItemToCart(cursorValue);
-    });
-
     cells[0].appendChild(createImage(cursorValue, ".jpg"));
-    cells[5].appendChild(btn); // add to cart
+    cells[5].appendChild(createButton("Add to Cart", addItemToCart, cursorValue)); // add to cart
+}
+
+function toggleModal() {
+    let modal = document.querySelector(".modal");
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    let modal = document.querySelector(".modal");
+    if (event.target === modal) 
+        toggleModal();
 }
 
 function viewDetails(cursorValue) {
+    document.getElementById('comp-desc').innerHTML = cursorValue.description;
+    toggleModal();
     console.log("Go to details page.")
-    localStorage.setItem("currentComputer", cursorValue.name);
+    //document.getElementById('comp-desc').innerHTML = cursorValue.description;
+    //localStorage.setItem("currentComputer", cursorValue.name);    
 }
 
 function populateComputerRow(table, cursorValue) {
-    const NUMBER_OF_CELLS = TABLE_COMPUTER_IDs.length + 1; // one more cell for button
+    const NUMBER_OF_CELLS = TABLE_COMPUTER_IDs.length + 2; // + view details, add to cart
     let cells = [];
     let row = document.createElement('tr');
     table.appendChild(row);
@@ -83,14 +102,9 @@ function populateComputerRow(table, cursorValue) {
 
     for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
 
-    let btn = document.createElement('button');
-    btn.innerHTML = "View Details";
-    btn.addEventListener('click', () => {
-        viewDetails(cursorValue);
-    });
-
     cells[0].appendChild(createImage(cursorValue, '.PNG'));
-    cells[5].appendChild(btn); // view details
+    cells[5].appendChild(createButton("View Details", viewDetails, [cursorValue]));
+    cells[6].appendChild(createButton("Add to Cart", addItemToCart, [cursorValue]));
 }
 
 function addItemToCart(component) {
@@ -243,6 +257,10 @@ function showTables(id) {
 // onload in body
 function start() {
     initializeNavigation();
+    const closeButton = document.querySelector(".close-button");
+
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
 
     // Initialize components database
     let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
