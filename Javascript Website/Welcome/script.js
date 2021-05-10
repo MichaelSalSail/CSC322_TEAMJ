@@ -1,19 +1,28 @@
 let database;
 
-
 function displayStaffSystems() {
     let container = document.getElementById('suggested-pcs')
     for (let i = 0; i < 3; i++) {
+        let current = STAFF_SYSTEMS[i];
         let subContainer = document.createElement("div");
         subContainer.style.display = 'inline';
         subContainer.style.float = 'left';
         subContainer.style.padding = "5%";
         let info = document.createElement("span"); 
-        info.innerHTML = "</br>"       
-        for (let j = 0; j < STAFF_SYSTEMS[0].length; i++) {
-            info.innerHTML += STAFF_SYSTEMS[i][j] + "</br>"
-        }
-        subContainer.appendChild(createImage(currentSystem, ".PNG"));
+        info.innerHTML = "</br>" +
+        current[0] + "</br>" +
+        current[3]  + "</br>" +
+        "$"+ current[1]  + "</br>";
+
+        let img = document.createElement("img");
+        img.src = "../Images/" + current[3].toUpperCase() +
+                "/" + current[0] + ".PNG";
+        img.setAttribute("style","width:200px");
+        img.setAttribute("style","height:200px");
+
+        //console.log(STAFF_SYSTEMS[i]);       
+        
+        subContainer.appendChild(img);
         subContainer.appendChild(info);
         container.appendChild(subContainer);
     }
@@ -105,5 +114,43 @@ function start() {
     }
     displayStaffSystems()
     initializeNavigation();
-    
+}
+
+function test(){
+    class Post {
+        constructor(author, message) {
+            this.author = author;
+            this.message = message;
+        }
+    }
+
+    let db;
+    let req = window.indexedDB.open("test", VERSION);
+    req.onsuccess = (e) => {
+        db = e.target.result
+        let tx = db.transaction("test", 'readwrite');
+        let store = tx.objectStore("test");
+        let post = new Post("Bob", "test message");
+        let data = [post, new Post("ABC", "abc")];
+        
+
+        let res = e.target.result;
+        store.put({
+            name: "c",
+            messages: [new Post("1","1"), new Post("2", "2")]
+        })
+        /*
+        store.put({
+            name: "2",
+            test: 
+        });*/
+    }
+    req.onupgradeneeded = (e) => {
+        tx = req.transaction;
+        let version = e.oldVersion;
+        if (version === 0) {
+            store = e.target.result.createObjectStore("test", {keyPath: "name"}),
+            store.createIndex("name", "name", {unique: true});
+        }
+    }
 }
