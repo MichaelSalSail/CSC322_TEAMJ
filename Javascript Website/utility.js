@@ -25,15 +25,16 @@ function initializeNavigation() {
     let permission = parseInt(window.localStorage.getItem("permission"));
 
     const ACCOUNT_INFO = 1;
-    const MARKETPLACE = 2;
-    const SHOPPING_CART = 3;
-    const FORUM = 4;
-    const DELIVERY = 5;
-    const ADMINISTRATIVE = 6;
+    const BALANCE = 2;
+    const MARKETPLACE = 3;
+    const SHOPPING_CART = 4;
+    const FORUM = 5;
+    const DELIVERY = 6;
+    const ADMINISTRATIVE = 7;
 
     switch (permission) {
         case VISITOR:
-            createLinks([ACCOUNT_INFO, SHOPPING_CART, DELIVERY, ADMINISTRATIVE]);
+            createLinks([ACCOUNT_INFO, BALANCE, SHOPPING_CART, DELIVERY, ADMINISTRATIVE]);
             break;
         case USER:
             createLinks([DELIVERY, ADMINISTRATIVE]);
@@ -51,4 +52,31 @@ function initializeNavigation() {
             createLinks([]);
             break;
     }
+}
+
+// for creating a database in onupgradeneeded
+function createStore(event, name, index) {
+    let version = event.oldVersion;
+        if (version === 0) {
+            store = event.target.result.createObjectStore(name, {keyPath: index}),
+            index = store.createIndex(index, index, {unique: true});
+            console.log(name, "created.");
+        }
+}
+
+function updateCurrentUserBalance(db, balance, email) {
+    let transaction = db.transaction(USERS_DB_NAME, "readwrite");
+    let store = transaction.objectStore(USERS_DB_NAME);
+    let req = store.get(email);
+    req.onsuccess = (e) => {
+    let table = e.target.result;
+    store.put({
+      email: table.email,
+      username: table.username,
+      password: table.password,
+      permission: table.permission,
+      balance: balance
+    });
+    console.log("Updated balance of", email)
+  }
 }

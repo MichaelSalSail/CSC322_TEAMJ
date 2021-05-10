@@ -6,32 +6,37 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Forum</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
-  <script src = '../constants.js'></script>
-  <script src = '../utility.js'></script>
+  <script src="..\constants.js"></script>
+  <script src="..\utility.js"></script>
   <script src="script.js"></script>
 </head>
 
 <body onload = 'start()' class = 'hg'>
   <header class="hg-header"></header>
   <main class="hg-main">
-    <h2>Discussion Forum</h2>
-    <button > Create Thread </button>
+    <h3>Username</h3>
+    <h2>Thread Title</h2>
 
     <table id = 'gpu-table' class="hg-table" style="width:100%">
         <tr>
-            <th>Thread #</th>
             <th>Author</th>
-            <th>Title</th>
+            <th>Comment</th>
         </tr>
     </table>
   </main>
   
-  <aside id = 'links' class="hg-left"></aside>
+  <aside class="hg-left">
+    <button> Home Page </button>
+    <button> Account Info </button>
+    <button> Marketplace </button>
+    <button> Cart </button>
+    <button> Delivery Subsystem </button>
+    <button> Forum</button>
+  </aside>
+
   <aside class="hg-right">
-    <h3 id = 'welcome'> Welcome, </h3>
-    <form action="../Login and Signup/index.html" id="user_option_1">
-        <button id="status_1">Signup/Login</button>
-    </form>
+    <h3> Sign-up </h3>
+    <h3> Login </h3>
   </aside>
   <footer class="hg-footer"></footer>
 </body>

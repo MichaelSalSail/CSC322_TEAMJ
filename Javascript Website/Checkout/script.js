@@ -165,22 +165,6 @@ function start2b() {
     });
 }
 
-function updateCurrentUserInfo(db, balance) {
-    let transaction = db.transaction(USERS_DB_NAME, "readwrite");
-    let store = transaction.objectStore(USERS_DB_NAME);
-    let req = store.get(window.localStorage.getItem("email"));
-    req.onsuccess = (e) => {
-    let table = e.target.result;
-    store.put({
-      email: table.email,
-      username: table.username,
-      password: table.password,
-      permission: table.permission,
-      balance: balance
-    });
-  }
-}
-
 function start3() {
     let remainingBalance = 
     (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
@@ -195,7 +179,7 @@ function start3() {
 
     req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = () => {
-        updateCurrentUserInfo(req.result, remainingBalance);
+        updateCurrentUserBalance(req.result, remainingBalance);
     }
     initializeNavigation();
 }

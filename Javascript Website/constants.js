@@ -5,6 +5,7 @@ const USERS_DB_NAME = "UserAccounts";
 const SYSTEMS_DB_NAME = "Systems";
 const COMPONENTS_DB_NAME = "Components";
 const CART_DB_NAME = "ShoppingCart";
+const FORUMS_DB_NAME = "Forum";
 const AVOID_DB_NAME = "AvoidList";
 const VERSION = 1;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,24 +27,24 @@ const DELL_G5_DESC = "Dell G5 Desktop: Dominate the battlefield with this Dell G
 //// SYSTEMS
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const BUSINESS_SYSTEMS = [
-    ["HP Office Prebuilt", 570, HP_PREBUILT_DESC, "Business", "Windows"],
-    ["HP ENVY Desktop", 870, HP_ENVY_DESC, "Business", "Windows"],
-    ["Dell Inspiron 3880 Desktop", 900, DELL_INSPIRON_DESC, "Business", "Windows"],
-    ["21.5-inch iMac", 1300, iMAC_DESC, "Business", "macOS"]
+    ["HP Office Prebuilt", 570, HP_PREBUILT_DESC, "Business", "Windows", "HP"],
+    ["HP ENVY Desktop", 870, HP_ENVY_DESC, "Business", "Windows", "HP"],
+    ["Dell Inspiron 3880 Desktop", 900, DELL_INSPIRON_DESC, "Business", "Windows", "Dell"],
+    ["21.5-inch iMac", 1300, iMAC_DESC, "Business", "macOS", "Apple"]
 ];
 
 const GAMING_SYSTEMS = [
-    ["SkyTech Archangel", 1250, SKYTECH_DESC, "Gaming", "Windows"],
-    ["ASUS ROG Gaming Desktop", 1550, ASUS_ROG_DESC, "Gaming", "Windows"],
-    ["Lenovo Legion Tower 5", 1050, LENOVO_DESC, "Gaming", "Windows"],
-    ["iBUYPOWER ARC", 600, ARC_DESC, "Gaming", "Windows"]
+    ["SkyTech Archangel", 1250, SKYTECH_DESC, "Gaming", "Windows", "Skytech"],
+    ["ASUS ROG Gaming Desktop", 1550, ASUS_ROG_DESC, "Gaming", "Windows", "ASUS"],
+    ["Lenovo Legion Tower 5", 1050, LENOVO_DESC, "Gaming", "Windows", "Lenovo"],
+    ["iBUYPOWER ARC", 600, ARC_DESC, "Gaming", "Windows", "iBUYPOWER"]
 ];
 
 const STREAMING_SYSTEMS = [
-    ["27-inch iMac Pro", 5000, iMAC_PRO_DESC, "Streaming", "macOS"],
-    ["HP Pavilion", 1488, HP_PAVILION_DESC, "Streaming", "Windows"],
-    ["HP OMEN", 1300, HP_OMEN_DESC, "Streaming", "Windows"],
-    ["Dell G5", 1350, DELL_G5_DESC, "Streaming", "Windows"]
+    ["27-inch iMac Pro", 5000, iMAC_PRO_DESC, "Streaming", "macOS", "Apple"],
+    ["HP Pavilion", 1488, HP_PAVILION_DESC, "Streaming", "Windows", "HP"],
+    ["HP OMEN", 1300, HP_OMEN_DESC, "Streaming", "Windows", "HP"],
+    ["Dell G5", 1350, DELL_G5_DESC, "Streaming", "Windows", "Dell"]
 ];
 
 const SYSTEMS = [BUSINESS_SYSTEMS, GAMING_SYSTEMS, STREAMING_SYSTEMS];
@@ -107,7 +108,8 @@ const ADMIN = 5;
 const HREFS = [
     "../Welcome/welcome.html",
     "", // account info
-    "../MarketPlace Page/index.html",
+    "../Balance/index.html",
+    "../MarketPlace/index.html",
     "../Cart Page/index.html",
     "", // forum
     "", // delivery
@@ -117,11 +119,22 @@ const HREFS = [
 const LINK_NAMES = [
     "Home Page",
     "Account Info",
+    "Balance",
     "Marketplace",
     "Shopping Cart",
     "Forum",
     "Delivery System",
     "Administrative"
+];
+
+const USER1 = [
+    "user@pc.com",
+    "user123",
+    "user123",
+    1,
+    500,
+    0,
+    0
 ];
 
 // SUPERUSERS
@@ -205,13 +218,28 @@ const ADMIN1 = [
     0
 ];
 
+// database will always contain these users
 const SUPERUSERS = [
     DELIVERER1, DELIVERER2, CLERK1, ADMIN1,
-    MANU1, MANU2, MANU3, MANU4
+    MANU1, MANU2, MANU3, MANU4, USER1
 ];
+
 
 // IDs for the component/system tables
 const TABLE_COMPONENT_IDs = [
     "gpu-table", "cpu-table", "mobo-table", "ram-table", "storage-table",
     "psu-table", "case-table"
+];
+
+const TABLE_COMPUTER_IDs = [
+    "windows-table", "mac-table", "business-table", "gaming-table", "streaming-table"
+]
+
+// Table Header names
+const COMPONENT_HEADER_NAMES = [
+    "Image", "Name", "Description", "Price ($)", "Manufacturer"
+];
+
+const COMPUTER_HEADER_NAMES = [
+    "Image", "Name", "Operating System", "Price ($)", "Manufacturer"
 ];

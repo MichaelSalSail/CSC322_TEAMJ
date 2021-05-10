@@ -10,7 +10,7 @@ body {
 }
 
 .hg-header {
-	background-image: url('../Logo_Variants/Logo_Forum.png');
+	background-image: url('../Logo_Variants/Logo_Main.png');
 	background-repeat: no-repeat;
 	background-size: 50% 100%;
 }
@@ -21,6 +21,7 @@ body {
 	justify-content: center;
 	align-items: center;
 }
+
 
 .hg-left{
 	display: inline-block;
@@ -34,20 +35,20 @@ body {
 }
 
 .hg-right{
-  background-color: green;
-  color: white;
-  margin-right: 8%;
-  text-align: right;
+	background-color: green;
+	color: white;
+	margin-right: 8%;
+	text-align: right;
 }
 
 .hg-main{
-  background-color: white;
-  border: 1px solid black;
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-top: 1%;
-  margin-bottom: 2%;
-  padding: 10px;
+	background-color: white;
+	border: 1px solid black;
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-top: 1%;
+	margin-bottom: 2%;
+	padding: 10px;
 }
 
 /* Define grid areas */
@@ -73,8 +74,6 @@ body {
 	min-height: 100vh;
 }
 
-
-
 @media screen and (max-width: 600px) {
 	.hg {
 		grid-template-areas: "header"
@@ -91,16 +90,3 @@ body {
 							30px;
 	}
 }
-
-table {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-  }
-  
-td, th {
-	border: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
-}
-

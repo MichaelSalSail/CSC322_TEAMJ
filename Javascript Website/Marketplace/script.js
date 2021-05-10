@@ -1,9 +1,11 @@
-let shoppingCart;
+let shoppingCart_db;
+let systems_db;
+let components_db;
 
 // attr: "name", "description", "price", "manufacturer", "type"
 // traverses 3D array to add component attributes to database
 function initializeComponents(db) {
-    tx = db.transaction(COMPONENTS_DB_NAME, "readwrite");
+    tx = components_db.transaction(COMPONENTS_DB_NAME, "readwrite");
     store = tx.objectStore(COMPONENTS_DB_NAME);
     for (let outer = 0; outer < COMPONENTS.length; outer++) {
         for (let i = 0; i < COMPONENTS[0].length; i++) {
@@ -23,10 +25,65 @@ function initializeComponents(db) {
     };
 }
 
+function createImage(cursorValue, fileExtension) {
+    let filePath = "../Images/" + cursorValue.type.toUpperCase() + "/" + cursorValue.name + fileExtension;
+    let img = document.createElement('img');
+    img.setAttribute("style","width:200px");
+    img.setAttribute("style","height:200px");
+    img.src = filePath;
+    return img;
+}
+
+// creates a button with an onclick function. args is an array to be used as a parameter
+// for the clickFunction
+function createButton(text, clickFunction, args){
+    let btn = document.createElement('button');
+    btn.innerHTML = text;
+    btn.addEventListener('click', () => {
+        clickFunction.apply(this, args);
+    });
+    return btn;
+}
+
 // creates row with td, adds image, attributes, add to cart btn
-function populateRow(table, cursorValue) {
-    const NUMBER_OF_CELLS = 6;
-    let filePath = "../Images/" + cursorValue.type + "/" + cursorValue.name + ".jpg";
+function populatePartsRow(table, cursorValue) {
+    const NUMBER_OF_CELLS = COMPONENT_HEADER_NAMES.length + 1; // one more cell for button
+    let cells = [];
+    let row = document.createElement('tr');
+    table.appendChild(row);
+    for (let i = 0; i < NUMBER_OF_CELLS; i++){
+        let cell = document.createElement('td');
+        cells.push(cell);
+    }
+    cells[1].innerHTML = cursorValue.name;
+    cells[2].innerHTML = cursorValue.description;
+    cells[3].innerHTML = cursorValue.price;
+    cells[4].innerHTML = cursorValue.manufacturer;
+
+    for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
+
+    cells[0].appendChild(createImage(cursorValue, ".jpg"));
+    cells[5].appendChild(createButton("Add to Cart", addItemToCart, cursorValue)); // add to cart
+}
+
+function toggleModal() {
+    let modal = document.querySelector(".modal");
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    let modal = document.querySelector(".modal");
+    if (event.target === modal) 
+        toggleModal();
+}
+
+function viewDetails(cursorValue) {
+    document.getElementById('comp-desc').innerHTML = cursorValue.description;
+    toggleModal();
+}
+
+function populateComputerRow(table, cursorValue) {
+    const NUMBER_OF_CELLS = TABLE_COMPUTER_IDs.length + 2; // + view details, add to cart
     let cells = [];
     let row = document.createElement('tr');
     table.appendChild(row);
@@ -35,26 +92,16 @@ function populateRow(table, cursorValue) {
         cells.push(cell);
     }
 
-    let img = document.createElement('img');
-    img.setAttribute("style","width:200px");
-    img.setAttribute("style","height:200px");
-    img.src = filePath;
-
     cells[1].innerHTML = cursorValue.name;
-    cells[2].innerHTML = cursorValue.description;
+    cells[2].innerHTML = cursorValue.os;
     cells[3].innerHTML = cursorValue.price;
     cells[4].innerHTML = cursorValue.manufacturer;
 
     for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
 
-    let btn = document.createElement('button');
-    btn.innerHTML = "Add to Cart";
-    btn.addEventListener('click', () => {
-        addItemToCart(cursorValue);
-    });
-
-    cells[0].appendChild(img);
-    cells[5].appendChild(btn); // add to cart
+    cells[0].appendChild(createImage(cursorValue, '.PNG'));
+    cells[5].appendChild(createButton("View Details", viewDetails, [cursorValue]));
+    cells[6].appendChild(createButton("Add to Cart", addItemToCart, [cursorValue]));
 }
 
 function addItemToCart(component) {
@@ -63,7 +110,7 @@ function addItemToCart(component) {
         return;
     }
 
-    let tx = shoppingCart.transaction(CART_DB_NAME, "readwrite");
+    let tx = shoppingCart_db.transaction(CART_DB_NAME, "readwrite");
     let store = tx.objectStore(CART_DB_NAME);
     let req = store.get(component.name);
     req.onsuccess = () => {
@@ -87,11 +134,9 @@ function addItemToCart(component) {
     alert("Added to cart.")
 }
 
-
-// each table is populated with rows from database
-function populateTables(db) {
-    let transaction = db.transaction(COMPONENTS_DB_NAME);
-    let tables = transaction.objectStore(COMPONENTS_DB_NAME);
+function populateComputerTables() {
+    let transaction = systems_db.transaction(SYSTEMS_DB_NAME);
+    let tables = transaction.objectStore(SYSTEMS_DB_NAME);
     let list = tables.openCursor();
     list.onsuccess = (event) => { 
         let cursor = event.target.result;
@@ -99,26 +144,25 @@ function populateTables(db) {
         let cursorValue = cursor.value;
 
         switch(cursorValue.type) {
-            case 'GPU':
-                populateRow(document.getElementById('gpu-table'), cursorValue);
+            case 'Business':
+                populateComputerRow(document.getElementById('business-table'), cursorValue);
                 break;
-            case 'CPU':
-                populateRow(document.getElementById('cpu-table'), cursorValue);
+            case 'Gaming':
+                populateComputerRow(document.getElementById('gaming-table'), cursorValue);
                 break;
-            case 'MOBO':
-                populateRow(document.getElementById('mobo-table'), cursorValue);
+            case 'Streaming':
+                populateComputerRow(document.getElementById('streaming-table'), cursorValue);
                 break;
-            case 'RAM':
-                populateRow(document.getElementById('ram-table'), cursorValue);
+            default:
                 break;
-            case 'STORAGE':
-                populateRow(document.getElementById('storage-table'), cursorValue);
+        }
+
+        switch(cursorValue.os) {
+            case 'Windows':
+                populateComputerRow(document.getElementById('windows-table'), cursorValue);
                 break;
-            case 'PSU':
-                populateRow(document.getElementById('psu-table'), cursorValue);
-                break;
-            case 'CASE':
-                populateRow(document.getElementById('case-table'), cursorValue);
+            case 'macOS':
+                populateComputerRow(document.getElementById('mac-table'), cursorValue);
                 break;
             default:
                 break;
@@ -131,20 +175,75 @@ function populateTables(db) {
     }
 }
 
-function createTables() {
+// each table is populated with rows from database
+function populatePartsTables() {
+    let transaction = components_db.transaction(COMPONENTS_DB_NAME);
+    let tables = transaction.objectStore(COMPONENTS_DB_NAME);
+    let list = tables.openCursor();
+    list.onsuccess = (event) => { 
+        let cursor = event.target.result;
+        if (!cursor) return; 
+        let cursorValue = cursor.value;
+        //console.log(cursorValue);
+
+        switch(cursorValue.type) {
+            case 'GPU':
+                populatePartsRow(document.getElementById('gpu-table'), cursorValue);
+                break;
+            case 'CPU':
+                populatePartsRow(document.getElementById('cpu-table'), cursorValue);
+                break;
+            case 'MOBO':
+                populatePartsRow(document.getElementById('mobo-table'), cursorValue);
+                break;
+            case 'RAM':
+                populatePartsRow(document.getElementById('ram-table'), cursorValue);
+                break;
+            case 'STORAGE':
+                populatePartsRow(document.getElementById('storage-table'), cursorValue);
+                break;
+            case 'PSU':
+                populatePartsRow(document.getElementById('psu-table'), cursorValue);
+                break;
+            case 'CASE':
+                populatePartsRow(document.getElementById('case-table'), cursorValue);
+                break;
+            default:
+                break;
+        }
+        cursor.continue(); 
+    }
+
+    list.onerror = () => {
+        console.log("Could not load items.")
+    }
+}
+
+function createTables(ids, headerNames) {
     let container = document.getElementById('component-tables');
-    for (let i = 0; i < TABLE_COMPONENT_IDs.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
         let table = document.createElement('table');
-        table.id = TABLE_COMPONENT_IDs[i];
+        let row = document.createElement('tr');
+        table.id = ids[i];
+
+        for (let j = 0; j < headerNames.length; j++) {
+            let header = document.createElement('th')
+            header.innerHTML = headerNames[j];
+            row.appendChild(header);
+        }
+
+        table.appendChild(row);
         container.appendChild(table);
     }
 }
 
 function hideTables() {
     for (let i = 0; i < TABLE_COMPONENT_IDs.length; i++)
-        document.getElementById(TABLE_COMPONENT_IDs[i]).style.display = 'none';   
+        document.getElementById(TABLE_COMPONENT_IDs[i]).style.display = 'none';  
+    
+    for (let i = 0; i < TABLE_COMPUTER_IDs.length; i++)
+        document.getElementById(TABLE_COMPUTER_IDs[i]).style.display = 'none'; 
 }
-
 
 function showTables(id) {
     let table = document.getElementById(id);
@@ -161,50 +260,33 @@ function start() {
         document.getElementById("user_option_1").status_1.innerHTML = "Logout";
     }
 
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+
+    // Initialize components database
     let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
-    req.onsuccess = () => {
-        console.log("Database opened successfully.");
-        let db = req.result;
-        populateTables(db);
-        console.log("Tables populated.")
+    req.onsuccess = (e) => {
+        let res = e.target.result
+        components_db = res;
+        initializeComponents(res);
+        populatePartsTables(res);
     }
-    req.onupgradeneeded = (e) => { 
-        let db = req.result;
-        let version = e.oldVersion;
-        let tx = req.transaction;
-        console.log("Old version was", version);
+    req.onupgradeneeded = (e) => createStore(e, COMPONENTS_DB_NAME, "name");
+    req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
-        if (version === 0) {
-            store = db.createObjectStore(COMPONENTS_DB_NAME, {keyPath: 'name'}),
-            index = store.createIndex("name", "name", {unique: true});
-            
-            tx.oncomplete = () => {
-                console.log("Transcation completed.")
-                initializeComponents(db);
-            };
-        }
+    // initialize computers database
+    let systems = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
+    systems.onsuccess = (e) => {
+        systems_db = e.target.result;
+        populateComputerTables()
     }
-    req.onerror = function(e) { 
-        console.log("There was an error: " + e.target.errorCode);
-    };
-
-    let req_sc = window.indexedDB.open(CART_DB_NAME, 1);
-
-    req_sc.onsuccess = () => {
-        shoppingCart = req_sc.result;
-        console.log("Cart database loaded.");
-    }
-    req_sc.onupgradeneeded = (e) => {
-        let db_sc = req_sc.result;
-        let version_sc = e.oldVersion;
-        console.log("Old version was", version_sc);
-
-        if (version_sc === 0) {
-            store_sc = db_sc.createObjectStore(CART_DB_NAME, {keyPath: 'name'}),
-            index_sc = store_sc.createIndex("name", "name", {unique: true});
-            console.log("Shopping Cart created.");
-        }
-    }
-    createTables();
+    
+    // initialize shopping cart database
+    let cart = window.indexedDB.open(CART_DB_NAME, VERSION);
+    cart.onsuccess = (e) => shoppingCart_db = e.target.result;
+    cart.onupgradeneeded = (e) => createStore(e, CART_DB_NAME, "name");
+    
+    createTables(TABLE_COMPONENT_IDs, COMPONENT_HEADER_NAMES);
+    createTables(TABLE_COMPUTER_IDs, COMPUTER_HEADER_NAMES);
     hideTables();
 }
