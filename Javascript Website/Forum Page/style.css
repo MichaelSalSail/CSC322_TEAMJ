@@ -10,9 +10,9 @@ body {
 }
 
 .hg-header {
-	background-image: url('../Logo_Variants/Logo_Main.png');
+	background-image: url('../Logo_Variants/Logo_Forum.png');
 	background-repeat: no-repeat;
-	background-size: 40% 100%;
+	background-size: 50% 100%;
 }
 
 .hg-footer {
@@ -28,9 +28,9 @@ body {
 	column-gap: 200px;
 	background-color: white;
 	text-align: center;
-  border: 1px solid black;
-  margin-top: 10px;
-  margin-bottom: 300%;
+	border: 1px solid black;
+	width:100%;
+	height:30%;
 }
 
 .hg-right{

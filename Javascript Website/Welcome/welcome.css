@@ -22,6 +22,7 @@ body {
 	align-items: center;
 }
 
+
 .hg-left{
 	display: inline-block;
 	column-count: 1;
@@ -29,8 +30,8 @@ body {
 	background-color: white;
 	text-align: center;
 	border: 1px solid black;
-	margin-top: 10px;
-	margin-bottom: 300%;
+	width:100%;
+	height:30%;
 }
 
 .hg-right{

@@ -30,7 +30,19 @@ function start2() {
     let zip_good=false;
     let credit_good=false;
     form1.addEventListener("input", () => {
-      if(form1.elements.State.value.length!==2)
+      let zip = form1.elements.State.value;
+      let isAlpha = /^\+?[A-Z]{2}$/.test(zip);
+      if(zip.length == 2 && isAlpha)
+      {
+        output1.textContent = "Good";
+        state_good=true;
+      }
+      else
+      {
+        output1.textContent = "A state must be 2 capital letters";
+        state_good=false;   
+      }
+      /*if(form1.elements.State.value.length!==2)
       {
         output1.textContent = "A state must be of length 2";
         state_good=false;
@@ -39,7 +51,7 @@ function start2() {
       {
         output1.textContent = "Good";
         state_good=true;
-      }
+      }*/
     });
     form2 = document.querySelector("#third");//querySelector("form")
     output2 = document.querySelector("#error_message2");
@@ -53,23 +65,35 @@ function start2() {
       }
       else
       {
-        output2.textContent = "Please enter a valid zip code";
+        output2.textContent = "A zip code must be 5 digits";
         zip_good=false;   
       }
     });
     form3 = document.querySelector("#fifth");//querySelector("form")
     output3 = document.querySelector("#error_message3");
     form3.addEventListener("input", () => {
-      if(form3.elements.Credit.value.length!==16)
+      let zip = form3.elements.Credit.value;
+      let isInteger = /^\+?(0|[1-9]\d*)$/.test(zip);
+      if(zip.length == 16 && isInteger)
       {
-        output3.textContent = "A Credit Card # must be of length 16";
+        output3.textContent = "Good";
+        credit_good=true;
+      }
+      else
+      {
+        output3.textContent = "A Credit Card # must be 16 digits";
+        credit_good=false;   
+      }
+      /*if(form3.elements.Credit.value.length!==16)
+      {
+        output3.textContent = "A Credit Card # must be 16 digits";
         credit_good=false;
       }
       else
       {
         output3.textContent = "Good";
         credit_good=true;
-      }
+      }*/
     });
     let submit_button=document.querySelector("#sixth");
     submit_button.addEventListener("submit", event => {
@@ -92,7 +116,19 @@ function start2b() {
     let state_good=false;
     let zip_good=false;
     form1.addEventListener("input", () => {
-      if(form1.elements.State.value.length!==2)
+      let zip = form1.elements.State.value;
+      let isAlpha = /^\+?[A-Z]{2}$/.test(zip);
+      if(zip.length == 2 && isAlpha)
+      {
+        output1.textContent = "Good";
+        state_good=true;
+      }
+      else
+      {
+        output1.textContent = "A state must be 2 capital letters";
+        state_good=false;   
+      }
+      /*if(form1.elements.State.value.length!==2)
       {
         output1.textContent = "A state must be of length 2";
         state_good=false;
@@ -101,7 +137,7 @@ function start2b() {
       {
         output1.textContent = "Good";
         state_good=true;
-      }
+      }*/
     });
     form2 = document.querySelector("#third");//querySelector("form")
     output2 = document.querySelector("#error_message2");
@@ -115,7 +151,7 @@ function start2b() {
       }
       else
       {
-        output2.textContent = "Please enter a valid zip code";
+        output2.textContent = "A zip code must be 5 digits";
         zip_good=false;   
       }
     });
@@ -127,22 +163,6 @@ function start2b() {
         event.preventDefault();
       }
     });
-}
-
-function updateCurrentUserInfo(db, balance) {
-    let transaction = db.transaction(USERS_DB_NAME, "readwrite");
-    let store = transaction.objectStore(USERS_DB_NAME);
-    let req = store.get(window.localStorage.getItem("email"));
-    req.onsuccess = (e) => {
-    let table = e.target.result;
-    store.put({
-      email: table.email,
-      username: table.username,
-      password: table.password,
-      permission: table.permission,
-      balance: balance
-    });
-  }
 }
 
 function start3() {
@@ -159,7 +179,7 @@ function start3() {
 
     req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = () => {
-        updateCurrentUserInfo(req.result, remainingBalance);
+        updateCurrentUserBalance(req.result, remainingBalance);
     }
     initializeNavigation();
 }

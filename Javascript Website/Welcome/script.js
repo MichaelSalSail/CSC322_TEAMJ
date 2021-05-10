@@ -1,16 +1,19 @@
+let database;
+
 /* Each system has the following attributes:
 name, price, description, type (gaming, business, computing), operating system, sales */
-function initializeSystems() {
+function initializeSystems(database) {
     tx = database.transaction(SYSTEMS_DB_NAME, "readwrite");
     store = tx.objectStore(SYSTEMS_DB_NAME);
     for (let outer = 0; outer < SYSTEMS.length; outer++) {
         for (let i = 0; i < SYSTEMS[0].length; i++) {
             store.put({
                 name: SYSTEMS[outer][i][0],
-                price: SYSTEMS[outer][i][2],
-                description: SYSTEMS[outer][i][1],
+                price: SYSTEMS[outer][i][1],
+                description: SYSTEMS[outer][i][2],
                 type: SYSTEMS[outer][i][3],
-                os: SYSTEMS[outer][i][4]
+                os: SYSTEMS[outer][i][4],
+                manufacturer: SYSTEMS[outer][i][5]
             });
         }
     }
@@ -22,23 +25,16 @@ function initializeSystems() {
 
 function start() {
     let req = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
-    req.onsuccess = () => {
-        database = req.result;
+    req.onsuccess = (e) => {
+        console.log("Systems database loaded.");
+        database = e.target.result;
     }
-
     req.onupgradeneeded = (e) => {
-        database = req.result;
-        let version = e.oldVersion;
-        let tx = req.transaction;
-        console.log("Old version was", version);
-
-        if (version === 0) {
-            store = database.createObjectStore(SYSTEMS_DB_NAME, {keyPath: 'name'}),
-            index = store.createIndex("name", "name", {unique: true});
-            tx.oncomplete = () => {
-                console.log("Transcation completed.")
-                initializeSystems(database);
-            };
+        tx = req.transaction;
+        createStore(e, SYSTEMS_DB_NAME, "name");
+        tx.oncomplete = () => {
+            initializeSystems(e.target.result);
+            console.log("Loaded systems in database.")
         }
     }
     initializeNavigation();

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>marketplace</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="../constants.js"></script>
+	<script src="../utility.js"></script>
+    <script src="script.js"></script>
+</head>
+
+<body onload = 'start()' class = 'hg'>
+    <header class="hg-header"></header>
+    <main class="hg-main">
+    <!--Navigation bar -->
+    <div class="navbar">
+        <!--Parts -->
+        <div class="parts">
+            <button class="partsbtn">Parts 
+            <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="parts-content">
+                <a onclick = "showTables('gpu-table')"> GPU</a>
+                <a onclick = "showTables('cpu-table')"> CPU</a>
+                <a onclick = "showTables('mobo-table')"> Motherboard </a>
+                <a onclick = "showTables('ram-table')"> RAM</a>
+                <a onclick = "showTables('storage-table')"> Storage</a>
+                <a onclick = "showTables('psu-table')"> Power Supply</a>
+                <a onclick = "showTables('case-table')"> Case </a>
+            </div>
+        </div> 
+
+        <!--Computers -->
+        <div class="dropdown">
+            <button class="dropbtn">Computers 
+            <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+            <a onclick = "showTables('windows-table')">Windows</a>
+            <a onclick = "showTables('mac-table')">Mac</a>
+            <a onclick = "showTables('business-table')">Business</a>
+            <a onclick = "showTables('gaming-table')">Gaming</a>
+            <a onclick = "showTables('streaming-table')">Streaming</a>
+            </div>
+        </div> 
+    </div>
+
+    <!--Table -->
+    <div id = 'component-tables'></div>
+    <div id = 'computer-tables'></div>
+    
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <span id = 'comp-desc'></span>
+        </div>
+    </div>
+  </main>
+
+  <aside id = 'links' class="hg-left"> </aside>
+
+  <aside class="hg-right">
+    <h3> Sign-up </h3>
+    <h3> Login </h3>
+  </aside>
+  
+  <footer class="hg-footer"></footer>
+</body>
+
+</html>

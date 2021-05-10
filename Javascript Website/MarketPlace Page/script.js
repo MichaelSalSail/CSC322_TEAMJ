@@ -154,6 +154,10 @@ function showTables(id) {
 function start() {
     initializeNavigation();
     document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
+    if(window.localStorage.getItem("username")!=="Guest")
+    {
+        document.user_option_1.status_1.innerHTML = "Logout";
+    }
 
     let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
     req.onsuccess = () => {
@@ -182,7 +186,7 @@ function start() {
         console.log("There was an error: " + e.target.errorCode);
     };
 
-    let req_sc = window.indexedDB.open(CART_DB_NAME, 1);
+    let req_sc = window.indexedDB.open(CART_DB_NAME, VERSION);
 
     req_sc.onsuccess = () => {
         shoppingCart = req_sc.result;
