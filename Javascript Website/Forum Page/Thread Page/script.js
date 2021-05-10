@@ -11,8 +11,8 @@ class Post {
 }
 
 const THREADS = [
-    [1, "Daniel", "Hello PC Emporium!", [["Daniel", "Welcome to PC Emporium!"], ["Michael", "Check out our Marketplace!"]]],
-    [2, "Dan", "PC Prices?", [[3, "Dan", "Where can I see prices for built systems?"]]],
+    [1, "Daniel", "Hello PC Emporium!", [new Post(1, "Daniel", "Welcome to PC Emporium!"), new Post(2, "Michael", "Check out our Marketplace!")]],
+    [2, "Dan", "PC Prices?", [new Post(3, "Dan", "Where can I see prices for built systems?")]],
     [3, "Michael", "Concerns About GPU Shortage", []]
 ];
 
@@ -68,12 +68,6 @@ function viewThread(cursorValue) {
         let transaction = results.transaction(DATABASE_NAME, "readonly");
         let store = transaction.objectStore(DATABASE_NAME);
         let req = store.get(cursorValue.id);
-        console.log(req);
-
-        req.onsuccess = (e) => {
-            let table = e.target.result;
-            console.log(table);
-        }
     }
     // req.onsuccess = (e) => {
     //     let table = e.target.result;
