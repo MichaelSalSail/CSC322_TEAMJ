@@ -25,15 +25,6 @@ function initializeComponents(db) {
     };
 }
 
-function createImage(cursorValue, fileExtension) {
-    let filePath = "../Images/" + cursorValue.type.toUpperCase() + "/" + cursorValue.name + fileExtension;
-    let img = document.createElement('img');
-    img.setAttribute("style","width:200px");
-    img.setAttribute("style","height:200px");
-    img.src = filePath;
-    return img;
-}
-
 // creates a button with an onclick function. args is an array to be used as a parameter
 // for the clickFunction
 function createButton(text, clickFunction, args){
