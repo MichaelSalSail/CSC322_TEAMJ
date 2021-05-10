@@ -245,7 +245,11 @@ function showTables(id) {
 // onload in body
 function start() {
     initializeNavigation();
-    const closeButton = document.querySelector(".close-button");
+    document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
+    if(window.localStorage.getItem("username")!=="Guest")
+    {
+        document.getElementById("user_option_1").status_1.innerHTML = "Logout";
+    }
 
     closeButton.addEventListener("click", toggleModal);
     window.addEventListener("click", windowOnClick);
