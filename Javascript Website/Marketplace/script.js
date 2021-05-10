@@ -245,13 +245,9 @@ function showTables(id) {
 // onload in body
 function start() {
     initializeNavigation();
-    document.getElementById("welcome").innerHTML += window.localStorage.getItem("username");
-    if(window.localStorage.getItem("username")!=="Guest")
-    {
-        document.getElementById("user_option_1").status_1.innerHTML = "Logout";
-    }
+    setupLoginButton()
 
-    closeButton.addEventListener("click", toggleModal);
+    document.getElementById('close-btn').addEventListener("click", toggleModal);
     window.addEventListener("click", windowOnClick);
 
     // Initialize components database
