@@ -107,6 +107,7 @@ const ADMIN = 5;
 const HREFS = [
     "../Welcome/welcome.html",
     "", // account info
+    "../Balance/index.html",
     "../MarketPlace/index.html",
     "../Cart Page/index.html",
     "", // forum
@@ -117,11 +118,22 @@ const HREFS = [
 const LINK_NAMES = [
     "Home Page",
     "Account Info",
+    "Balance",
     "Marketplace",
     "Shopping Cart",
     "Forum",
     "Delivery System",
     "Administrative"
+];
+
+const USER1 = [
+    "user@pc.com",
+    "user123",
+    "user123",
+    1,
+    500,
+    0,
+    0
 ];
 
 // SUPERUSERS
@@ -205,9 +217,10 @@ const ADMIN1 = [
     0
 ];
 
+// database will always contain these users
 const SUPERUSERS = [
     DELIVERER1, DELIVERER2, CLERK1, ADMIN1,
-    MANU1, MANU2, MANU3, MANU4
+    MANU1, MANU2, MANU3, MANU4, USER1
 ];
 
 

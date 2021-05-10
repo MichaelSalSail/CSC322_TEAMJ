@@ -80,9 +80,6 @@ function windowOnClick(event) {
 function viewDetails(cursorValue) {
     document.getElementById('comp-desc').innerHTML = cursorValue.description;
     toggleModal();
-    console.log("Go to details page.")
-    //document.getElementById('comp-desc').innerHTML = cursorValue.description;
-    //localStorage.setItem("currentComputer", cursorValue.name);    
 }
 
 function populateComputerRow(table, cursorValue) {
