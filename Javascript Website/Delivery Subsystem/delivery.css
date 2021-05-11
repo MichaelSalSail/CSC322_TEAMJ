@@ -22,7 +22,7 @@ body {
     padding: 5%;
 }
 
-#register-display {
+#available-display, #pending-display {
     display: none;
 }
 
