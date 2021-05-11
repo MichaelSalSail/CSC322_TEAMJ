@@ -105,6 +105,9 @@ const MANU = 3;
 const CLERK = 4;
 const ADMIN = 5;
 
+// Strings for Permissions levels
+const PERMISSION_STRINGS = ["Visitor", "User", "Deliverer", "Manufacturer", "Clerk", "Admin"];
+
 
 // LINKS TO PAGES
 const HREFS = [

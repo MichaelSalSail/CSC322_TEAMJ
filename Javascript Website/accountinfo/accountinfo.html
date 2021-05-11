@@ -18,17 +18,19 @@
   <main class="hg-main">
     <h2 class="title">USER INFO</h2>
     <div class="info">
-      <h3>Username:</h3>
-      <h3>User-type:</h3>
-      <h3>Date Account Created:</h3>
-      <h3>Balance:</h3>
-      <h3># of Purchases:</h3>
-      <h3># of Posts:</h3>
-      <h3># of Comments:</h3>
-      <h3>Credit Card From Last Purchase:</h3>
-      <h3>Address From Last Purchase:</h3>
+      <h3 id = 'username'>Username: </h3>
+      <h3 id = 'usertype'>User-type: </h3>
+      <h3 id = 'balance'>Balance: </h3>
+      <h3 id = 'numPurchases'># of Purchases: </h3>
+      <h3 id = 'numPosts'># of Posts: </h3>
+      <h3 id = 'address'>Address From Last Purchase: </h3>
     </div>
-    
+    <button id = 'purchases-btn'> View Last Purchases</button>
+    <table id = "purchases">
+        <th> Payment ($) </th>
+        <th> Purchased Items </th>
+        <th> Tracking Number </th>
+    </table>
   </main>
 
   <aside id = 'links' class="hg-left"></aside>

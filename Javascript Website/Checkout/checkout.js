@@ -104,6 +104,9 @@ function start2() {
       }
     });
     initializeNavigation();
+    
+
+
 }
 
 // checkout 2b
@@ -163,6 +166,10 @@ function start2b() {
         event.preventDefault();
       }
     });
+
+    document.getElementById("submit").addEventListener('click', () => {
+      localStorage.setItem("address", document.getElementById("address").value);
+    });
 }
 
 
@@ -207,20 +214,22 @@ function loadIntoPurchasesDB(purchase) {
     email: localStorage.getItem("email"),
     purchase: purchase,
     payment: parseInt(localStorage.getItem("payment")),
-    tracking: "n/a"
+    tracking: "n/a",
+    address: localStorage.getItem("address")
   });
 }
 
 function removeItemsInCart() {
-  let req = window.indexedDB.deleteDatabase(CART_DB_NAME);
-  req.onerror = () => console.log("Error deleting database.");
-  req.onsuccess = () => console.log("Database deleted successfully");
+  let req = cart.transaction(CART_DB_NAME, "readwrite").objectStore(CART_DB_NAME).clear();
+  req.onerror = () => console.log("Error clearing database.");
+  req.onsuccess = () => console.log("Shopping Cart cleared.");
 }
 
 function start() {  
   let req = window.indexedDB.open(CART_DB_NAME, VERSION);
   req.onsuccess = (e) => {
     cart = e.target.result;
+    removeItemsInCart();
   }
 
   let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
@@ -228,7 +237,6 @@ function start() {
     console.log("Loaded purchases DB.")
     purchases = e.target.result;
     addPurchaseToDatabase();
-    window.localStorage.removeItem("payment");
   }
   purchasesReq.onupgradeneeded = (e) => {
     let tx = purchasesReq.transaction;
@@ -241,7 +249,6 @@ function start() {
   }
 
   updateUser();
-  removeItemsInCart();
   initializeNavigation();
 }
 
