@@ -9,6 +9,36 @@ body {
   background: green;
 }
 
+#form-container, #display-form {
+  text-align: center;        
+}
+
+#form-container {
+    height: 100vh;
+    margin-bottom: 10%;
+}
+
+#tab-container {
+    padding: 5%;
+}
+
+#register-display {
+    display: none;
+}
+
+#available-tab, #pending-tab, #approved-tab 
+{
+    height: 50px;
+    width: 295px;
+}
+
+label
+{
+    display: inline-block;
+    width:100px;
+    text-align: right;
+}
+
 .hg-header {
 	background-image: url('../Logo_Variants/Logo_Main.png');
   background-repeat: no-repeat;
@@ -128,12 +158,4 @@ a:link:active, a:visited:active {
 a:hover, a:active {
   background-color: green;
   color: white;
-}
-
-#most-sold-pcs {
-	position: relative;
-}
-
-#suggested-pcs {
-	width: auto;
 }
