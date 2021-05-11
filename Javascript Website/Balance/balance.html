@@ -22,6 +22,16 @@
         <label>Enter credit card number:</label><input id ='credit-card'> </br>
         <button id = "add-balance-btn" onclick = 'addBalance()'>Add balance</button>
     </div>
+
+    <div id = 'rewards-container'> 
+      <h1> Rewards </h1>
+      <h3 id = 'rewards'>You currently have </h3>
+      <h4>Would you like to cash in your rewards points for balance? (1 reward point = 1 balance) </h4>
+      <button onclick = 'cashInRewardsPoints(50)'>50 Points</button> 
+      <button onclick = 'cashInRewardsPoints(100)'>100 Points</button>
+      <button onclick = 'cashInRewardsPoints(200)'>200 Points</button>
+      <button onclick = 'cashInRewardsPoints(500)'>500 Points</button>
+    </div>
   </main>
   
   <aside id = 'links' class="hg-left">   </aside>

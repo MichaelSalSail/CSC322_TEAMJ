@@ -139,7 +139,7 @@ const USER1 = [
     1,
     500,
     0,
-    0
+    2
 ];
 
 // SUPERUSERS

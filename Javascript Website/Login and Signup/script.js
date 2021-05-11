@@ -113,6 +113,7 @@ function checkUserCredentials(email, password) {
             window.localStorage.setItem("username", table.username);
             window.localStorage.setItem("email", table.email);
             window.localStorage.setItem("balance", table.balance);
+            window.localStorage.setItem("rewards", table.rewards);
             window.location.href = '../Welcome/welcome.html';
         }
         else 

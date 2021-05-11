@@ -74,7 +74,8 @@ function updateCurrentUserBalance(db, balance, email) {
       username: table.username,
       password: table.password,
       permission: table.permission,
-      balance: balance
+      balance: balance,
+      rewards: table.rewards
     });
     console.log("Updated balance of", email)
   }
