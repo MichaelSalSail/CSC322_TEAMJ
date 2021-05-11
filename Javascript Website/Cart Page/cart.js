@@ -59,6 +59,7 @@ function checkUserBalance() {
 
 function start() {
     setupLoginButton();
+    initializeNavigation();
     let req = window.indexedDB.open(CART_DB_NAME, VERSION);
     req.onsuccess = () => {
         loadCart(req.result);

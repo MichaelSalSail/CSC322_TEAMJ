@@ -6,12 +6,13 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Account Info</title>
 	<link href="accountinfo.css" rel="stylesheet" type="text/css" />
+  <script src ='../constants.js'></script>
+  <script src = '../utility.js'></script>
+  <script src="script.js"></script>
+
 </head>
 
-<body>
-
-	<body class="hg">
-
+<body class="hg" onload = "start()">
   <header class="hg-header"></header>
 
   <main class="hg-main">
@@ -30,13 +31,7 @@
     
   </main>
 
-  <aside class="hg-left">
-    <h3><a href ='index.html'> Home Page </a></h3>
-    <h3><a href=#> Account Info </a></h3>
-    <h3><a href=#> Market Place </a></h3>
-    <h3><a href=#> Forum </a></h3>
-    <h3><a href=#> Cart </a></h3>
-  </aside>
+  <aside id = 'links' class="hg-left"></aside>
 
   <aside class="hg-right">
     <h3> Sign-up </h3>
@@ -44,10 +39,6 @@
   </aside>
   
   <footer class="hg-footer"></footer>
-
-	<script src="accountinfo.js">
-
-	</script>
 </body>
 
 </html>

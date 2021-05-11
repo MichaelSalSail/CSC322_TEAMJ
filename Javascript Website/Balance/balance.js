@@ -28,4 +28,5 @@ function start() {
     req.onsuccess = (e) => users = e.target.result;
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
     setupLoginButton();
+    initializeNavigation();
 }
