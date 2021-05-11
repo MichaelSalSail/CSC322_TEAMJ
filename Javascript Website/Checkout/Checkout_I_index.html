@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>store clerk</title>
+	<link href="chekcout.css" rel="stylesheet" type="text/css" />
+  <script src = "../constants.js"></script>
+  <script src = '../utility.js'></script>
+  <script src = 'checkout.js'></script>
+</head>
+
+<body onload = 'start1()' class = 'hg'>
+  <header class="hg-header"></header>
+
+  <main class="hg-main">
+    <h2>Select Payment Type.</h2>
+    <label>
+      <input type="radio" name="A" value=""> Credit Card
+    </label>
+    <p></p>
+    <label>
+      <input type="radio" name="A" value="Checking for sufficient funds..."> Balance
+    </label>
+    <p></p>
+    <span id="error_message"></span>
+    <p></p>
+    <form action="Checkout_II_index.html" id="Transition_pay">
+    <button>Continue</button>
+    </form>
+  </main>
+  
+  <aside id = 'links' class="hg-left">
+    <h3><a href ='index.html'> Home Page </a></h3>
+    <h3><a href='accountinfo.html'> Account Info </a></h3>
+    <h3><a href='marketplace.html'> Market Place </a></h3>
+    <h3><a href='forum.html'> Forum </a></h3>
+    <h3><a href='cart.html'> Cart </a></h3>
+  </aside>
+  <aside class="hg-right">
+    <h3> Hey, user! </h3>
+    <h3><a href='index.html'> Logout </a></h3>
+  </aside>
+  
+  <footer class="hg-footer"></footer>
+</body>
+
+</html>
