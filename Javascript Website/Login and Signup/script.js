@@ -9,6 +9,7 @@
 let avoidList;
 let users;
 
+// create ALL databases that are used later
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
@@ -24,8 +25,9 @@ function start() {
         store.createIndex("username", "username", {unique: true});
         tx.oncomplete = () => {
             users = e.target.result
-            console.log("Default users initialized.")
+            console.log("Created users DB.")
             initializeSuperusers();
+            console.log("Default users initialized.")
         }
     }
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
@@ -35,7 +37,28 @@ function start() {
     req.onupgradeneeded = (e) => {
         let store = e.target.result.createObjectStore(AVOID_DB_NAME, {autoIncrement: true});
         store.createIndex("email", "email", {unique: true});
+        console.log("Created avoid list DB.")
     }
+
+    let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
+    purchasesReq.onupgradeneeded = (e) => {
+    let tx = purchasesReq.transaction;
+    let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
+    store.createIndex("email", "email", {unique: false});
+    tx.oncomplete = (e) => {
+      console.log("Created purchases DB.")
+      purchases = e.target.result;
+    }
+
+    let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
+    req.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(COMPONENTS_DB_NAME, {keyPath: "name"});
+        store.createIndex("name", "name", {unique: true});
+        console.log("Created components DB.")
+    }
+
+
+  }
 }
 
 /* only called when the database is set up for first time

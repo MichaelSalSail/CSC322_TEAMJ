@@ -1,13 +1,34 @@
 let database;
+let purchasesDB; 
+
+function loadDeliverer() {
+    
+}
 
 function start() {
+    /*
     let req = window.indexedDB.open(SYSTEMS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         console.log("Systems database loaded.");
         database = e.target.result;
+    } */
+
+    let purchases = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
+    req.onsuccess = (e) => {
+        purchasesDB = e.target.result;
+        console.log
     }
+    initializeNavigation();
     setupLoginButton();
+
+    let permission = +localStorage.getItem('permission');
+    if (permission === DELIVERER) {
+        console.log("Loading deliverer's stuff...")
+        loadDeliverer();
+    }
 }
+
+
 
 function toggleTabs() {
     let availableTab = document.getElementById('available-tab');

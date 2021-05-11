@@ -258,10 +258,7 @@ function start() {
         initializeComponents(res);
         populatePartsTables(res);
     }
-    req.onupgradeneeded = (e) => {
-        let store = e.target.result.createObjectStore(COMPONENTS_DB_NAME, {keyPath: "name"});
-        store.createIndex("name", "name", {unique: true});
-    }
+    
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
     // initialize computers database

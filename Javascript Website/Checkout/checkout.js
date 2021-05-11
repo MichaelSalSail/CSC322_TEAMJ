@@ -172,14 +172,10 @@ function start2b() {
     });
 }
 
-
-
-
 let cart;
 let purchases;
 
 function updateUser() {
-  let email = localStorage.getItem("email");
   let remainingBalance = 
   (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
   document.getElementById("payment").innerHTML += window.localStorage.getItem("payment");
@@ -263,15 +259,7 @@ function start() {
     purchases = e.target.result;
     addPurchaseToDatabase();
   }
-  purchasesReq.onupgradeneeded = (e) => {
-    let tx = purchasesReq.transaction;
-    let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
-    store.createIndex("email", "email", {unique: false});
-    tx.oncomplete = (e) => {
-      console.log("Created purchases DB.")
-      purchases = e.target.result;
-    }
-  }
+  
 
   updateUser();
   initializeNavigation();
