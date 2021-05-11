@@ -109,9 +109,7 @@ function start() {
             console.log("Loaded systems in database.")
         }
     }
-
     setupLoginButton();
-    initializeNavigation();
 }
 
 function test(){
