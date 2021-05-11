@@ -48,6 +48,15 @@ function removeFromCart(db, key) {
     return false;
 }
 
+function checkUserBalance() {
+    let balance = parseInt(localStorage.getItem("balance"));
+    let purchase = parseInt(localStorage.getItem("payment"));
+    if (balance < purchase) 
+        alert("You do not have the sufficient funds to buy this.");
+    else 
+        window.location.href = '../Checkout/Checkout_I_index.html';
+}
+
 function start() {
     initializeNavigation();
     setupLoginButton();
