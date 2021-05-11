@@ -104,8 +104,8 @@ function addItemToCart(component) {
     let tx = shoppingCart_db.transaction(CART_DB_NAME, "readwrite");
     let store = tx.objectStore(CART_DB_NAME);
     let req = store.get(component.name);
-    req.onsuccess = () => {
-        if (req.result) {
+    req.onsuccess = (e) => {
+        if (e.target.result) {
             store.put({
                 name: component.name,
                 price: component.price,

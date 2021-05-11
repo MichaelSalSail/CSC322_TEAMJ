@@ -130,6 +130,7 @@ function signInUser(){
         let cursor = e.target.result;
         if (cursor) { 
             alert("You have been suspended. Check your email for details.");
+            window.location.href = "../suspended_index.html";
             return;
         } else {
             checkUserCredentials(email, password);
