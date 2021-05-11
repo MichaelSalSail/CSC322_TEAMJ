@@ -21,11 +21,11 @@ function addBalance() {
 }
 
 function start() {
-    initializeNavigation();
     let balance = localStorage.getItem("balance");
     document.getElementById("curr-balance").innerHTML += balance + " points.";
 
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = (e) => users = e.target.result;
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
+    setupLoginButton();
 }

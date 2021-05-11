@@ -109,13 +109,13 @@ const ADMIN = 5;
 // LINKS TO PAGES
 const HREFS = [
     "../Welcome/welcome.html",
-    "", // account info
-    "../Balance/index.html",
+    "../accountinfo/accountinfo.html", // account info
+    "../Balance/balance.html",
     "../MarketPlace/index.html",
-    "../Cart Page/index.html",
-    "", // forum
-    "", // delivery
-    "../Admin/index.html"
+    "../Cart Page/cart.html",
+    "../Forum Page/index.html", // forum
+    "../Delivery Subsystem/delivery.html", // delivery
+    "../Admin/admin.html"
 ];
 
 const LINK_NAMES = [
