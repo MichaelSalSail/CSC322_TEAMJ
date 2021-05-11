@@ -43,7 +43,7 @@ function cashInRewardsPoints(rewards) {
 
     let email = localStorage.getItem("email");
     let cursorIndex = IDBKeyRange.only(email);
-    let tx = users.transaction(USERS_DB_NAME);
+    let tx = users.transaction(USERS_DB_NAME, "readwrite");
     let store = tx.objectStore(USERS_DB_NAME)
     let req = store.openCursor(cursorIndex);
     req.onsuccess = (e) => {
@@ -60,6 +60,13 @@ function cashInRewardsPoints(rewards) {
                 permission: table.permission,
                 warning: table.warning
             });
+            cursor.continue();
+        } else {
+            alert("You have successfully cashed in " + rewards + " rewards points. Please refresh to see your changes.")
+            let balance = parseInt(localStorage.getItem("balance"))
+            let currRewards = parseInt(localStorage.getItem("rewards"))
+            localStorage.setItem("balance", (balance + rewards)+'');
+            localStorage.setItem("rewards", currRewards - rewards);
         }
     }
 }

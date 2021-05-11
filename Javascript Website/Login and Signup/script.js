@@ -15,12 +15,18 @@ function start() {
         console.log("Users database opened.")
         users = e.target.result;
         console.log(users);
-        initializeSuperusers();
+        
     }
-    req.onupgradeneeded = (e) => {  
+    req.onupgradeneeded = (e) => {
+        let tx = e.target.transaction;
         let store = e.target.result.createObjectStore(USERS_DB_NAME, {keyPath: "email"});
         store.createIndex("email", "email", {unique: true});
         store.createIndex("username", "username", {unique: true});
+        tx.oncomplete = () => {
+            users = e.target.result
+            console.log("Default users initialized.")
+            initializeSuperusers();
+        }
     }
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
@@ -131,7 +137,7 @@ function signInUser(){
         let cursor = e.target.result;
         if (cursor) { 
             alert("You have been suspended. Check your email for details.");
-            window.location.href = "../suspended_index.html";
+            window.location.href = "../Simple Pages/suspended_index.html";
             return;
         } else {
             checkUserCredentials(email, password);

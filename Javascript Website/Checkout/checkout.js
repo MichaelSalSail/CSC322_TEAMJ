@@ -187,7 +187,32 @@ function updateUser() {
   window.localStorage.setItem("balance", ""+remainingBalance) // deduct purchase from balance
 
   req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-  req.onsuccess = () => updateCurrentUserBalance(req.result, remainingBalance, email);
+  req.onsuccess = (e) => {
+    changeBalanceAndRewards(e.target.result, +window.localStorage.getItem("payment"));
+  }
+}
+
+function changeBalanceAndRewards(db, payment) {
+    let transaction = db.transaction(USERS_DB_NAME, "readwrite");
+    let store = transaction.objectStore(USERS_DB_NAME);
+    let email = localStorage.getItem("email");
+    let req = store.get(email);
+    req.onsuccess = (e) => {
+    let table = e.target.result;
+    let earnedRewards = Math.round(payment * 0.08);
+    let newRewards = table.rewards + earnedRewards;
+    store.put({
+      email: table.email,
+      username: table.username,
+      password: table.password,
+      permission: table.permission,
+      balance: table.balance - payment,
+      rewards: newRewards
+    });
+    console.log("Updated balance of", email);
+    localStorage.setItem('rewards', ''+newRewards);
+    document.getElementById('rewards').innerHTML += earnedRewards + " reward points."
+  }
 }
 
 function addPurchaseToDatabase() {
