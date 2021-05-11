@@ -215,8 +215,11 @@ function loadIntoPurchasesDB(purchase) {
     purchase: purchase,
     payment: parseInt(localStorage.getItem("payment")),
     tracking: "n/a",
-    address: localStorage.getItem("address")
+    address: localStorage.getItem("address"),
+    pending: true
   });
+
+  removeItemsInCart();  
 }
 
 function removeItemsInCart() {
@@ -227,10 +230,7 @@ function removeItemsInCart() {
 
 function start() {  
   let req = window.indexedDB.open(CART_DB_NAME, VERSION);
-  req.onsuccess = (e) => {
-    cart = e.target.result;
-    removeItemsInCart();
-  }
+  req.onsuccess = (e) => cart = e.target.result;
 
   let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
   purchasesReq.onsuccess = (e) => {
