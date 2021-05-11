@@ -1,0 +1,135 @@
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.5rem;
+	line-height: 1.6;
+	font-family: 'Open Sans';
+  background: green;
+}
+
+.hg-header {
+	background-image: url('../Logo_Variants/Logo_Rewards.png');
+  background-repeat: no-repeat;
+  background-size: 40% 100%;
+}
+
+.hg-footer {
+	background-color: green;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.hg-left{
+	background-color: white;
+	text-align: center;
+  border: 1px solid black;
+  margin-top: 10px;
+  margin-bottom: 300%;
+}
+
+.hg-right{
+  background-color: green;
+  color: white;
+  margin-right: 8%;
+  text-align: right;
+}
+
+.hg-main{
+  background-color: white;
+  border: 1px solid black;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+  padding: 10px;
+}
+
+/* Define grid areas */
+.hg-header { grid-area: header; }
+.hg-footer { grid-area: footer; }
+.hg-main { grid-area: main; }
+.hg-left { grid-area: navigation; }
+.hg-right { grid-area: ads; }
+
+
+.hg {
+	display: grid;
+	grid-template-areas: "header header ads"
+	                     "navigation main main"
+	                     "footer footer footer";
+
+	grid-template-columns: 150px 1fr 150px;
+
+	grid-template-rows: 100px 
+						1fr 
+						1px;
+
+	min-height: 100vh;
+}
+
+
+
+@media screen and (max-width: 600px) {
+	.hg {
+		grid-template-areas: "header"
+		                     "navigation"
+		                     "main"
+		                     "ads"
+		                     "footer";
+
+		grid-template-columns: 100%;
+		grid-template-rows: 100px 
+							50px 
+							1fr
+							50px 
+							30px;
+	}
+}
+
+.button {
+  transition-duration: 0.4s;
+  border-radius: 50%;
+  font-size: 20px;
+  background-color: rgba(255, 0, 0, 0.877);
+  color: white;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: green;
+  color: white;
+}
+
+.type{
+  display: flex;
+  justify-content: center;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+}
+
+a:link, a:visited { 
+  color: black;
+  text-decoration: none;
+  cursor: auto;
+  font-size: 18.72px;
+  font-weight: bold;
+}
+
+a:link:active, a:visited:active { 
+  color: blue;
+}
+
+a:hover, a:active {
+  background-color: green;
+  color: white;
+}
+
+.checkout{
+  background-color: red;
+}
