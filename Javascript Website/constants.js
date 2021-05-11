@@ -230,6 +230,7 @@ const SUPERUSERS = [
 ];
 
 
+
 // IDs for the component/system tables
 const TABLE_COMPONENT_IDs = [
     "gpu-table", "cpu-table", "mobo-table", "ram-table", "storage-table",

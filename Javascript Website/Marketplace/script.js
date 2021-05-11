@@ -25,17 +25,6 @@ function initializeComponents(db) {
     };
 }
 
-// creates a button with an onclick function. args is an array to be used as a parameter
-// for the clickFunction
-function createButton(text, clickFunction, args){
-    let btn = document.createElement('button');
-    btn.innerHTML = text;
-    btn.addEventListener('click', () => {
-        clickFunction.apply(this, args);
-    });
-    return btn;
-}
-
 // creates row with td, adds image, attributes, add to cart btn
 function populatePartsRow(table, cursorValue) {
     const NUMBER_OF_CELLS = COMPONENT_HEADER_NAMES.length + 1; // one more cell for button

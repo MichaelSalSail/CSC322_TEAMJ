@@ -237,7 +237,8 @@ function loadIntoPurchasesDB(purchase) {
     payment: parseInt(localStorage.getItem("payment")),
     tracking: "n/a",
     address: localStorage.getItem("address"),
-    pending: true
+    pending: true,
+    bids: []
   });
 
   removeItemsInCart();  

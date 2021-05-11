@@ -1,3 +1,26 @@
+class Bid {
+    constructor(company, bid) {
+        this.company = company;
+        this.bid = parseFloat(bid).toFixed(2); // formats to two decimal places e.g. $1.50
+    }
+
+    get _company() {
+        return this.company;
+    }
+
+    get _bid() {
+        return this.bid;
+    }
+
+    set _company(x) {
+        this.company = x;
+    }
+
+    set _bid(x) {
+        this.bid = x;
+    }
+}
+
 // for functions that are used multiple times through the site to reduce redundancy
 
 // skip is an array with indices that correspond to which link to skip
@@ -7,7 +30,6 @@ function createLinks(skip) {
     let container = document.getElementById("links");
     for (let i = 0; i < LINK_NAMES.length; i++) {
         if (i === skip[skipIndex]) {
-            console.log("Currently Skipping", LINK_NAMES[i], "where i is", i, "and skipIndex is", skipIndex);
             skipIndex++;
             continue;
         }
@@ -61,6 +83,17 @@ function createImage(cursorValue, fileExtension) {
     img.setAttribute("style","height:200px");
     img.src = filePath;
     return img;
+}
+
+// creates a button with an onclick function. args is an array to be used as a parameter
+// for the clickFunction
+function createButton(text, clickFunction, args){
+    let btn = document.createElement('button');
+    btn.innerHTML = text;
+    btn.addEventListener('click', () => {
+        clickFunction.apply(this, args);
+    });
+    return btn;
 }
 
 function updateCurrentUserBalance(db, balance, email) {
