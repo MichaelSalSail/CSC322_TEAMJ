@@ -14,14 +14,22 @@ function start() {
     req.onsuccess = (e) => {
         console.log("Users database opened.")
         users = e.target.result;
+        console.log(users);
         initializeSuperusers();
     }
-    req.onupgradeneeded = (e) => createStore(e, USERS_DB_NAME, "email");
+    req.onupgradeneeded = (e) => {  
+        let store = e.target.result.createObjectStore(USERS_DB_NAME, {keyPath: "email"});
+        store.createIndex("email", "email", {unique: true});
+        store.createIndex("username", "username", {unique: true});
+    }
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
     req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
     req.onsuccess = (e) => avoidList = e.target.result;
-    req.onupgradeneeded = (e) => createStore(e, AVOID_DB_NAME, "email"); 
+    req.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(AVOID_DB_NAME, {autoIncrement: true});
+        store.createIndex("email", "email", {unique: true});
+    }
 }
 
 /* only called when the database is set up for first time
@@ -96,6 +104,7 @@ function checkUserCredentials(email, password) {
     let req = store.get(email);
     req.onsuccess = (e) => {
         let table = e.target.result;
+        console.log(table)
         if (table && table.email === email && table.password === password) { // check if not undefined and info matches from DB
             console.log("Successful login.");
             console.log("Current user's permission is", table.permission);
@@ -114,6 +123,7 @@ function checkUserCredentials(email, password) {
 function signInUser(){
     let email = document.getElementById('log-email').value;
     let password = document.getElementById('log-password').value;
+    console.log(email, password);
 
     avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
     .openCursor(email).onsuccess = (e) => {

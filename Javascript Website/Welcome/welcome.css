@@ -95,6 +95,7 @@ body {
 
 #most-sold-pcs {
 	position: relative;
+	clear: both;
 }
 
 #suggested-pcs {

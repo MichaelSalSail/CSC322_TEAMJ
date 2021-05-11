@@ -7,6 +7,7 @@ const COMPONENTS_DB_NAME = "Components";
 const CART_DB_NAME = "ShoppingCart";
 const FORUMS_DB_NAME = "Forum";
 const AVOID_DB_NAME = "AvoidList";
+const PURCHASES_DB_NAME = "Purchases";
 const VERSION = 1;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //DESCRIPTION FOR SYSTEMS
@@ -247,24 +248,31 @@ const COMPUTER_HEADER_NAMES = [
 
 // Welcome messages
 // First line of Home Page
-const line_1_a="Welcome to PC Emporium! Whether you are trying to build a computer from scratch or " + 
-"purchase a complete computer, our catalog includes every Operating System from the " + 
-"best manufacturers.*";
-const line_1_b="Welcome to PC Emporium! Whether you are trying to build a computer from scratch or " +                
-"*purchase a complete computer, our catalog includes every Operating System from the "+                  
-"best manufacturers.";
+    let line_1_a="Welcome to PC Emporium! Whether you are trying to build a computer from scratch or " + 
+                 "purchase a complete computer, our catalog includes every Operating System from the " + 
+                 "best manufacturers.*";
+    let line_1_b="Welcome to PC Emporium! Whether you are trying to build a computer from scratch or " +                
+                 "*purchase a complete computer, our catalog includes every Operating System from the "+                  
+                 "best manufacturers.";
 
-// Second line of Home Page
-const line_2_a="*You are unable to purchase from the Marketplace or comment on the Forum. Please " +                   
-"consider signing up and logging in.";
-const line_2_b="*A working credit card is required for checkout. Alternatively, you can use your balance " +                 
-"given sufficient funds.";
+    // Second line of Home Page
+    let line_2_a="*You are unable to purchase from the Marketplace or comment on the Forum. Please " +                   
+                 "consider signing up and logging in.";
+    let line_2_b="*A working credit card is required for checkout. Alternatively, you can use your balance " +                 
+                 "given sufficient funds.";
 
-// Third line of Home Page
-const line_3_a="As a visitor, you may explore the website.";
-const line_3_b="As a registered customer, you may engage on the Forum. You can also view your Account Info and Add to Cart.";
-const line_3_c="As a deliverer, please stay updated on all current purchases! Make your bids as soon as possible to not keep our customers waiting. It's much appreciated.";
-const line_3_d="As a manufacturer, please stay updated on Forum posts. If a Registered Customer complains about your products, you must provide your side of the argument to avoid a warning from the Store Manager."
-const line_3_e="As a store clerk, please stay updated on all current bids! Don't keep the customers purchase(s) waiting. If you don't choose the lowest bid, please write a message including your reasoning. The store manager is constantly monitoring activity! Please act responsibly.";
-const line_3_f="As a store manager, you have the highest privilege's of any user. You can suspend any " +
-"user as you see fit. You have access to every part of the website.";
+    // Third line of Home Page
+    let line_3_a="As a visitor, you may explore the website.";
+    let line_3_b="As a registered customer, you may engage on the Forum. You can also view your " +                       
+                 "Account Info and Add to Cart.";
+    let line_3_c="As a deliverer, please stay updated on all current purchases! Make your bids as soon as " +                
+                 "possible to not keep our customers waiting. It's much appreciated.";
+    let line_3_d="As a manufacturer, please stay updated on Forum posts. If a Registered Customer " +
+                 "complains about your products, you must provide your side of the argument to avoid a " +
+                 "warning from the Store Manager."
+    let line_3_e="As a store clerk, please stay updated on all current bids! Don't keep the customers " +                    
+                 "purchase(s) waiting. If you don't choose the lowest bid, please write a message including " +              
+                 "your reasoning. The store manager is constantly monitoring activity! Please act " +                         
+                 "responsibly.";
+    let line_3_f="As a store manager, you have the highest privilege's of any user. You can suspend any " +
+                 "user as you see fit. You have access to every part of the website.";

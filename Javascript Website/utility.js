@@ -54,16 +54,6 @@ function initializeNavigation() {
     }
 }
 
-// for creating a database in onupgradeneeded
-function createStore(event, name, index) {
-    let version = event.oldVersion;
-        if (version === 0) {
-            store = event.target.result.createObjectStore(name, {keyPath: index}),
-            index = store.createIndex(index, index, {unique: true});
-            console.log(name, "created.");
-        }
-}
-
 function createImage(cursorValue, fileExtension) {
     let filePath = "../Images/" + cursorValue.type.toUpperCase() + "/" + cursorValue.name + fileExtension;
     let img = document.createElement('img');

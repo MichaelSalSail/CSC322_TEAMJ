@@ -102,7 +102,7 @@ function start() {
         if (version === 0) {
             store = e.target.result.createObjectStore(SYSTEMS_DB_NAME, {keyPath: "name"}),
             store.createIndex("name", "name", {unique: true});
-            store.createIndex("sales", "sales", {unique:false});
+            store.createIndex("sales", "sales", {unique: false});
         }
         tx.oncomplete = () => {
             initializeSystems(e.target.result);

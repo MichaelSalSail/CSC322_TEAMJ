@@ -54,7 +54,7 @@ function populatePartsRow(table, cursorValue) {
     for (let i = 0; i < cells.length; i++) row.appendChild(cells[i]);
 
     cells[0].appendChild(createImage(cursorValue, ".jpg"));
-    cells[5].appendChild(createButton("Add to Cart", addItemToCart, cursorValue)); // add to cart
+    cells[5].appendChild(createButton("Add to Cart", addItemToCart, [cursorValue])); // add to cart
 }
 
 function toggleModal() {
@@ -258,7 +258,10 @@ function start() {
         initializeComponents(res);
         populatePartsTables(res);
     }
-    req.onupgradeneeded = (e) => createStore(e, COMPONENTS_DB_NAME, "name");
+    req.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(COMPONENTS_DB_NAME, {keyPath: "name"});
+        store.createIndex("name", "name", {unique: true});
+    }
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
     // initialize computers database
@@ -271,7 +274,10 @@ function start() {
     // initialize shopping cart database
     let cart = window.indexedDB.open(CART_DB_NAME, VERSION);
     cart.onsuccess = (e) => shoppingCart_db = e.target.result;
-    cart.onupgradeneeded = (e) => createStore(e, CART_DB_NAME, "name");
+    cart.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(CART_DB_NAME, {keyPath: "name"});
+        store.createIndex("name", "name", {unique: true});
+    }
     
     createTables(TABLE_COMPONENT_IDs, COMPONENT_HEADER_NAMES);
     createTables(TABLE_COMPUTER_IDs, COMPUTER_HEADER_NAMES);

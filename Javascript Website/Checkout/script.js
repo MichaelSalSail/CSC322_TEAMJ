@@ -165,22 +165,83 @@ function start2b() {
     });
 }
 
-function start3() {
-    let remainingBalance = 
-    (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
-    document.getElementById("payment").innerHTML += window.localStorage.getItem("payment");
-    document.getElementById("balance").innerHTML += remainingBalance + " points.";
-    window.localStorage.setItem("balance", ""+remainingBalance) // deduct purchase from balance
 
-    window.localStorage.removeItem("payment");
-    let req = window.indexedDB.deleteDatabase(CART_DB_NAME);
-    req.onerror = () => console.log("Error deleting database.");
-    req.onsuccess = () => console.log("Database deleted successfully");
 
-    req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-    req.onsuccess = () => {
-        updateCurrentUserBalance(req.result, remainingBalance);
+
+let cart;
+let purchases;
+
+function updateUser() {
+  let email = localStorage.getItem("email");
+  let remainingBalance = 
+  (+window.localStorage.getItem("balance")) - +window.localStorage.getItem("payment");
+  document.getElementById("payment").innerHTML += window.localStorage.getItem("payment");
+  document.getElementById("balance").innerHTML += remainingBalance + " points.";
+  window.localStorage.setItem("balance", ""+remainingBalance) // deduct purchase from balance
+
+  req = window.indexedDB.open(USERS_DB_NAME, VERSION);
+  req.onsuccess = () => updateCurrentUserBalance(req.result, remainingBalance, email);
+}
+
+function addPurchaseToDatabase() {
+  let purchase = []; // arr of components
+  let tx = cart.transaction(CART_DB_NAME);
+  let cartStore = tx.objectStore(CART_DB_NAME);
+  let openCursor = cartStore.openCursor();
+  openCursor.onsuccess = (e) => {
+    console.log("Cursor has been opened")
+    let cursor = e.target.result;
+    if (cursor) {
+      let current = cursor.value;
+      purchase.push(current);
+      cursor.continue();
+    } else {
+      loadIntoPurchasesDB(purchase);
     }
-    initializeNavigation();
+  }
+}
+
+function loadIntoPurchasesDB(purchase) {
+  let store = purchases.transaction(PURCHASES_DB_NAME, "readwrite").objectStore(PURCHASES_DB_NAME);
+  store.put({
+    email: localStorage.getItem("email"),
+    purchase: purchase,
+    payment: parseInt(localStorage.getItem("payment")),
+    tracking: "n/a"
+  });
+}
+
+function removeItemsInCart() {
+  let req = window.indexedDB.deleteDatabase(CART_DB_NAME);
+  req.onerror = () => console.log("Error deleting database.");
+  req.onsuccess = () => console.log("Database deleted successfully");
+}
+
+function start() {  
+  let req = window.indexedDB.open(CART_DB_NAME, VERSION);
+  req.onsuccess = (e) => {
+    cart = e.target.result;
+  }
+
+  let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
+  purchasesReq.onsuccess = (e) => {
+    console.log("Loaded purchases DB.")
+    purchases = e.target.result;
+    addPurchaseToDatabase();
+    window.localStorage.removeItem("payment");
+  }
+  purchasesReq.onupgradeneeded = (e) => {
+    let tx = purchasesReq.transaction;
+    let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
+    store.createIndex("email", "email", {unique: false});
+    tx.oncomplete = (e) => {
+      console.log("Created purchases DB.")
+      purchases = e.target.result;
+    }
+  }
+
+  updateUser();
+  removeItemsInCart();
+  initializeNavigation();
 }
 
