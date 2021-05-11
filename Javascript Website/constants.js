@@ -279,3 +279,6 @@ const COMPUTER_HEADER_NAMES = [
                  "responsibly.";
     let line_3_f="As a store manager, you have the highest privilege's of any user. You can suspend any " +
                  "user as you see fit. You have access to every part of the website.";
+
+// tabboo list
+    let tabboo_list=['stupid','dumb'];
