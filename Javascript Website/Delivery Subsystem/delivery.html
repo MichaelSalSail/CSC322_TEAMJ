@@ -16,9 +16,11 @@
   <main class="hg-main">
     <div id = 'form-container'>
       <div id = 'tab-container'>
-        <button id = 'available-tab' onclick = 'toggleTabs()' disabled> Available </button>
-        <button id = 'pending-tab' onclick = 'toggleTabs()' > Pending </button>
-        <button id = 'approved-tab' onclick = 'toggleTabs()' > Approved </button>
+        <form id='all-tabs'>
+          <button id = 'available-tab' onclick = 'toggleTabs()' disabled> Available </button>
+          <button id = 'pending-tab' onclick = 'toggleTabs()' disabled> Pending </button>
+          <button id = 'approved-tab' onclick = 'toggleTabs()' > Approved </button>
+        </form>
       </div>
       <div id = 'available-display'> 
         <form id = 'available-form'>

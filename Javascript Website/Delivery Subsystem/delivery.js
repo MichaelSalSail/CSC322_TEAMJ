@@ -21,29 +21,29 @@ function toggleTabs() {
     let isPendingSelected = pendingTab.disabled;
     let isApprovedSelected = approvedTab.disabled;
 
-    if (isAvailableSelected) 
+    if (isAvailableSelected & isPendingSelected & !isApprovedSelected) 
     {
-        availableTab.disabled = true;
-        pendingTab.disabled = false;
-        approvedTab.disabled = false;
+        availableTab.disabled = false;
+        pendingTab.disabled = true;
+        approvedTab.disabled = true;
         availableDisplay.style.display = 'block';
         pendingDisplay.style.display = 'none';
         approvedDisplay.style.display = 'none';
     } 
-    else if (isPendingSelected)
+    else if (!isAvailableSelected & isPendingSelected & isApprovedSelected)
     {
-        availableTab.disabled = false;
-        pendingTab.disabled = true;
-        approvedTab.disabled = false;
+        availableTab.disabled = true;
+        pendingTab.disabled = false;
+        approvedTab.disabled = true;
         availableDisplay.style.display = 'none';
         pendingDisplay.style.display = 'block';
         approvedDisplay.style.display = 'none';
     }
-    else if (isApprovedSelected)
+    else if (isAvailableSelected & !isPendingSelected & isApprovedSelected)
     {
-        availableTab.disabled = false;
-        pendingTab.disabled = false;
-        approvedTab.disabled = true;
+        availableTab.disabled = true;
+        pendingTab.disabled = true;
+        approvedTab.disabled = false;
         availableDisplay.style.display = 'none';
         pendingDisplay.style.display = 'none';
         approvedDisplay.style.display = 'block';
