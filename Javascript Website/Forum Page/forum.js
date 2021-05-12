@@ -1,5 +1,6 @@
 let forumsDB;
 let usersDB;
+let permission = parseInt(localStorage.getItem("permission"));
 
 function addValuesToDB(title, text, type) {
     let processedText = checkPostForTaboo(text)
@@ -184,6 +185,10 @@ function onPostStart() {
     initializeNavigation();
     setupLoginButton();
     document.getElementById("title").innerHTML = localStorage.getItem("threadTitle");
+
+    if (permission === 0)
+        document.getElementById('create-container').style.display = 'none'
+
     let req = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         forumsDB = e.target.result;
@@ -195,6 +200,10 @@ function onPostStart() {
 function start() {
     initializeNavigation();
     setupLoginButton();
+
+    if (permission === 0)
+        document.getElementById('create-thread').style.display = 'none'
+
     let req = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         forumsDB = e.target.result;
