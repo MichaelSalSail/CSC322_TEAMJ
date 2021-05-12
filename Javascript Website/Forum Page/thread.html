@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Forum</title>
+	<link href="thread.css" rel="stylesheet" type="text/css" />
+  <script src="../constants.js"></script>
+  <script src="../utility.js"></script>
+  <script src="forum.js"></script>
+  <script src="https://cdn.tiny.cloud/1/79gmjz0xjc5an5j0n86ysz06q7jd1ib3am9qhrpm9ln3s9v8/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    /*
+    tinymce.init({
+      selector: '#mytextarea'
+    });*/
+  </script>
+</head>
+
+<body onload = 'onThreadStart()' class = 'hg'>
+  <header class="hg-header"></header>
+  <main class="hg-main">
+    <form>
+      <h2>New Thread</h2>
+      <h3>1. Title <br/>
+      <input type="text" id = 'title'> <br/>
+      <h3>2. What is this post about? <br/>
+        <input type="radio" name="tag" value="Product Review" onclick = "toggleInput()" required/>Product Review<br/>
+        <input type="radio" name="tag" value="Computer Discussion" onclick = "toggleInput()"/>Computer Discussion<br/>
+        <input id = 'complaint' type="radio" value="Service Complaint" name="tag" onclick = "toggleInput()"/>Service Complaint<br/><br/>
+        <div id = 'tagInput'>
+          <label> Username:</label>
+          <input id = 'input'>
+        </div>
+        <a href="../../Simple Pages/communityguidelines_index.html">Community Guidelines</a><br/>
+        <textarea id="mytextarea" name="mytextarea" rows="10" cols="35" tabindex="4"  required="required"></textarea><br/>
+      </h3>
+    </form>
+    <button id="submit" onclick = "createPost()" value="Submit Thread"> Submit </button>
+  </main>
+  
+  <aside id = 'links' class="hg-left"></aside>
+  <aside class="hg-right">
+    <h3 id = 'welcome'> Welcome, </h3>
+    <form action="../Login and Signup/index.html" id="user_option_1">
+        <button id="status_1">Signup/Login</button>
+    </form>
+  </aside>
+  <footer class="hg-footer"></footer>
+</body>
+
+</html>

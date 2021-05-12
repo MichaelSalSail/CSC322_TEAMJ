@@ -64,10 +64,20 @@ function start() {
         store.createIndex("manufacturer", "manufacturer", {unique: false});
         console.log("Created components DB.");
     }
+
+    let forumreq = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
+    forumreq.onsuccess = () => {
+        console.log("Forums DB opened.");
+    }
+    forumreq.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(FORUMS_DB_NAME, {autoIncrement: true});
+        store.createIndex("author", "author", {unique: false});
+        console.log("Created forums DB.");
+    }
 }
 
 /* only called when the database is set up for first time
-creates an admin, a clerk, and two deliverers for use later */
+creates an admin, a clerk, a dummy user, and two deliverers for use later */
 function initializeSuperusers() {
     tx = users.transaction(USERS_DB_NAME, "readwrite");
     store = tx.objectStore(USERS_DB_NAME);

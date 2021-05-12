@@ -203,9 +203,9 @@ a:hover, a:active {
 }
 
 table {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
   }
   
 td, th {

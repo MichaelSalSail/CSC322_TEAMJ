@@ -72,6 +72,8 @@ function start() {
     initializeNavigation();
     loadUserInfo();
     loadPurchasesTable();
+    setupLoginButton();
+    
     document.getElementById("purchases-btn").addEventListener('click', () => {
         let table = document.getElementById('purchases');
         if (isTableShowing) {

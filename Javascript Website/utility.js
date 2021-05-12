@@ -21,6 +21,29 @@ class Bid {
     }
 }
 
+class Post {
+    constructor(author, message){
+        this.author = author;
+        this.message = message;
+    }
+
+    get _author() {
+        return this.author;
+    }
+
+    get _message() {
+        return this.message;
+    }
+
+    set _message(x) {
+        this.author = x;
+    }
+
+    set _message(x) {
+        this.message = x;
+    }
+}
+
 // for functions that are used multiple times through the site to reduce redundancy
 
 // skip is an array with indices that correspond to which link to skip

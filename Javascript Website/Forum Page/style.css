@@ -95,7 +95,7 @@ body {
 table {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
-	width: 100%;
+	width: 80%;
   }
   
 td, th {
@@ -121,3 +121,11 @@ a:link, a:visited {
 	color: white;
   }
 
+  #title {
+	  text-align: center;
+  }
+
+  #post-container {
+	padding: 1%;
+	border: 5px solid #dddddd;
+  }

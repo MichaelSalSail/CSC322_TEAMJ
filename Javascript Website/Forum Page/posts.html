@@ -11,20 +11,20 @@
   <script src="forum.js"></script>
 </head>
 
-<body onload = 'start()' class = 'hg'>
+<body onload = 'onPostStart()' class = 'hg'>
   <header class="hg-header"></header>
   <main class="hg-main">
-    <h2>Discussion Forum</h2>
-    <a href = 'thread.html'> Create Thread </a>
-    <table id = 'table' class="hg-table">
-        <tr>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Topic</th>
-            <th>Posts</th>
-            <th>View</th>
-        </tr>
-    </table>
+    <h2 id = 'title'></h2>
+    <div id = 'container'> 
+    </div>
+</br> </br> </br> </br>
+    <div id = 'create-container'> 
+        <form>
+            <h3> Send Post </h3>
+            <textarea id="mytextarea" name="mytextarea" rows="10" cols="100" required="required"></textarea><br/>
+        </form>
+        <button id = 'send-btn' onclick = 'addPostToThread()'> Send post </button>
+    </div>
   </main>
   
   <aside id = 'links' class="hg-left"></aside>
