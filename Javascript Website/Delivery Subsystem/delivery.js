@@ -164,8 +164,32 @@ function loadDeliverer() {
     }
 }
 
-function changeTrackingInfo(cursor) {
+function changeTrackingInfo(name, cursor) {
+    let selectedIndex; 
+    let buttons = document.getElementsByName(name);
+    for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].checked) selectedIndex = i;
+    }
+    let trackingMessage = buttons[selectedIndex].value;
+    console.log(trackingMessage);
 
+    let req = purchasesDB.transaction(PURCHASES_DB_NAME)
+    .objectStore(PURCHASES_DB_NAME).get(cursor);
+    req.onsuccess = (e) => {
+        let result = e.target.result;
+        purchasesDB.transaction(PURCHASES_DB_NAME, "readwrite")
+        .objectStore(PURCHASES_DB_NAME).put({
+            address: result.address,
+            email: result.email,
+            payment: result.payment,
+            pending: result.pending,
+            purchase: result.purchase,
+            tracking: trackingMessage,
+            bids: result.bids
+        }, cursor)
+        console.log("User's tracking has been updated.")
+        window.location.reload();
+    }
 }
 
 function populateTrackingRow(cursor) {
@@ -199,7 +223,6 @@ function populateTrackingRow(cursor) {
     ];
     let name = "tracking" + cursor.key;    
     for (let i = 0; i < trackingOptions.length; i++) {
-        
         cells[5].appendChild(createRadioButton(name, trackingOptions[i], trackingOptions[i]))
     }
 
@@ -208,7 +231,7 @@ function populateTrackingRow(cursor) {
         cells[4].innerHTML += "$" + current.bid + " by "+ 
         current.company + "</br>"
     }
-    let btn = createButton("Change Tracking", changeTrackingInfo, [cursor.key])
+    let btn = createButton("Change Tracking", changeTrackingInfo, [name, cursor.key])
     cells[NUM_CELLS-1].appendChild(btn);
     
     for (let i = 0; i < NUM_CELLS; i++) 
@@ -304,7 +327,8 @@ function start() {
             loadDeliverer();
         } else {
             console.log("Loading clerk's stuff...")
-            document.getElementById('deliv-purchases').style.display = 'none';
+            document.getElementById('complete-purchases').style.display = 'none';
+            document.getElementById('pending-purchases').style.display = 'none';
             loadClerk();
         }
     }
