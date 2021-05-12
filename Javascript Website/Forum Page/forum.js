@@ -2,12 +2,14 @@ let forumsDB;
 let usersDB;
 
 function addValuesToDB(title, text, type) {
+    let processedText = checkPostForTaboo(text)
+    let processedTitle = checkPostForTaboo(title)
     let author = localStorage.getItem("username");
     forumsDB.transaction(FORUMS_DB_NAME, "readwrite").objectStore(FORUMS_DB_NAME)
         .put({
             author: author,
-            title: title,
-            posts: [new Post(author, text)],
+            title: processedTitle,
+            posts: [new Post(author, processedText)],
             type: type
         });
 }
@@ -127,23 +129,35 @@ function createPostElement(author, message) {
     container.appendChild(post);
 }
 
+function checkPostForTaboo(text) {
+    let arr = text.split(/\W+/);
+    console.log(arr)
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < TABOO_WORDS.length; j++) {
+            if (arr[i] === TABOO_WORDS[j]) arr[i] = "****";
+        }
+    }
+    return arr.join(" ");
+}
+
 function addPostToThread() {
     let key = parseInt(localStorage.getItem("threadKey"));
     let postText = document.getElementById("mytextarea").value;
     let username = localStorage.getItem("username");
+    let processedText = checkPostForTaboo(postText);
     let store = forumsDB.transaction(FORUMS_DB_NAME, "readwrite").objectStore(FORUMS_DB_NAME);
     let tx = store.get(key);
     tx.onsuccess = (e) => {
         let res = e.target.result;
         let posts = res.posts;
-        posts.push(new Post(username, postText))
+        posts.push(new Post(username, processedText))
         store.put({
             author: res.author,
             posts: posts,
             title: res.title,
             type: res.type
         }, key)
-        window.location.reload();
+        //window.location.reload();
     }
 }
 
@@ -167,7 +181,6 @@ function onPostStart() {
     req.onsuccess = (e) => {
         forumsDB = e.target.result;
         console.log("Forums DB loaded.")
-        //loadThreadsInTable();
         loadPosts();
     }
 }
