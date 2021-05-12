@@ -3,14 +3,13 @@ let purchasesDB;
 let username; 
 
 function loadClerk() {
-    document.getElementById('deliv-purchases').style.display = 'none';
+    document.getElementById('pending-purchases').style.display = 'none';
+    document.getElementById('complete-purchases').style.display = 'none';
     let openCursor = purchasesDB.transaction(PURCHASES_DB_NAME)
     .objectStore(PURCHASES_DB_NAME).openCursor();
     openCursor.onsuccess = (e) => {
         let cursor = e.target.result;
         if (cursor) {
-            //console.log(cursor.key);
-            //console.log(cursor.value);
             if (cursor.value.pending) {
                 console.log(cursor.value);
                 populateClerkRow(cursor);
@@ -96,7 +95,6 @@ function warnClerk() {
             }
         }
     }
-
 }
 
 function updateUserPurchase(cursor, bidIndex) {
@@ -154,7 +152,10 @@ function loadDeliverer() {
     openCursor.onsuccess = (e) => {
         let cursor = e.target.result;
         if (cursor) {
-            populateDelivererRow(cursor);
+            if (cursor.value.pending)
+                populateBidRow(cursor);
+            else 
+                populateTrackingRow(cursor);                
             cursor.continue();
         }
         else {
@@ -163,27 +164,25 @@ function loadDeliverer() {
     }
 }
 
-function populateDelivererRow(cursor) {
+function changeTrackingInfo(cursor) {
+
+}
+
+function populateTrackingRow(cursor) {
+    let table = document.getElementById('complete-purchases');
     console.log(cursor.key)
     let purchase = cursor.value;
     let NUM_CELLS = 6 + 1;
-    let table = document.getElementById('deliv-purchases');
     let row = document.createElement('tr');
-    let pendingText = purchase.pending ? "Pending" : "Completed";
-
     let cells = []
     for (let i = 0; i < NUM_CELLS; i++)
         cells.push(document.createElement('td'));
 
     cells[0].innerHTML = purchase.email;
     cells[1].innerHTML = purchase.address;
-    cells[3].innerHTML = purchase.tracking;
-    cells[4].innerHTML = pendingText;
+    cells[3].innerHTML = "$" + purchase.bids.bid + " by </br>" + purchase.bids.company;
+    cells[4].innerHTML = purchase.tracking;
     
-    console.log(purchase.bids);
-    cells[5].innerHTML += "$" + purchase.bids.bid + " by "+ 
-        purchase.bids.company + "</br>"
-
     let purchaseText = "";
     for (let i = 0; i < purchase.purchase.length; i++) {
         let current = purchase.purchase[i];
@@ -194,16 +193,70 @@ function populateDelivererRow(cursor) {
         cells[2].innerHTML = purchaseText;
     }
 
+    let trackingOptions = [
+        "More than 50 miles away", "Within 50 miles", "Within 25 miles", "Within 10 miles",
+        "Package delivered"
+    ];
+    let name = "tracking" + cursor.key;    
+    for (let i = 0; i < trackingOptions.length; i++) {
+        
+        cells[5].appendChild(createRadioButton(name, trackingOptions[i], trackingOptions[i]))
+    }
+
+    for (let i  = 0; i < purchase.bids.length; i++) {
+        let current = purchase.bids[i];
+        cells[4].innerHTML += "$" + current.bid + " by "+ 
+        current.company + "</br>"
+    }
+    let btn = createButton("Change Tracking", changeTrackingInfo, [cursor.key])
+    cells[NUM_CELLS-1].appendChild(btn);
+    
+    for (let i = 0; i < NUM_CELLS; i++) 
+        row.appendChild(cells[i]);
+    table.appendChild(row);
+}
+
+function populateBidRow(cursor) {
+    console.log(cursor.key)
+    let purchase = cursor.value;
+    let NUM_CELLS = 5 + 1;
+    let table = document.getElementById('pending-purchases');
+    let row = document.createElement('tr');
+
+    let cells = []
+    for (let i = 0; i < NUM_CELLS; i++)
+        cells.push(document.createElement('td'));
+
+    cells[0].innerHTML = purchase.email;
+    cells[1].innerHTML = purchase.address;
+    cells[3].innerHTML = purchase.tracking;
+    
+    console.log(purchase.bids);
+    let purchaseText = "";
+    for (let i = 0; i < purchase.purchase.length; i++) {
+        let current = purchase.purchase[i];
+        purchaseText +=
+            "Name: " + current.name + "</br>" + 
+            "Price: $" + current.price + "</br>" + 
+            "Quantity: " + current.quantity + "</br> </br>";
+        cells[2].innerHTML = purchaseText;
+    }
+
+    for (let i  = 0; i < purchase.bids.length; i++) {
+        let current = purchase.bids[i];
+        cells[4].innerHTML += "$" + current.bid + " by "+ 
+        current.company + "</br>"
+    }
     let btn = createButton("Bid", bidOnPurchase, [cursor.key])
     cells[NUM_CELLS-1].appendChild(btn);
-
+    
     for (let i = 0; i < NUM_CELLS; i++) 
         row.appendChild(cells[i]);
     table.appendChild(row);
 }
 
 function bidOnPurchase(purchaseKey) {
-    let bidAmount = prompt("How much would you like to bid? Enter only a number (e.g. 5.50");
+    let bidAmount = prompt("How much would you like to bid? Enter only a number (e.g. 5.50)");
     console.log("The key is: ", purchaseKey);
     let req = purchasesDB.transaction(PURCHASES_DB_NAME)
     .objectStore(PURCHASES_DB_NAME).get(purchaseKey);
