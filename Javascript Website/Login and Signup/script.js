@@ -9,6 +9,12 @@
 let avoidList;
 let users;
 
+const POST1 = "The iMac Pro is a great product and I do not regret purchasing it at all! I would recommend this to anyone with 5 thousand dollars lying around.";
+const POST2 = "If you're looking for the best gaming CPU or the best CPU for workstations, there are only two choices to pick from – AMD and Intel. That fact has spawned an almost religious following for both camps, and the resulting flamewars, that make it tricky to get unbiased advice about the best choice for your next processor. But in many cases, the answer is actually very clear. In fact, for most users, it's a blowout win in AMD's favor"
+// forum constant threads 
+const THREADS = [["admin", "iMac Review", "Product Review", [new Post("admin", POST1)]],
+    ["AMD", "Why you should buy AMD over Intel", "Computer Discussion", [new Post("Intel", POST2)]]];
+
 // create ALL databases that are used later 
 // except systems since that is done in welcome, which is directly after the login
 function start() {
@@ -73,11 +79,31 @@ function start() {
         console.log("Forums DB opened.");
     }
     forumreq.onupgradeneeded = (e) => {
-        let store = e.target.result.createObjectStore(FORUMS_DB_NAME, {autoIncrement: true});
+        let db = e.target.result;
+        let store = db.createObjectStore(FORUMS_DB_NAME, {autoIncrement: true});
         store.createIndex("author", "author", {unique: false});
-        console.log("Created forums DB.");
+        e.target.transaction.oncomplete = () => {
+            users = e.target.result
+            console.log("Created forum DB.");
+            initializeThreads(db);
+            console.log("Default threads initialized.");
+        }
     }
 }
+
+function initializeThreads(db) {
+    tx = db.transaction(FORUMS_DB_NAME, "readwrite");
+    store = tx.objectStore(FORUMS_DB_NAME);
+    for (let i = 0; i < THREADS.length; i++) {
+        store.put({
+            author: THREADS[i][0],
+            title: THREADS[i][1],
+            type: THREADS[i][2],
+            posts: THREADS[i][3]
+        })
+    }
+}
+
 
 // attr: "name", "description", "price", "manufacturer", "type"
 // traverses 3D array to add component attributes to database

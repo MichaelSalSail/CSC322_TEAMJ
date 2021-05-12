@@ -229,8 +229,6 @@ const SUPERUSERS = [
     MANU1, MANU2, MANU3, MANU4, USER1
 ];
 
-
-
 // IDs for the component/system tables
 const TABLE_COMPONENT_IDs = [
     "gpu-table", "cpu-table", "mobo-table", "ram-table", "storage-table",
