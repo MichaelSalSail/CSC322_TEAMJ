@@ -40,11 +40,14 @@ function createRadioButton(name, value, text) {
 function confirmBid(name, purchase) {
     let bids = [];
     let selectedBid = 0;
+    let index = 0;
     let radioButtons = document.getElementsByName(name);
     for (let i = 0; i < radioButtons.length; i++) {
         bids.push(radioButtons[i].value)
-        if (radioButtons[i].checked) 
+        if (radioButtons[i].checked) {
             selectedBid = radioButtons[i].value;
+            index = i;
+        }
     }
 
     if (selectedBid === 0) return; // clerk did not select anything
@@ -55,13 +58,14 @@ function confirmBid(name, purchase) {
         if (justification.length === 0)
             warnClerk();
         else {
-            updateUserPurchase(purchase);
+            updateUserPurchase(purchase, index);
             alert("You have confirmed this bid. The purchase is now being prepared for delivery.")
         }
     } else {
-        updateUserPurchase(purchase);
+        updateUserPurchase(purchase, index);
         alert("You have confirmed this bid. The purchase is now being prepared for delivery.")
     }
+    window.location.reload();
 }   
 
 function warnClerk() {
@@ -95,11 +99,12 @@ function warnClerk() {
 
 }
 
-function updateUserPurchase(key) {
+function updateUserPurchase(cursor, bidIndex) {
     let req = purchasesDB.transaction(PURCHASES_DB_NAME)
-    .objectStore(PURCHASES_DB_NAME).get(key);
+    .objectStore(PURCHASES_DB_NAME).get(cursor.key);
     req.onsuccess = (e) => {
         let result = e.target.result;
+        let trackingMsg = "This purchase is now being prepared for shipping by " + result.bids[bidIndex].company + "."
         purchasesDB.transaction(PURCHASES_DB_NAME, "readwrite")
         .objectStore(PURCHASES_DB_NAME).put({
             address: result.address,
@@ -107,9 +112,9 @@ function updateUserPurchase(key) {
             payment: result.payment,
             pending: false,
             purchase: result.purchase,
-            tracking: "This purchase is now being prepared for shipping.",
-            bids: result.bids
-        }, key)
+            tracking: trackingMsg,
+            bids: result.bids[bidIndex]
+        }, cursor.key)
         console.log("User's purchase has been updated.")
     }
 }
@@ -136,7 +141,7 @@ function populateClerkRow(cursor) {
         cells[1].appendChild(createRadioButton(name, currentBid.bid, label))
     }
 
-    let btn = createButton("Choose Bid", confirmBid, [name, cursor.key]);
+    let btn = createButton("Choose Bid", confirmBid, [name, cursor]);
     cells[3].appendChild(btn);
 
     for (let i = 0; i < NUM_CELLS; i++) row.appendChild(cells[i]);
@@ -176,10 +181,8 @@ function populateDelivererRow(cursor) {
     cells[4].innerHTML = pendingText;
     
     console.log(purchase.bids);
-    for (let i = 0; i < purchase.bids.length; i++) {
-        cells[5].innerHTML += "$" + purchase.bids[i].bid + " by "+ 
-        purchase.bids[i].company + "</br>"
-    }
+    cells[5].innerHTML += "$" + purchase.bids.bid + " by "+ 
+        purchase.bids.company + "</br>"
 
     let purchaseText = "";
     for (let i = 0; i < purchase.purchase.length; i++) {

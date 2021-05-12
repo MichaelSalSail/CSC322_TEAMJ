@@ -9,14 +9,14 @@
 let avoidList;
 let users;
 
-// create ALL databases that are used later
+// create ALL databases that are used later 
+// except systems since that is done in welcome, which is directly after the login
 function start() {
     let req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         console.log("Users database opened.")
         users = e.target.result;
         console.log(users);
-        
     }
     req.onupgradeneeded = (e) => {
         let tx = e.target.transaction;
