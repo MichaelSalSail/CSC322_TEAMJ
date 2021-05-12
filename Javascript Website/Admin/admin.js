@@ -63,14 +63,81 @@ function loadUsers() {
             }
         });
 
-        for (let i = 0; i < cellValues.length; i++){
+        for (let i = 0; i < cellValues.length - 1; i++){
             let cell = document.createElement('td');
             cell.innerHTML = cellValues[i];
             row.appendChild(cell);
         }
 
+        let warningCell = document.createElement('td');
+        warningCell.innerHTML = cursorValue.warning + "</br>";
+        
+        let incrementWarningsBtn = createButton("+", changeWarnings, [true, cursor.key]);
+        let decrementWarningsBtn = createButton("-", changeWarnings, [false, cursor.key]);
+        warningCell.appendChild(incrementWarningsBtn);
+        warningCell.appendChild(decrementWarningsBtn);
+        row.appendChild(warningCell);
+
         row.appendChild(document.createElement('td').appendChild(btn));
         cursor.continue();
+    }
+}
+
+function setWarnings(userInfo, warnings, store) {
+    if (warnings === 3) {
+        let resp = prompt("Doing this will suspend the user since they will have 3 warnings. Continue? (Y/N)")
+        if (resp.toLowerCase() === 'y') {
+            if (res.permission === 3) suspendManufacturer(userInfo);
+            else suspendUser(users, userInfo);
+            window.location.reload();
+        }
+    } else if (warnings < 0)
+        alert("Cannot go below 0 warnings.")
+    else {
+        store.put({
+            email: res.email,
+            username: res.username,
+            password: res.password,
+            balance: res.balance,
+            rewards: res.rewards,
+            permission: res.permission,
+            warning: warnings
+        });
+        window.location.reload();
+    }
+}
+
+function changeWarnings(isIncrement, userKey) {
+    let warning = isIncrement ? 1 : -1;
+    let tx = users.transaction(USERS_DB_NAME, "readwrite");
+    let store = tx.objectStore(USERS_DB_NAME);
+    store.get(userKey).onsuccess = (e) => {
+        res = e.target.result;
+        if (res) {
+            let finalWarning = res.warning + warning;
+            setWarnings(res, finalWarning, store);
+            console.log("Adjusted user's warnings");
+        }
+    }
+}
+
+function loadAvoidList() {
+    let table = document.getElementById("avoid-table");
+    let store = avoidList.transaction(AVOID_DB_NAME, "readwrite").objectStore(AVOID_DB_NAME);
+    store.openCursor().onsuccess = (e) => {
+        let cursor = e.target.result;
+        if (cursor) {
+            let value = cursor.value;
+            let row = document.createElement("tr");
+            row.innerHTML = 
+            "<td>" + value.email + "</td>" + 
+            "<td>" + value.username + "</td>" + 
+            "<td>" + value.password + "</td>";
+            table.appendChild(row);
+            cursor.continue();
+        } else {
+            console.log("Loaded avoid list.")
+        }
     }
 }
 
@@ -81,6 +148,7 @@ function start() {
     req.onsuccess = (e) => {
         console.log("Avoid list database loaded.")
         avoidList = e.target.result;
+        loadAvoidList();
     }
 
     req = window.indexedDB.open(USERS_DB_NAME, VERSION);

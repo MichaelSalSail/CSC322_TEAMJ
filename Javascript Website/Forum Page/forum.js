@@ -22,12 +22,11 @@ function checkValidUser(user) {
     index.openCursor(user).onsuccess = (e) => {
         let cursor = e.target.result;
         if (cursor) {
-            if (res.warning + 1 === 3) {// suspend user
-                
-
-
-            }
             let res = cursor.value;
+            if (res.warning + 1 >= 3) {// suspend user
+                suspendUser(usersDB, res);
+                return;
+            }
             store.put({
                 email: res.email,
                 username: res.username,
@@ -75,6 +74,8 @@ function toggleInput() {
 function onThreadStart() {
     initializeNavigation();
     setupLoginButton();
+
+    document.getElementById("tagInput").style.display = 'none';
 
     let req = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
     req.onsuccess = (e) => {

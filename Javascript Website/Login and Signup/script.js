@@ -45,24 +45,27 @@ function start() {
 
     let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
     purchasesReq.onupgradeneeded = (e) => {
-        let tx = purchasesReq.transaction;
-        let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
-        store.createIndex("email", "email", {unique: false});
-        tx.oncomplete = (e) => {
-        console.log("Created purchases DB.")
-        purchases = e.target.result;
+            let tx = purchasesReq.transaction;
+            let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
+            store.createIndex("email", "email", {unique: false});
+            tx.oncomplete = (e) => {
+            console.log("Created purchases DB.")
+            purchases = e.target.result;
         }
     }
 
     let dbreq = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
     dbreq.onsuccess = () => {
         console.log("Components DB opened.");
+        
     }
     dbreq.onupgradeneeded = (e) => {
         let store = e.target.result.createObjectStore(COMPONENTS_DB_NAME, {keyPath: "name"});
         store.createIndex("name", "name", {unique: true});
         store.createIndex("manufacturer", "manufacturer", {unique: false});
         console.log("Created components DB.");
+        e.target.transaction.oncomplete = () => initializeComponents(e.target.result);
+
     }
 
     let forumreq = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
@@ -74,6 +77,28 @@ function start() {
         store.createIndex("author", "author", {unique: false});
         console.log("Created forums DB.");
     }
+}
+
+// attr: "name", "description", "price", "manufacturer", "type"
+// traverses 3D array to add component attributes to database
+function initializeComponents(db) {
+    tx = db.transaction(COMPONENTS_DB_NAME, "readwrite");
+    store = tx.objectStore(COMPONENTS_DB_NAME);
+    for (let outer = 0; outer < COMPONENTS.length; outer++) {
+        for (let i = 0; i < COMPONENTS[0].length; i++) {
+            store.put({
+                name: COMPONENTS[outer][i][0],
+                description: COMPONENTS[outer][i][1],
+                price: COMPONENTS[outer][i][2],
+                manufacturer: COMPONENTS[outer][i][3],
+                type: COMPONENTS[outer][i][4]
+            });
+        }
+    }
+    
+    tx.oncomplete = () => {
+        console.log("Components loaded.");
+    };
 }
 
 /* only called when the database is set up for first time

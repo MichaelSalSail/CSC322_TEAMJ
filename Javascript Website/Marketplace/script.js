@@ -2,28 +2,7 @@ let shoppingCart_db;
 let systems_db;
 let components_db;
 
-// attr: "name", "description", "price", "manufacturer", "type"
-// traverses 3D array to add component attributes to database
-function initializeComponents(db) {
-    tx = components_db.transaction(COMPONENTS_DB_NAME, "readwrite");
-    store = tx.objectStore(COMPONENTS_DB_NAME);
-    for (let outer = 0; outer < COMPONENTS.length; outer++) {
-        for (let i = 0; i < COMPONENTS[0].length; i++) {
-            store.put({
-                name: COMPONENTS[outer][i][0],
-                description: COMPONENTS[outer][i][1],
-                price: COMPONENTS[outer][i][2],
-                manufacturer: COMPONENTS[outer][i][3],
-                type: COMPONENTS[outer][i][4]
-            });
-        }
-    }
-    
-    tx.oncomplete = () => {
-        console.log("Components loaded.");
-        db.close();
-    };
-}
+
 
 // creates row with td, adds image, attributes, add to cart btn
 function populatePartsRow(table, cursorValue) {
@@ -244,10 +223,8 @@ function start() {
     req.onsuccess = (e) => {
         let res = e.target.result
         components_db = res;
-        initializeComponents(res);
         populatePartsTables(res);
     }
-    
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
     // initialize computers database
