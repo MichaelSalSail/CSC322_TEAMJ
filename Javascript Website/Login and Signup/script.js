@@ -25,40 +25,45 @@ function start() {
         store.createIndex("username", "username", {unique: true});
         tx.oncomplete = () => {
             users = e.target.result
-            console.log("Created users DB.")
+            console.log("Created users DB.");
             initializeSuperusers();
-            console.log("Default users initialized.")
+            console.log("Default users initialized.");
         }
     }
     req.onerror = (e) => console.log("There was an error: " + e.target.errorCode);
 
-    req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
-    req.onsuccess = (e) => avoidList = e.target.result;
-    req.onupgradeneeded = (e) => {
-        let store = e.target.result.createObjectStore(AVOID_DB_NAME, {autoIncrement: true});
+    let avoidreq = window.indexedDB.open(AVOID_DB_NAME, VERSION);
+    avoidreq.onsuccess = (e) => {
+        avoidList = e.target.result;
+        console.log("Avoid list DB opened.")
+    }
+    avoidreq.onupgradeneeded = (e) => {
+        let store = e.target.result.createObjectStore(AVOID_DB_NAME, {keyPath: "email"});
         store.createIndex("email", "email", {unique: true});
         console.log("Created avoid list DB.")
     }
 
     let purchasesReq = window.indexedDB.open(PURCHASES_DB_NAME, VERSION);
     purchasesReq.onupgradeneeded = (e) => {
-    let tx = purchasesReq.transaction;
-    let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
-    store.createIndex("email", "email", {unique: false});
-    tx.oncomplete = (e) => {
-      console.log("Created purchases DB.")
-      purchases = e.target.result;
+        let tx = purchasesReq.transaction;
+        let store = e.target.result.createObjectStore(PURCHASES_DB_NAME, {autoIncrement: true});
+        store.createIndex("email", "email", {unique: false});
+        tx.oncomplete = (e) => {
+        console.log("Created purchases DB.")
+        purchases = e.target.result;
+        }
     }
 
-    let req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
-    req.onupgradeneeded = (e) => {
+    let dbreq = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
+    dbreq.onsuccess = () => {
+        console.log("Components DB opened.");
+    }
+    dbreq.onupgradeneeded = (e) => {
         let store = e.target.result.createObjectStore(COMPONENTS_DB_NAME, {keyPath: "name"});
         store.createIndex("name", "name", {unique: true});
-        console.log("Created components DB.")
+        store.createIndex("manufacturer", "manufacturer", {unique: false});
+        console.log("Created components DB.");
     }
-
-
-  }
 }
 
 /* only called when the database is set up for first time
@@ -103,28 +108,39 @@ function registerUser() {
     let email = document.getElementById('reg-email').value;
     let password = document.getElementById('reg-password').value;
     let confirmPassword = document.getElementById('confirm-password').value
-    if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
-        console.log("Correct info");
-        tx = users.transaction(USERS_DB_NAME, "readwrite");
-        store = tx.objectStore(USERS_DB_NAME);
-        store.put({
-            email: email,
-            username: username,
-            password: password,
-            permission: 1, // all registered users are 'user' by default 
-            balance: 500,
-            rewards: 0,
-            warning: 0
-        });
-        
-        tx.oncomplete = () => {
-            alert("Registration complete! Please login with your information.")
-            console.log("User successfully registered.");
-        };
-    }
-    else { // throw text errors
-        document.getElementById('validity-check').innerHTML = "Please recheck your information.";
-    }
+
+    avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
+    .get(email).onsuccess = (e) => {
+        let res = e.target.result;
+        if (res) { 
+            alert("You have been suspended. Check your email for details.");
+            window.location.href = "../Simple Pages/suspended_index.html";
+            return;
+        } else {
+            if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
+                console.log("Correct info");
+                tx = users.transaction(USERS_DB_NAME, "readwrite");
+                store = tx.objectStore(USERS_DB_NAME);
+                store.put({
+                    email: email,
+                    username: username,
+                    password: password,
+                    permission: 1, // all registered users are 'user' by default 
+                    balance: 500,
+                    rewards: 0,
+                    warning: 0
+                });
+                
+                tx.oncomplete = () => {
+                    alert("Registration complete! Please login with your information.")
+                    console.log("User successfully registered.");
+                };
+            }
+            else { // throw text errors
+                document.getElementById('validity-check').innerHTML = "Please recheck your information.";
+            }
+        }
+    };  
 }
 
 function checkUserCredentials(email, password) {
@@ -156,9 +172,9 @@ function signInUser(){
     console.log(email, password);
 
     avoidList.transaction(AVOID_DB_NAME).objectStore(AVOID_DB_NAME)
-    .openCursor(email).onsuccess = (e) => {
-        let cursor = e.target.result;
-        if (cursor) { 
+    .get(email).onsuccess = (e) => {
+        let res = e.target.result;
+        if (res) { 
             alert("You have been suspended. Check your email for details.");
             window.location.href = "../Simple Pages/suspended_index.html";
             return;

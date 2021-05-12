@@ -119,3 +119,27 @@ function setupLoginButton() {
     if(window.localStorage.getItem("username")!=="Guest")
         document.getElementById("user_option_1").status_1.innerHTML = "Logout";
 }
+
+function suspendUser(userDB, user) {
+    let req = userDB.transaction(USERS_DB_NAME, 'readwrite')
+    .objectStore(USERS_DB_NAME).delete(user.email);
+    req.onsuccess = () => {
+        console.log(user.email, "has been deleted from the database."); 
+        addToAvoidList(user);
+    }
+}
+
+function addToAvoidList(user) {
+    let req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
+    req.onsuccess = (e) => {
+        let db = e.target.result;
+        tx = db.transaction(AVOID_DB_NAME, "readwrite");
+        store = tx.objectStore(AVOID_DB_NAME);
+        store.put({
+            email: user.email,
+            username: user.username,
+            password: user.password
+        });
+    console.log(user.email, "has been added to the avoid list.");
+    }
+}

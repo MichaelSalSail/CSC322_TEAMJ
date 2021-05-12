@@ -1,32 +1,24 @@
 let users;
 let avoidList;
+let components;
 
-function addToAvoidList(user) {
-    tx = avoidList.transaction(AVOID_DB_NAME, "readwrite");
-    store = tx.objectStore(AVOID_DB_NAME);
-    store.put({
-        email: user.email,
-        username: user.username,
-        password: user.password
-    });
-    console.log(user.email, "has been added to the avoid list.");
-}
 
 // need to remove components from the database when suspending a manufacturer
 function suspendManufacturer(user) {
-
-}
-
-function suspendUser(user) {
-    let verification = prompt("Are you sure you want to suspend this user? Enter in 'yes' to confirm.");
-    if (verification === "yes")  {
-        let req = users.transaction(USERS_DB_NAME, 'readwrite')
-        .objectStore(USERS_DB_NAME).delete(user.email);
-        req.onsuccess = () => {
-            console.log(user.email, "has been deleted from the database."); 
-            addToAvoidList(user);
+    let manufacturer = user.username;
+    let tx = components.transaction(COMPONENTS_DB_NAME, "readwrite");
+    let store = tx.objectStore(COMPONENTS_DB_NAME);
+    let index = store.index("manufacturer");
+    let cursorReq = index.openKeyCursor(manufacturer);
+    cursorReq.onsuccess = (e) => {
+        let cursor = e.target.result;
+        if (cursor) {
+            store.delete(cursor.primaryKey);
+            console.log("Deleted component.")
+            cursor.continue();
         }
     }
+    suspendUser(users, user);
 }
 
 function loadUsers() {
@@ -51,15 +43,22 @@ function loadUsers() {
         btn.setAttribute("style","width:50px;");
         btn.setAttribute("style","height:50px;");
         btn.addEventListener('click', () => {
+            let verification;
             switch (cursorValue.permission) {
                 case MANU:
-                    suspendManufacturer(cursorValue);
+                    verification = prompt("Are you sure you want to suspend this user? Enter in 'yes' to confirm.");
+                    if (verification === "yes")  
+                        suspendManufacturer(cursorValue);
+                    window.location.reload();
                     break;
                 case ADMIN:
                     alert("Cannot suspend this privilege level.");
                     break;
                 default:
-                    suspendUser(cursorValue);
+                    verification = prompt("Are you sure you want to suspend this user? Enter in 'yes' to confirm.");
+                    if (verification === "yes")  
+                        suspendUser(users, cursorValue);
+                    window.location.reload();
                     break;
             }
         });
@@ -85,9 +84,15 @@ function start() {
     }
 
     req = window.indexedDB.open(USERS_DB_NAME, VERSION);
-    req.onsuccess = () => {
-        users = req.result;
+    req.onsuccess = (e) => {
+        users = e.target.result;
         console.log("Loaded users database.");
         loadUsers();
+    }
+
+    req = window.indexedDB.open(COMPONENTS_DB_NAME, VERSION);
+    req.onsuccess = (e) => {
+        components = e.target.result;
+        console.log("Loaded components database.");
     }
 }

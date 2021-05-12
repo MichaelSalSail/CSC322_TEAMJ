@@ -117,7 +117,7 @@ const HREFS = [
     "../MarketPlace/index.html",
     "../Cart Page/cart.html",
     "../Forum Page/index.html", // forum
-    "../Delivery Subsystem/delivery.html", // delivery
+    "../Delivery Subsystem/index.html", // delivery
     "../Admin/admin.html"
 ];
 
@@ -165,7 +165,7 @@ const DELIVERER2 = [
 
 const MANU1 = [
     "intel@pc.com",
-    "intel",
+    "Intel",
     "intel",
     3,
     500,
@@ -175,7 +175,7 @@ const MANU1 = [
 
 const MANU2 = [
     "nvidia@pc.com",
-    "nvidia",
+    "Nvidia",
     "nvidia",
     3,
     500,
@@ -185,7 +185,7 @@ const MANU2 = [
 
 const MANU3 = [
     "amd@pc.com",
-    "amd",
+    "AMD",
     "amd",
     3,
     500,
@@ -195,7 +195,7 @@ const MANU3 = [
 
 const MANU4 = [
     "corsair@pc.com",
-    "corsair",
+    "Corsair",
     "corsair",
     3,
     500,
