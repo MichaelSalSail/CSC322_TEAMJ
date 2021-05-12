@@ -22,6 +22,11 @@ function checkValidUser(user) {
     index.openCursor(user).onsuccess = (e) => {
         let cursor = e.target.result;
         if (cursor) {
+            if (res.warning + 1 === 3) {// suspend user
+                
+
+
+            }
             let res = cursor.value;
             store.put({
                 email: res.email,
