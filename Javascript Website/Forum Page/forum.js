@@ -74,6 +74,7 @@ function toggleInput() {
 function onThreadStart() {
     initializeNavigation();
     setupLoginButton();
+    
 
     document.getElementById("tagInput").style.display = 'none';
 
@@ -163,7 +164,7 @@ function addPostToThread() {
             title: res.title,
             type: res.type
         }, key)
-        //window.location.reload();
+        window.location.reload();
     }
 }
 
