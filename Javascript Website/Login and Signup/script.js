@@ -178,7 +178,53 @@ function registerUser() {
             window.location.href = "../Simple Pages/suspended_index.html";
             return;
         } else {
-            if (isValidPassword(password, confirmPassword) && isValidEmail(email)) {
+            let transaction = users.transaction(USERS_DB_NAME);
+            let store = transaction.objectStore(USERS_DB_NAME);
+            let req_a = store.get(email);
+            req_a.onsuccess = (e) => {
+                let table = e.target.result;
+                if(table && table.email === email)
+                {
+                    document.getElementById('error_loginsignup_b').innerHTML='Email taken';
+                    document.getElementById('error_loginsignup_b').style.color='red';
+                    return;
+                }
+            }
+            if(username.length < 1)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Please fill in a username';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(email.length < 1)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Please fill in a email';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(email.indexOf('@')===-1)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Invalid email';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(password.length < 1)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Please fill in a password';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(password.length < 6)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Please choose a stronger password';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(confirmPassword.length < 1)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Please confirm your password';
+                document.getElementById('error_loginsignup_b').style.color='red';
+            }
+            else if(password!==confirmPassword)
+            {
+                document.getElementById('error_loginsignup_b').innerHTML='Passwords don\'t match';
+            }
+            else if (isValidPassword(password, confirmPassword) && isValidEmail(email) && document.getElementById('error_loginsignup_b').innerHTML!=='Email taken') {
                 console.log("Correct info");
                 tx = users.transaction(USERS_DB_NAME, "readwrite");
                 store = tx.objectStore(USERS_DB_NAME);
@@ -193,12 +239,10 @@ function registerUser() {
                 });
                 
                 tx.oncomplete = () => {
-                    alert("Registration complete! Please login with your information.")
-                    console.log("User successfully registered.");
+                    console.log("Registration successful.");
+                    document.getElementById('error_loginsignup_b').innerHTML='Registration successful';
+                    document.getElementById('error_loginsignup_b').style.color='black';
                 };
-            }
-            else { // throw text errors
-                document.getElementById('validity-check').innerHTML = "Please recheck your information.";
             }
         }
     };  
@@ -222,8 +266,12 @@ function checkUserCredentials(email, password) {
             window.localStorage.setItem("rewards", table.rewards);
             window.location.href = '../Welcome/welcome.html';
         }
-        else 
-            console.log("Username not found or password is incorrect");
+        else
+        {
+            console.log("Invalid email or password");
+            document.getElementById('error_loginsignup_a').innerHTML='Invalid email or password';
+            document.getElementById('error_loginsignup_a').style.color='red';
+        } 
     }
 }
 // query database for corresponding email + password
@@ -270,6 +318,11 @@ function toggleTabs() {
     let registerDisplay = document.getElementById('register-display');
 
     let isLoginSelected = loginTab.disabled;
+
+    document.getElementById('error_loginsignup_a').innerHTML='[CONSOLE OUTPUT]';
+    document.getElementById('error_loginsignup_a').style.color='black';
+    document.getElementById('error_loginsignup_b').innerHTML='[CONSOLE OUTPUT]';
+    document.getElementById('error_loginsignup_b').style.color='black';
 
     if (isLoginSelected) {
         loginTab.disabled = false;
