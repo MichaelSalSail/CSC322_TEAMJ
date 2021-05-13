@@ -143,14 +143,14 @@ function loadAvoidList() {
 
 function start() {
     initializeNavigation();
-
+    
     let req = window.indexedDB.open(AVOID_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         console.log("Avoid list database loaded.")
         avoidList = e.target.result;
         loadAvoidList();
     }
-
+    
     req = window.indexedDB.open(USERS_DB_NAME, VERSION);
     req.onsuccess = (e) => {
         users = e.target.result;
@@ -163,4 +163,6 @@ function start() {
         components = e.target.result;
         console.log("Loaded components database.");
     }
+
+    setupLoginButton();
 }
