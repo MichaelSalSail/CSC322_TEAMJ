@@ -5,11 +5,16 @@ function loadUserInfo() {
     let permission = localStorage.getItem("permission");
     let balance = localStorage.getItem("balance");
     let address = localStorage.getItem("address");
+    if (!address) 
+        document.getElementById('address').innerHTML += "N/A";
+    else 
+        document.getElementById('address').innerHTML += address;
+
+    
 
     document.getElementById('username').innerHTML += username;
     document.getElementById('usertype').innerHTML += PERMISSION_STRINGS[permission];
     document.getElementById('balance').innerHTML += balance;
-    document.getElementById('address').innerHTML += address;
 }
 
 function loadPurchasesTable(){
