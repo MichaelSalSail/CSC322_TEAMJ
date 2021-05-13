@@ -63,6 +63,7 @@ function createPost() {
     console.log("Title of thread:", title,"\nSelected button's value:",
     selected.value, "\nThe tagged user is:",taggedUser,"\n Thread Msg:", threadText);
     addValuesToDB(title, threadText, selected.value);
+    window.location.href = "index.html";
 }
 
 function toggleInput() {
@@ -75,7 +76,6 @@ function onThreadStart() {
     initializeNavigation();
     setupLoginButton();
     
-
     document.getElementById("tagInput").style.display = 'none';
 
     let req = window.indexedDB.open(FORUMS_DB_NAME, VERSION);
@@ -134,7 +134,6 @@ function createPostElement(author, message) {
     post.appendChild(authorText);
     post.appendChild(messageText);
     container.appendChild(post);
-    window.location.href = "index.html";
 }
 
 function checkPostForTaboo(text) {
