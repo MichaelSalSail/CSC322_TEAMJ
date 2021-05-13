@@ -5,7 +5,7 @@
 ## This is our team project, it is 25% of the final grade!  
 
 
-## Michael Dan Daniel Milan Jahed 
+## Michael Salamon, Daniel Dong, Daniel Hernandez, Jahed Prince 
 
 **THIS IS OUR COMPLETE REPOSITORY**  
 
@@ -51,6 +51,9 @@ All the relevant sections for our website is broken up into different folders:
 10. Marketplace - Look at computer parts and full computers. Can add to cart.  
 11. Simple Pages - Community Guidelines, Rewards Program, and Suspended page.  
 12. Welcome - Home Page text changes based on user permission.  
+
+# Super Users  
+All information is in Javascript Website -> constants.js  
 
 # Final Grading  
 Attached is the file that specifies the specifications we completed.  
