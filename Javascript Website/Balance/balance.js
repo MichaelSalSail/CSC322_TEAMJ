@@ -4,6 +4,10 @@ let users;
 function addBalance() {
     let cardNum = document.getElementById("credit-card").value;
     let addedBalance = parseInt(document.getElementById("add-balance").value);
+    if (!addedBalance) {
+        alert("Enter a number for the balance.")
+        return;
+    }
     let newBalance = addedBalance + parseInt(localStorage.getItem("balance"));
     if (document.querySelector("#error_message3").textContent=='Good' && document.getElementById("add-balance").value.length!=0) {
         let email = window.localStorage.getItem("email");
