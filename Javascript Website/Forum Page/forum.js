@@ -37,6 +37,7 @@ function checkValidUser(user) {
                 permission: res.permission,
                 warning: res.warning + 1
             })
+            window.location.href = "index.html";
         }
         else 
             alert("The user does not exist. Please check your input again.");        
@@ -63,7 +64,6 @@ function createPost() {
     console.log("Title of thread:", title,"\nSelected button's value:",
     selected.value, "\nThe tagged user is:",taggedUser,"\n Thread Msg:", threadText);
     addValuesToDB(title, threadText, selected.value);
-    window.location.href = "index.html";
 }
 
 function toggleInput() {
