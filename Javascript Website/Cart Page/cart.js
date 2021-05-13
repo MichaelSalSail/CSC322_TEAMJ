@@ -54,7 +54,7 @@ function checkUserBalance() {
     if (balance < purchase) 
         alert("You do not have the sufficient funds to buy this.");
     else 
-        window.location.href = '../Checkout/Checkout_I_index.html';
+        window.location.href = '../Checkout/Checkout_IIb_index.html';
 }
 
 function start() {
