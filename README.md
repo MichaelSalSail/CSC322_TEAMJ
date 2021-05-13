@@ -14,7 +14,8 @@ We all had to be team players and communicate for a working PC
 Marketplace Website. Most communication took place in meetings and  
 in GitHub Issues. Since the meetings lead the direction for the website,  
 we were following an Agile. Our entire website was built using one  
-programming language: Javascript.     
+programming language: Javascript. To begin exploring the website,  
+go to Javascript Website -> Login and Signup -> index.html     
 
 Here is our first phase report:  
 [Phase 1 Report - final.pdf](https://github.com/MichaelSalSail/CSC322_TEAMJ/files/6330354/Phase.1.Report.-.final.pdf)  
@@ -38,5 +39,19 @@ We created databases for
 
 # Website Organization  
 All the relevant sections for our website is broken up into different folders:  
+1. accountinfo - User Details  
+2. Admin - Look at suspended users and registered users.  
+3. Balance - Update the balance by putting a valid CC#.  
+4. Cart Page - All products added to Cart from Marketplace.  
+5. Delivery Subsystem - Deliverers can place bids and Store Clerks can choose a bid.  
+6. Forum Page - Create a post, tag a user for a complaint, and comment on other posts.  
+7. Images - Product Images.  
+8. Login and Signup - Start of the Website. Alternate between tabs for login and signup.  
+9. Logo_Variants - Based on the section website, different color logo.  
+10. Marketplace - Look at computer parts and full computers. Can add to cart.  
+11. Simple Pages - Community Guidelines, Rewards Program, and Suspended page.  
+12. Welcome - Home Page text changes based on user permission.  
 
-
+# Final Grading  
+Attached is the file that specifies the specifications we completed.  
+It also has the grading distribution spread across the team.  
