@@ -1,6 +1,7 @@
 // checkout page 1
 function start1() {
     initializeNavigation();
+    setupLoginButton();
     let continue_button=document.querySelector("#Transition_pay");
     let buttons = document.querySelectorAll("[name=A]");
     let output = document.querySelector("#error_message");
@@ -104,7 +105,7 @@ function start2() {
       }
     });
     initializeNavigation();
-    
+    setupLoginButton();
 
 
 }
@@ -170,6 +171,7 @@ function start2b() {
     document.getElementById("submit").addEventListener('click', () => {
       localStorage.setItem("address", document.getElementById("address").value);
     });
+    setupLoginButton();
 }
 
 let cart;

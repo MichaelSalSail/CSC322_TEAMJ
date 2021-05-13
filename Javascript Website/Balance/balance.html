@@ -18,8 +18,15 @@
         <h1 id = "curr-balance"> Your current balance is: </h1>
     </div>    
     <div id = 'add-balance-container'>
+        <form>
         <label>Amount of balance to add:</label><input id = 'add-balance'>  </br>
-        <label>Enter credit card number:</label><input id ='credit-card'> </br>
+        </form>
+        <form id="fifth">
+        Enter credit card number:<input id ='credit-card' name="Credit"> </br>
+        </form>
+        <p></p>
+        <span id="error_message3">[Display Credit Card message]</span>
+        <p></p>
         <button id = "add-balance-btn" onclick = 'addBalance()'>Add balance</button>
     </div>
 

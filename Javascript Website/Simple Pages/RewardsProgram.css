@@ -91,3 +91,35 @@ body {
 							30px;
 	}
 }
+  
+.button:hover {
+	background-color: green;
+	color: white;
+  }
+  
+  .type{
+	display: flex;
+	justify-content: center;
+  }
+  
+  .buttons{
+	display: flex;
+	justify-content: center;
+  }
+  
+  a:link, a:visited { 
+	color: black;
+	text-decoration: none;
+	cursor: auto;
+	font-size: 18.72px;
+	font-weight: bold;
+  }
+  
+  a:link:active, a:visited:active { 
+	color: blue;
+  }
+  
+  a:hover, a:active {
+	background-color: green;
+	color: white;
+  }
