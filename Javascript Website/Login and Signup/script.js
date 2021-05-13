@@ -242,6 +242,8 @@ function registerUser() {
                     console.log("Registration successful.");
                     document.getElementById('error_loginsignup_b').innerHTML='Registration successful';
                     document.getElementById('error_loginsignup_b').style.color='black';
+                    document.getElementById('log-email').value=document.getElementById('reg-email').value;
+                    document.getElementById('log-password').value=document.getElementById('reg-password').value;
                 };
             }
         }
@@ -323,6 +325,11 @@ function toggleTabs() {
     document.getElementById('error_loginsignup_a').style.color='black';
     document.getElementById('error_loginsignup_b').innerHTML='[CONSOLE OUTPUT]';
     document.getElementById('error_loginsignup_b').style.color='black';
+
+    document.getElementById('username').value='';
+    document.getElementById('reg-email').value='';
+    document.getElementById('reg-password').value='';
+    document.getElementById('confirm-password').value='';
 
     if (isLoginSelected) {
         loginTab.disabled = false;
