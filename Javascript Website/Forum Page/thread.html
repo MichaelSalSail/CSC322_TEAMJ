@@ -28,7 +28,7 @@
           <input id = 'input'>
         </div>
         <a href="../Simple Pages/communityguidelines_index.html">Community Guidelines</a><br/>
-        <textarea id="mytextarea" name="mytextarea" rows="10" cols="25" tabindex="4"  required="required"></textarea><br/>
+        <textarea id="mytextarea" name="mytextarea" rows="10" cols="25" tabindex="4" required="required"></textarea><br/>
       </h3>
     </form>
     <button id="submit" onclick = "createPost()" value="Submit Thread"> Submit </button>
@@ -43,5 +43,36 @@
   </aside>
   <footer class="hg-footer"></footer>
 </body>
+
+<script>
+  let textarea = document.getElementById("mytextarea");
+    textarea.addEventListener("keydown", e => {
+    if (' ' == e.key || '.' == e.key || ',' == e.key) {
+      triggerwords(textarea);
+    }
+  });    
+  function triggerwords(field)
+  {
+    let from = field.selectionStart, to = field.selectionEnd;
+      if(field.value.slice(from-6,to)==TABOO_WORDS[0])
+      {
+        word='******'
+        field.value = field.value.slice(0, from-6) + '******' +
+                     field.value.slice(to);
+        // Put the cursor after the word
+        field.selectionStart = from + word.length;
+        field.selectionEnd = from + word.length;
+      }
+      else if(field.value.slice(from-4,to)==TABOO_WORDS[1])
+      {
+        word='****'
+        field.value = field.value.slice(0, from-4) + '****' +
+                     field.value.slice(to);
+        // Put the cursor after the word
+        field.selectionStart = from + word.length;
+        field.selectionEnd = from + word.length;
+      }
+  }
+</script>
 
 </html>
