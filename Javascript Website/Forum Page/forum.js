@@ -37,7 +37,6 @@ function checkValidUser(user) {
                 permission: res.permission,
                 warning: res.warning + 1
             })
-            window.location.href = "index.html";
         }
         else 
             alert("The user does not exist. Please check your input again.");        
@@ -135,6 +134,7 @@ function createPostElement(author, message) {
     post.appendChild(authorText);
     post.appendChild(messageText);
     container.appendChild(post);
+    window.location.href = "index.html";
 }
 
 function checkPostForTaboo(text) {
