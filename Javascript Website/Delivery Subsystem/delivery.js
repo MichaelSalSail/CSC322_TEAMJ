@@ -3,8 +3,8 @@ let purchasesDB;
 let username; 
 
 function loadClerk() {
-    document.getElementById('pending-purchases').style.display = 'none';
-    document.getElementById('complete-purchases').style.display = 'none';
+    document.getElementById('pending-container').style.display = 'none';
+    document.getElementById('complete-container').style.display = 'none';
     let openCursor = purchasesDB.transaction(PURCHASES_DB_NAME)
     .objectStore(PURCHASES_DB_NAME).openCursor();
     openCursor.onsuccess = (e) => {
@@ -328,12 +328,10 @@ function start() {
         }
         else if (permission === DELIVERER) {
             console.log("Loading deliverer's stuff...")
-            document.getElementById('clerk-purchases').style.display = 'none';
+            document.getElementById('clerk-container').style.display = 'none';
             loadDeliverer();
         } else {
             console.log("Loading clerk's stuff...")
-            document.getElementById('complete-purchases').style.display = 'none';
-            document.getElementById('pending-purchases').style.display = 'none';
             loadClerk();
         }
     }
