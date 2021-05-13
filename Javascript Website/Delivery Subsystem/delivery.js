@@ -36,7 +36,7 @@ function createRadioButton(name, value, text) {
   }
 
 // needs the name of the radio button
-function confirmBid(name, purchase) {
+function confirmBid(name, purchase, key) {
     let bids = [];
     let selectedBid = 0;
     let index = 0;
@@ -57,11 +57,11 @@ function confirmBid(name, purchase) {
         if (justification.length === 0)
             warnClerk();
         else {
-            updateUserPurchase(purchase, index);
+            updateUserPurchase(key, index);
             alert("You have confirmed this bid. The purchase is now being prepared for delivery.")
         }
     } else {
-        updateUserPurchase(purchase, index);
+        updateUserPurchase(key, index);
         alert("You have confirmed this bid. The purchase is now being prepared for delivery.")
     }
     window.location.reload();
@@ -97,12 +97,15 @@ function warnClerk() {
     }
 }
 
-function updateUserPurchase(cursor, bidIndex) {
+function updateUserPurchase(key, bidIndex) {
     let req = purchasesDB.transaction(PURCHASES_DB_NAME)
-    .objectStore(PURCHASES_DB_NAME).get(cursor.key);
+    .objectStore(PURCHASES_DB_NAME).get(key);
     req.onsuccess = (e) => {
         let result = e.target.result;
-        let trackingMsg = "This purchase is now being prepared for shipping by " + result.bids[bidIndex].company + "."
+        console.log(result.bids)
+        console.log(key)
+
+        let trackingMsg = "This purchase is now being prepared for shipping by" + result.bids[bidIndex].company 
         purchasesDB.transaction(PURCHASES_DB_NAME, "readwrite")
         .objectStore(PURCHASES_DB_NAME).put({
             address: result.address,
@@ -112,12 +115,13 @@ function updateUserPurchase(cursor, bidIndex) {
             purchase: result.purchase,
             tracking: trackingMsg,
             bids: result.bids[bidIndex]
-        }, cursor.key)
+        }, key)
         console.log("User's purchase has been updated.")
     }
 }
 
 function populateClerkRow(cursor) {
+    console.log(cursor.value)
     let table = document.getElementById('clerk-purchases');
     let purchase = cursor.value;
     let NUM_CELLS = 3 + 1;
@@ -139,7 +143,8 @@ function populateClerkRow(cursor) {
         cells[1].appendChild(createRadioButton(name, currentBid.bid, label))
     }
 
-    let btn = createButton("Choose Bid", confirmBid, [name, cursor]);
+    let c = cursor;
+    let btn = createButton("Choose Bid", confirmBid, [name, cursor.value, cursor.key]);
     cells[3].appendChild(btn);
 
     for (let i = 0; i < NUM_CELLS; i++) row.appendChild(cells[i]);

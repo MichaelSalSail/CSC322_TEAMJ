@@ -10,8 +10,6 @@ function loadUserInfo() {
     else 
         document.getElementById('address').innerHTML += address;
 
-    
-
     document.getElementById('username').innerHTML += username;
     document.getElementById('usertype').innerHTML += PERMISSION_STRINGS[permission];
     document.getElementById('balance').innerHTML += balance;
