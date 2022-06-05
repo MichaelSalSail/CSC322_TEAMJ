@@ -1,4 +1,4 @@
-### CSC 322 - SOFTWARE ENGINEERING  
+### PC Marketplace Website
 
 
 ## Michael Salamon, Daniel Dong, Daniel Hernandez, Jahed Prince 
