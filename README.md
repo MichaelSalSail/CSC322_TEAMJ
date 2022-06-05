@@ -51,8 +51,6 @@ All the relevant sections for our website is broken up into different folders:
 # Super Users  
 All information is in Javascript Website -> constants.js  
 
-# Final Grading  
-Attached is the file that specifies the specifications we completed.  
-It also has the grading distribution spread across the team.  
-[proj_spec_s21 (1).docx](https://github.com/MichaelSalSail/CSC322_TEAMJ/files/6474531/proj_spec_s21.1.docx)
+
+
 
