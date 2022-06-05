@@ -1,10 +1,6 @@
 ### CSC 322 - SOFTWARE ENGINEERING  
 
 
-
-## This is our team project, it is 25% of the final grade!  
-
-
 ## Michael Salamon, Daniel Dong, Daniel Hernandez, Jahed Prince 
 
 **THIS IS OUR COMPLETE REPOSITORY**  
